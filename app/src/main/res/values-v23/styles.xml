@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- Self added attributes-->
+        <item name="android:statusBarColor">@color/colorWhite_FFFFFF</item>
+
+        <!-- min API-23 -->
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

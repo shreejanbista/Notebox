@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- weights -->
+    <dimen name="btm_nav_but_weight">1</dimen>
+
+    <!-- text sizes -->
+    <dimen name="btm_nav_but_text_size">14sp</dimen>
+</resources>

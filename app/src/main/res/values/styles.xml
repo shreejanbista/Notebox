@@ -1,0 +1,28 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- this style is supported till API-22, for above APIs the changes should be made in styles.xml(v23) -->
+
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- Self added attributes-->
+        <item name="android:statusBarColor">@color/colorWhite_E5E5E5</item>
+    </style>
+
+    <style name="bottom_navigation_buttons">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">@dimen/btm_nav_but_weight</item>
+        <item name="android:background">@color/colorWhite_FFFFFF</item>
+        <item name="android:fontFamily">@font/segoe_ui</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/colorGray_AAAAAA</item>
+        <item name="android:textSize">@dimen/btm_nav_but_text_size</item>
+    </style>
+
+</resources>
