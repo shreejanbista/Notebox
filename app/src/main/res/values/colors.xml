@@ -7,7 +7,10 @@
 <!-- required colors-->
     <color name="colorWhite_FFFFFF">#FFFFFF</color>
     <color name="colorWhite_E5E5E5">#E5E5E5</color>
+    <color name="colorWhite_BFBFBF">#BFBFBF</color>
     <color name="colorGray_AAAAAA">#AAAAAA</color>
+    <color name="colorGray_999999">#999999</color>
+    <color name="colorGray_878787">#878787</color>
     <color name="colorAppTheme">#1565C0</color>
 
 <!-- all the colors -->

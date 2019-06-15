@@ -8,4 +8,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home_for_you">Home for you</string>
+    <string name="home_page">Home page</string>
+    <string name="button_with_icon">Button with icon</string>
+    <string name="subjects">Subjects</string>
+    <string name="search_subjects">Search subjects</string>
+    <string name="recent_views">Recent views</string>
 </resources>
