@@ -8,12 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class adapterHomeSubjects extends RecyclerView.Adapter<adapterHomeSubjects.homeSubjectsItemViewHolder> {
-    private List<adapterHomeSubjects.homeSubjectsItemData> list;
+    private List<dataHomeSubjectsItem> list;
 
-    public adapterHomeSubjects(List<adapterHomeSubjects.homeSubjectsItemData> list) {
+    public adapterHomeSubjects(List<dataHomeSubjectsItem> list) {
         this.list = list;
     }
 
@@ -34,6 +35,11 @@ public class adapterHomeSubjects extends RecyclerView.Adapter<adapterHomeSubject
         homeSubjectsItemViewHolder.lastUpdate_TV.setText(list.get(i).lastUpdate);
     }
 
+    void filterList(List<dataHomeSubjectsItem> filteredList) {
+        this.list = filteredList;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return list.size();
@@ -49,19 +55,6 @@ public class adapterHomeSubjects extends RecyclerView.Adapter<adapterHomeSubject
             subName_TV = itemView.findViewById(R.id.subName_TV);
             lastUpdate_TV = itemView.findViewById(R.id.lastUpdate_TV);
             subBookmark_IB = itemView.findViewById(R.id.subBookmark_IB);
-        }
-    }
-
-    static class homeSubjectsItemData {
-
-        private String subAbb, subName, lastUpdate;
-        private Boolean subBookmark;
-
-        public homeSubjectsItemData(String subAbb, String subName, String lastUpdate, Boolean subBookmark) {
-            this.subAbb = subAbb;
-            this.subName = subName;
-            this.lastUpdate = lastUpdate;
-            this.subBookmark = subBookmark;
         }
     }
 }

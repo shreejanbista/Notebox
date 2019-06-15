@@ -9,21 +9,28 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class home extends Fragment implements View.OnClickListener {
+public class home extends Fragment {
+
+    adapterHomeSubjects homeSubjectAdapter;
+    List<dataHomeSubjectsItem> homeSubjects;
 
     private String TAG = "homeOX";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -77,35 +84,62 @@ public class home extends Fragment implements View.OnClickListener {
                 "DS", "ECE", "07:54AM", "Data Structures using C++"
         ));
 
-        adapterRecentViews adapter = new adapterRecentViews(recentViews);
-        recentViews_RV.setAdapter(adapter);
+        adapterRecentViews recentViewsAdapter = new adapterRecentViews(recentViews);
+        recentViews_RV.setAdapter(recentViewsAdapter);
         recentViews_RV.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
-
-
-        List<adapterHomeSubjects.homeSubjectsItemData> homeSubjects = new ArrayList<>();
-        homeSubjects.add(new adapterHomeSubjects.homeSubjectsItemData(
+        homeSubjects = new ArrayList<>();
+        homeSubjects.add(new dataHomeSubjectsItem(
                 "CN2", "Computer Networks - 2", "last update: 12 June, 2019", false
         ));
-        homeSubjects.add(new adapterHomeSubjects.homeSubjectsItemData(
+        homeSubjects.add(new dataHomeSubjectsItem(
                 "DS", "Data Structures with Cpp", "last update: 12 January, 2014", true
         ));
-        homeSubjects.add(new adapterHomeSubjects.homeSubjectsItemData(
+        homeSubjects.add(new dataHomeSubjectsItem(
                 "MDS", "Most Difficult Subjects", "last update: 21 December, 2012", false
         ));
-        homeSubjects.add(new adapterHomeSubjects.homeSubjectsItemData(
+        homeSubjects.add(new dataHomeSubjectsItem(
                 "GT", "Graph Theory", "last update: 13 March, 2015", false
         ));
 
-        adapterHomeSubjects adapter1 = new adapterHomeSubjects(homeSubjects);
-        homeSubjects_RV.setAdapter(adapter1);
+        homeSubjectAdapter = new adapterHomeSubjects(homeSubjects);
+        homeSubjects_RV.setAdapter(homeSubjectAdapter);
         homeSubjects_RV.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        subjectsSearch_ET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString());
+            }
+        });
 
         return rootView;
     }
 
-    @Override
-    public void onClick(View view) {
+    private void filter(String text) {
+        //new array list that will hold the filtered data
+        List<dataHomeSubjectsItem> filteredList = new ArrayList<>();
 
+        //looping through existing elements
+        for (dataHomeSubjectsItem s : homeSubjects) {
+            //if the existing elements contains the search input
+            if (s.subName.toLowerCase().contains(text.toLowerCase())) {
+                //adding the element to filtered list
+                filteredList.add(s);
+            }
+        }
+
+        //calling a method of the adapter class and passing the filtered list
+        homeSubjectAdapter.filterList(filteredList);
     }
 }
