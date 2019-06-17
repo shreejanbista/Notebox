@@ -20,7 +20,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="@drawable/br_top_line_dark_gray"
+        android:background="@drawable/bg_br_top_line_gray"
         android:paddingTop="0.5dp"
         android:weightSum="4"
         app:layout_constraintBottom_toBottomOf="parent"
