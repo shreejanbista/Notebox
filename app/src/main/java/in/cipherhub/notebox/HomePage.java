@@ -2,32 +2,31 @@ package in.cipherhub.notebox;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class home extends Fragment {
+import in.cipherhub.notebox.Adapters.adapterHomeSubjects;
+import in.cipherhub.notebox.Adapters.adapterRecentViews;
+import in.cipherhub.notebox.Models.DataHomeSubjectsItem;
+
+public class HomePage extends Fragment {
 
     adapterHomeSubjects homeSubjectAdapter;
-    List<dataHomeSubjectsItem> homeSubjects;
+    List<DataHomeSubjectsItem> homeSubjects;
 
     private String TAG = "homeOX";
 
@@ -89,16 +88,16 @@ public class home extends Fragment {
         recentViews_RV.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
         homeSubjects = new ArrayList<>();
-        homeSubjects.add(new dataHomeSubjectsItem(
+        homeSubjects.add(new DataHomeSubjectsItem(
                 "CN2", "Computer Networks - 2", "last update: 12 June, 2019", false
         ));
-        homeSubjects.add(new dataHomeSubjectsItem(
+        homeSubjects.add(new DataHomeSubjectsItem(
                 "DS", "Data Structures with Cpp", "last update: 12 January, 2014", true
         ));
-        homeSubjects.add(new dataHomeSubjectsItem(
+        homeSubjects.add(new DataHomeSubjectsItem(
                 "MDS", "Most Difficult Subjects", "last update: 21 December, 2012", false
         ));
-        homeSubjects.add(new dataHomeSubjectsItem(
+        homeSubjects.add(new DataHomeSubjectsItem(
                 "GT", "Graph Theory", "last update: 13 March, 2015", false
         ));
 
@@ -128,10 +127,10 @@ public class home extends Fragment {
 
     private void filter(String text) {
         //new array list that will hold the filtered data
-        List<dataHomeSubjectsItem> filteredList = new ArrayList<>();
+        List<DataHomeSubjectsItem> filteredList = new ArrayList<>();
 
         //looping through existing elements
-        for (dataHomeSubjectsItem s : homeSubjects) {
+        for (DataHomeSubjectsItem s : homeSubjects) {
             //if the existing elements contains the search input
             if (s.subName.toLowerCase().contains(text.toLowerCase())) {
                 //adding the element to filtered list

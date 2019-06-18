@@ -1,4 +1,4 @@
-package in.cipherhub.notebox;
+package in.cipherhub.notebox.Adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,13 +8,15 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class adapterHomeSubjects extends RecyclerView.Adapter<adapterHomeSubjects.homeSubjectsItemViewHolder> {
-    private List<dataHomeSubjectsItem> list;
+import in.cipherhub.notebox.R;
+import in.cipherhub.notebox.Models.DataHomeSubjectsItem;
 
-    public adapterHomeSubjects(List<dataHomeSubjectsItem> list) {
+public class adapterHomeSubjects extends RecyclerView.Adapter<adapterHomeSubjects.homeSubjectsItemViewHolder> {
+    private List<DataHomeSubjectsItem> list;
+
+    public adapterHomeSubjects(List<DataHomeSubjectsItem> list) {
         this.list = list;
     }
 
@@ -35,7 +37,7 @@ public class adapterHomeSubjects extends RecyclerView.Adapter<adapterHomeSubject
         homeSubjectsItemViewHolder.lastUpdate_TV.setText(list.get(i).lastUpdate);
     }
 
-    void filterList(List<dataHomeSubjectsItem> filteredList) {
+    public void filterList(List<DataHomeSubjectsItem> filteredList) {
         this.list = filteredList;
         notifyDataSetChanged();
     }

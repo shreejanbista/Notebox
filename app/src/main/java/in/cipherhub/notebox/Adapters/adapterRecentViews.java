@@ -1,15 +1,15 @@
-package in.cipherhub.notebox;
+package in.cipherhub.notebox.Adapters;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+
+import in.cipherhub.notebox.R;
 
 public class adapterRecentViews extends RecyclerView.Adapter<adapterRecentViews.recentViewsItemViewHolder>{
 
@@ -42,7 +42,7 @@ public class adapterRecentViews extends RecyclerView.Adapter<adapterRecentViews.
         return list.size();
     }
 
-    class recentViewsItemViewHolder extends RecyclerView.ViewHolder {
+    public class recentViewsItemViewHolder extends RecyclerView.ViewHolder {
         TextView subAbb_TV, branchAbb_TV, time_TV, subName_TV;
         recentViewsItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -54,11 +54,11 @@ public class adapterRecentViews extends RecyclerView.Adapter<adapterRecentViews.
         }
     }
 
-    static class recentViewsItemData {
+    public static class recentViewsItemData {
 
         private String subAbb, branchAbb, time, subName;
 
-        recentViewsItemData(String subAbb, String branchAbb, String time, String subName) {
+        public recentViewsItemData(String subAbb, String branchAbb, String time, String subName) {
             this.subAbb = subAbb;
             this.branchAbb = branchAbb;
             this.time = time;
