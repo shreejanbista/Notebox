@@ -1,5 +1,15 @@
 package in.cipherhub.notebox;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.pdf.PdfRenderer;
+import android.net.Uri;
+import android.os.Environment;
+import android.os.ParcelFileDescriptor;
+import android.provider.OpenableColumns;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +17,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URI;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -45,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             button.setCompoundDrawablesRelativeWithIntrinsicBounds(null,
                     getResources().getDrawable(buttonIconDrawableId), null, null);
             button.setTextColor(getResources().getColor(R.color.colorGray_AAAAAA));
-
         }
     }
 
@@ -55,6 +78,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /* Below line should be changed to switch condition if more buttons are introduced
          * registered with setOnClickListener(this) in onCreate method of this activity. */
         customButtonRadioGroup(buttonClicked);
+
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setType("application/pdf");
+        startActivityForResult(intent, 1000);
     }
 
     public void customButtonRadioGroup(Button buttonClicked) {
@@ -71,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonClicked.setTextColor(getResources().getColor(R.color.colorAppTheme));
 
         try {
-            fragment = (Fragment) (Class.forName("in.cipherhub.notebox." + buttonClickedTitle).newInstance());
+            fragment = (Fragment) (Class.forName(getPackageName() + "." + buttonClickedTitle).newInstance());
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
             fragment = new home();
@@ -81,3 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .commit();
     }
 }
+
+/* 1. User profile
+ * 2. upload
+ * 3. fetch */

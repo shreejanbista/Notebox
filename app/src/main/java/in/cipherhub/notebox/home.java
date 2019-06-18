@@ -127,19 +127,16 @@ public class home extends Fragment {
     }
 
     private void filter(String text) {
-        //new array list that will hold the filtered data
         List<dataHomeSubjectsItem> filteredList = new ArrayList<>();
 
-        //looping through existing elements
         for (dataHomeSubjectsItem s : homeSubjects) {
-            //if the existing elements contains the search input
             if (s.subName.toLowerCase().contains(text.toLowerCase())) {
-                //adding the element to filtered list
                 filteredList.add(s);
             }
         }
-
-        //calling a method of the adapter class and passing the filtered list
         homeSubjectAdapter.filterList(filteredList);
     }
 }
+
+// TODO: recycler view heights stays short after keyboard is hidden... solve it :)
+// TODO: when letter length exceeds, use dots to end the sentence...
