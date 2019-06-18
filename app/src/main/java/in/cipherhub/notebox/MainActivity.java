@@ -3,10 +3,8 @@ package in.cipherhub.notebox;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -74,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             fragment = (Fragment) (Class.forName("in.cipherhub.notebox." + buttonClickedTitle).newInstance());
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
-            fragment = new home();
+            fragment = new HomePage();
         }
 
         getSupportFragmentManager().beginTransaction().replace(R.id.mainPagesContainer_FL, fragment)
