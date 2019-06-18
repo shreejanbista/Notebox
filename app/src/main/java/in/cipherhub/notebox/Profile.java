@@ -57,8 +57,6 @@ public class Profile extends Fragment implements View.OnClickListener {
                     }
                 }
 
-                String path = httpsReference.getPath();
-
                 Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/notebox-1559903149503.appspot.com/o/CSE%2FPYTHON%2FNumpy%20Exercises%20(Unit-1).pdf?alt=media&token=daa8d108-24c4-482b-b4c0-d5a6fb9e15df");
 
                 DownloadManager mgr = (DownloadManager) Objects.requireNonNull(
