@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         applyInitButState(new Button[]{home_B, explore_B, upload_B, profile_B});
         customButtonRadioGroup(home_B);
+
     }
 
     public void applyInitButState(Button[] buttons) {
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             int buttonIconDrawableId = getResources().getIdentifier(
                     "icon_" + button.getText().toString().toLowerCase() + "_but_unfocused",
                     "drawable", getPackageName());
+
             // set icons only on the top // icons position is adjusted from XML
             button.setCompoundDrawablesRelativeWithIntrinsicBounds(null,
                     getResources().getDrawable(buttonIconDrawableId), null, null);
@@ -56,13 +58,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void customButtonRadioGroup(Button buttonClicked) {
-        String buttonClickedTitle = buttonClicked.getText().toString().toLowerCase();
+        String buttonClickedTitle = buttonClicked.getText().toString();
         Fragment fragment;
 
         applyInitButState(new Button[]{home_B, explore_B, upload_B, profile_B});
 
         int buttonClickedIconDrawableId = getResources().getIdentifier(
-                "icon_" + buttonClickedTitle + "_but_focused",
+                "icon_" + buttonClickedTitle.toLowerCase() + "_but_focused",
                 "drawable", getPackageName());
         buttonClicked.setCompoundDrawablesRelativeWithIntrinsicBounds(null,
                 getResources().getDrawable(buttonClickedIconDrawableId), null, null);
