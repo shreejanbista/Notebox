@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1051573703602-f47o9744cioh868nadu309e0ho1ts1ou.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.cipherhub.notebox",
+            "certificate_hash": "986ebf7058166f08faaf2c28486f94f8e5dfb851"
+          }
+        },
+        {
           "client_id": "1051573703602-kp1b9pc52e6qd5lkio31ebk3ha6vqqfn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

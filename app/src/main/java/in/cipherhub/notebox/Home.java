@@ -1,31 +1,40 @@
 package in.cipherhub.notebox;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import in.cipherhub.notebox.Adapters.adapterHomeSubjects;
-import in.cipherhub.notebox.Adapters.adapterRecentViews;
+import in.cipherhub.notebox.Adapters.AdapterHomeSubjects;
+import in.cipherhub.notebox.Adapters.AdapterRecentViews;
 import in.cipherhub.notebox.Models.DataHomeSubjectsItem;
 
-public class Home extends Fragment {
+public class Home extends Fragment implements View.OnClickListener {
 
-    adapterHomeSubjects homeSubjectAdapter;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+
+    AdapterHomeSubjects homeSubjectAdapter;
     List<DataHomeSubjectsItem> homeSubjects;
 
     private String TAG = "homeOX";
@@ -33,22 +42,41 @@ public class Home extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
 
         final ConstraintLayout subjectsLayout_CL = rootView.findViewById(R.id.subjectsLayout_CL);
         final ConstraintLayout recentViewsLayout_CL = rootView.findViewById(R.id.recentViewsLayout_CL);
         final EditText subjectsSearch_ET = rootView.findViewById(R.id.subjectsSearch_ET);
         final ImageButton searchIconInSearchBar_IB = rootView.findViewById(R.id.searchIconInSearchBar_IB);
+        Button signin_B = rootView.findViewById(R.id.signin_B);
         RecyclerView recentViews_RV = rootView.findViewById(R.id.recentViews_RV);
         RecyclerView homeSubjects_RV = rootView.findViewById(R.id.homeSubjects_RV);
         ImageButton bookmark_IB = rootView.findViewById(R.id.bookmark_IB);
+//        final View signinTemplate_BT = rootView.findViewById(R.id.signinTemplate_BT);
+
+        if (user == null) {
+            homeSubjects_RV.setVisibility(View.GONE);
+            subjectsSearch_ET.setFocusable(false);
+        } else {
+            homeSubjects_RV.setVisibility(View.VISIBLE);
+            subjectsSearch_ET.setFocusable(true);
+        }
+
+        signin_B.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) getActivity()).temp();
+            }
+        });
 
         bookmark_IB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), BookmarkActivity.class));
+//                startActivity(new Intent(getActivity(), BookmarkActivity.class));
             }
         });
 
@@ -69,21 +97,21 @@ public class Home extends Fragment {
             }
         });
 
-        List<adapterRecentViews.recentViewsItemData> recentViews = new ArrayList<>();
-        recentViews.add(new adapterRecentViews.recentViewsItemData(
+        List<AdapterRecentViews.recentViewsItemData> recentViews = new ArrayList<>();
+        recentViews.add(new AdapterRecentViews.recentViewsItemData(
                 "CN2", "CSE", "10:10PM", "Computer Networks - 2"
         ));
-        recentViews.add(new adapterRecentViews.recentViewsItemData(
+        recentViews.add(new AdapterRecentViews.recentViewsItemData(
                 "OS", "CSE", "09:11AM", "Operating System"
         ));
-        recentViews.add(new adapterRecentViews.recentViewsItemData(
+        recentViews.add(new AdapterRecentViews.recentViewsItemData(
                 "MDS", "ECE", "03:02PM", "Most Difficult Subject"
         ));
-        recentViews.add(new adapterRecentViews.recentViewsItemData(
+        recentViews.add(new AdapterRecentViews.recentViewsItemData(
                 "DS", "ECE", "07:54AM", "Data Structures using C++"
         ));
 
-        adapterRecentViews recentViewsAdapter = new adapterRecentViews(recentViews);
+        AdapterRecentViews recentViewsAdapter = new AdapterRecentViews(recentViews);
         recentViews_RV.setAdapter(recentViewsAdapter);
         recentViews_RV.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
@@ -101,7 +129,7 @@ public class Home extends Fragment {
                 "GT", "Graph Theory", "last update: 13 March, 2015", false
         ));
 
-        homeSubjectAdapter = new adapterHomeSubjects(homeSubjects);
+        homeSubjectAdapter = new AdapterHomeSubjects(homeSubjects);
         homeSubjects_RV.setAdapter(homeSubjectAdapter);
         homeSubjects_RV.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -136,6 +164,11 @@ public class Home extends Fragment {
             }
         }
         homeSubjectAdapter.filterList(filteredList);
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 }
 

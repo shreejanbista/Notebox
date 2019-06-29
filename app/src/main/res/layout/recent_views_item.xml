@@ -65,14 +65,17 @@
 
             <TextView
                 android:id="@+id/subName_TV"
-                android:layout_width="150dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
                 android:fontFamily="@font/josefin_sans_regular"
                 android:maxLines="1"
                 android:text="Computer Networks - 2"
                 android:textColor="@color/colorAppTheme"
                 android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="@+id/time_TV"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/subAbb_TV"
                 app:layout_constraintTop_toBottomOf="@+id/subAbb_TV" />
         </android.support.constraint.ConstraintLayout>

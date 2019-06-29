@@ -6,7 +6,8 @@
 
 <!-- required colors-->
     <color name="colorWhite_FFFFFF">#FFFFFF</color>
-    <color name="colorWhite_E5E5E5">#E5E5E5</color>
+    <color name="colorGray_E5E5E5">#E5E5E5</color>
+    <color name="colorGray_E0E0E0">#E0E0E0</color>
     <color name="colorWhite_BFBFBF">#BFBFBF</color>
     <color name="colorGray_AAAAAA">#AAAAAA</color>
     <color name="colorGray_999999">#999999</color>
