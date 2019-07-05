@@ -19,6 +19,7 @@
     <string name="e_mail">e-mail</string>
     <string name="password">password</string>
     <string name="login">Login</string>
+    <string name="task_icon">task icon</string>
 
 
 </resources>
