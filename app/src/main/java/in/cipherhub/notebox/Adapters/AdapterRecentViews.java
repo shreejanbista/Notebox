@@ -11,11 +11,11 @@ import java.util.List;
 
 import in.cipherhub.notebox.R;
 
-public class adapterRecentViews extends RecyclerView.Adapter<adapterRecentViews.recentViewsItemViewHolder>{
+public class AdapterRecentViews extends RecyclerView.Adapter<AdapterRecentViews.recentViewsItemViewHolder>{
 
-    List<adapterRecentViews.recentViewsItemData> list;
+    List<AdapterRecentViews.recentViewsItemData> list;
 
-    public adapterRecentViews(List<adapterRecentViews.recentViewsItemData> list) {
+    public AdapterRecentViews(List<AdapterRecentViews.recentViewsItemData> list) {
         this.list = list;
     }
 

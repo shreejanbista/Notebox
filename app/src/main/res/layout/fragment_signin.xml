@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/templateParent_CL"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/custom_shadow"
+    android:clickable="true"
+    android:orientation="vertical"
+    tools:context=".Signin">
+
+    <!-- closeBottomTemplate_IB -->
+    <ImageButton
+        android:id="@+id/closeBottomTemplate_IB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/colorWhite_FFFFFF"
+        android:contentDescription="@string/task_icon"
+        android:src="@drawable/ic_arrow_down_with_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- changePage_B -->
+    <Button
+        android:id="@+id/changePage_B"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/comfortaa_bold"
+        android:gravity="bottom|center_horizontal"
+        android:paddingBottom="5dp"
+        android:stateListAnimator="@null"
+        android:text="Login &gt;"
+        android:textAllCaps="false"
+        android:textColor="@color/colorGray_999999"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/closeBottomTemplate_IB">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="vertical">
+
+            <!-- fullName_L -->
+            <include
+                android:id="@+id/fullName_L"
+                layout="@layout/layout_et_with_header" />
+
+            <!-- email_L -->
+            <include
+                android:id="@+id/email_L"
+                layout="@layout/layout_et_with_header" />
+
+            <!-- password_L-->
+            <include
+                android:id="@+id/password_L"
+                layout="@layout/layout_et_with_header" />
+        </LinearLayout>
+    </ScrollView>
+
+
+    <!-- Google Button and next Button -->
+    <Button
+        android:id="@+id/googleSignin_B"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_white_pill_20"
+        android:drawablePadding="5dp"
+        android:elevation="3dp"
+        android:fontFamily="@font/comfortaa_bold"
+        android:paddingStart="15dp"
+        android:paddingEnd="7dp"
+        android:text="@string/google"
+        android:textAllCaps="false"
+        android:textColor="@color/colorGray_999999"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/scrollView"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
+
+    <Button
+        android:id="@+id/signin_B"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/bg_apptheme_pill_20"
+        android:fontFamily="@font/consolas_regular"
+        android:text="Signup"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite_FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/scrollView"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView" />
+</android.support.constraint.ConstraintLayout>

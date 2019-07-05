@@ -1,16 +1,27 @@
 package in.cipherhub.notebox;
 
+import android.animation.ValueAnimator;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static String TAG = "MainActivityOX";
+    private static String TAG = "MainActivityOXET";
 
-    Button home_B, explore_B, upload_B, profile_B;
+    Button home_B, explore_B, upload_B, profile_B, buttonClicked;
+    FrameLayout signinTemplateContainer_FL;
+    View bgBlurForBtmTemplate_V;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,17 +34,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         explore_B = findViewById(R.id.explore_B);
         upload_B = findViewById(R.id.upload_B);
         profile_B = findViewById(R.id.profile_B);
+        bgBlurForBtmTemplate_V = findViewById(R.id.bgBlurForBtmTemplate_V);
+        signinTemplateContainer_FL = findViewById(R.id.signinTemplateContainer_FL);
 
         home_B.setOnClickListener(this);
         explore_B.setOnClickListener(this);
         upload_B.setOnClickListener(this);
         profile_B.setOnClickListener(this);
 
-        applyInitButState(new Button[]{home_B, explore_B, upload_B, profile_B});
-        customButtonRadioGroup(home_B);
+        bgBlurForBtmTemplate_V.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeBottomTemplate();
+            }
+        });
 
+        applyInitButState(new Button[]{home_B, explore_B, upload_B, profile_B});
+
+        // Home Page is launched onCreate to make it default
+        buttonClicked = home_B;
+        customButtonRadioGroup(buttonClicked);
     }
 
+    @Override
+    public void onClick(View view) {
+        buttonClicked = findViewById(view.getId());
+        /* Below line should be changed to switch condition if more buttons are introduced
+         * registered with setOnClickListener(this) in onCreate method of this activity. */
+        customButtonRadioGroup(buttonClicked);
+    }
+
+    // Make all choices in Bottom Navigation Bar as unfocused
     public void applyInitButState(Button[] buttons) {
         for (Button button : buttons) {
             // below line gives the name of icon with respect to button name
@@ -45,18 +76,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             button.setCompoundDrawablesRelativeWithIntrinsicBounds(null,
                     getResources().getDrawable(buttonIconDrawableId), null, null);
             button.setTextColor(getResources().getColor(R.color.colorGray_AAAAAA));
-
         }
     }
 
-    @Override
-    public void onClick(View view) {
-        Button buttonClicked = findViewById(view.getId());
-        /* Below line should be changed to switch condition if more buttons are introduced
-         * registered with setOnClickListener(this) in onCreate method of this activity. */
-        customButtonRadioGroup(buttonClicked);
-    }
-
+    // select one choice in Bottom Navigation Bar and commit fragment transaction
     public void customButtonRadioGroup(Button buttonClicked) {
         String buttonClickedTitle = buttonClicked.getText().toString();
         Fragment fragment;
@@ -71,13 +94,93 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonClicked.setTextColor(getResources().getColor(R.color.colorAppTheme));
 
         try {
-            fragment = (Fragment) (Class.forName("in.cipherhub.notebox." + buttonClickedTitle).newInstance());
+            fragment = (Fragment) (Class.forName(getPackageName() + "." + buttonClickedTitle).newInstance());
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
-            fragment = new HomePage();
+            fragment = new Home();
         }
 
         getSupportFragmentManager().beginTransaction().replace(R.id.mainPagesContainer_FL, fragment)
                 .commit();
+    }
+
+    public void openBottomTemplate() {
+        signinTemplateContainer_FL.setVisibility(View.VISIBLE);
+        bgBlurForBtmTemplate_V.setClickable(true);
+
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_btm_entry, R.anim.slide_top_exit)
+                .replace(R.id.signinTemplateContainer_FL, new Signin())
+                .commit();
+
+        tintSystemBars(getWindow().getStatusBarColor(), getResources().getColor(R.color.colorGray_E0E0E0));
+
+        bgBlurForBtmTemplate_V.setVisibility(View.VISIBLE);
+        bgBlurForBtmTemplate_V.animate().alpha(0.12f).setDuration(500);
+    }
+
+    public void removeBottomTemplate() {
+        tintSystemBars(getWindow().getStatusBarColor(), getResources().getColor(R.color.colorWhite_FFFFFF));
+
+        signinTemplateContainer_FL.animate().translationY(signinTemplateContainer_FL.getHeight()).setDuration(500);
+
+        bgBlurForBtmTemplate_V.animate().alpha(0).setDuration(500);
+
+        final View view = this.getCurrentFocus();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                bgBlurForBtmTemplate_V.setVisibility(View.GONE);
+                bgBlurForBtmTemplate_V.setClickable(false);
+                signinTemplateContainer_FL.setVisibility(View.GONE);
+                signinTemplateContainer_FL.animate().translationY(0).setDuration(0);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getSupportFragmentManager().popBackStack();
+                    }
+                }, 100);
+
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+            }
+        }, 500);
+
+        customButtonRadioGroup(buttonClicked);
+    }
+
+    private void tintSystemBars(final int fromThisColor, final int toThisColor) {
+
+        ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                // Use animation position to blend colors.
+                float position = animation.getAnimatedFraction();
+
+                // Apply blended color to the status bar.
+                int blended = blendColors(fromThisColor, toThisColor, position);
+                getWindow().setStatusBarColor(blended);
+
+                // Apply blended color to the ActionBar.
+//                blended = blendColors(toolbarColor, toolbarToColor, position);
+                ColorDrawable background = new ColorDrawable(blended);
+                getSupportActionBar().setBackgroundDrawable(background);
+            }
+        });
+
+        anim.setDuration(500).start();
+    }
+
+    private int blendColors(int from, int to, float ratio) {
+        final float inverseRatio = 1f - ratio;
+
+        final float r = Color.red(to) * ratio + Color.red(from) * inverseRatio;
+        final float g = Color.green(to) * ratio + Color.green(from) * inverseRatio;
+        final float b = Color.blue(to) * ratio + Color.blue(from) * inverseRatio;
+
+        return Color.rgb((int) r, (int) g, (int) b);
     }
 }
