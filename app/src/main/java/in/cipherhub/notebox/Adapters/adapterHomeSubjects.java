@@ -26,7 +26,7 @@ public class adapterHomeSubjects extends RecyclerView.Adapter<adapterHomeSubject
 
         return new adapterHomeSubjects.homeSubjectsItemViewHolder(LayoutInflater
                 .from(viewGroup.getContext())
-                .inflate(R.layout.home_subjects_item, viewGroup, false));
+                .inflate(R.layout.item_home_subjects, viewGroup, false));
     }
 
     @Override

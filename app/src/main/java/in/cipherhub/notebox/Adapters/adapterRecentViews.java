@@ -25,7 +25,7 @@ public class adapterRecentViews extends RecyclerView.Adapter<adapterRecentViews.
 
         return new recentViewsItemViewHolder(LayoutInflater
                 .from(viewGroup.getContext())
-                .inflate(R.layout.recent_views_item, viewGroup, false));
+                .inflate(R.layout.item_recent_views, viewGroup, false));
     }
 
     @Override
