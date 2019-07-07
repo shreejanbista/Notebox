@@ -17,12 +17,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="3dp"
         android:layout_marginEnd="8dp"
         android:background="@color/colorWhite_FFFFFF"
         android:contentDescription="@string/task_icon"
         android:src="@drawable/ic_arrow_down_with_background"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.534"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_gravity="end"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:background="@android:color/transparent"
         android:fontFamily="@font/comfortaa_bold"
@@ -42,7 +43,7 @@
         android:text="Login &gt;"
         android:textAllCaps="false"
         android:textColor="@color/colorGray_999999"
-        android:textSize="13sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
