@@ -13,24 +13,24 @@ import java.util.List;
 import in.cipherhub.notebox.R;
 import in.cipherhub.notebox.Models.DataHomeSubjectsItem;
 
-public class adapterHomeSubjects extends RecyclerView.Adapter<adapterHomeSubjects.homeSubjectsItemViewHolder> {
+public class AdapterHomeSubjects extends RecyclerView.Adapter<AdapterHomeSubjects.homeSubjectsItemViewHolder> {
     private List<DataHomeSubjectsItem> list;
 
-    public adapterHomeSubjects(List<DataHomeSubjectsItem> list) {
+    public AdapterHomeSubjects(List<DataHomeSubjectsItem> list) {
         this.list = list;
     }
 
     @NonNull
     @Override
-    public adapterHomeSubjects.homeSubjectsItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public AdapterHomeSubjects.homeSubjectsItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        return new adapterHomeSubjects.homeSubjectsItemViewHolder(LayoutInflater
+        return new AdapterHomeSubjects.homeSubjectsItemViewHolder(LayoutInflater
                 .from(viewGroup.getContext())
                 .inflate(R.layout.home_subjects_item, viewGroup, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull adapterHomeSubjects.homeSubjectsItemViewHolder homeSubjectsItemViewHolder, int i) {
+    public void onBindViewHolder(@NonNull AdapterHomeSubjects.homeSubjectsItemViewHolder homeSubjectsItemViewHolder, int i) {
 
         homeSubjectsItemViewHolder.subAbb_TV.setText(list.get(i).subAbb);
         homeSubjectsItemViewHolder.subName_TV.setText(list.get(i).subName);

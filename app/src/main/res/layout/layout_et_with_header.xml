@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/child_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/consolas_regular"
+            android:text="@{title}"
+            android:textColor="@color/colorGray_999999"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/child_ET"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/bg_br_radius_gray"
+            android:ems="10"
+            android:fontFamily="@font/comfortaa_bold"
+            android:hint="@{title}"
+            android:paddingStart="16dp"
+            android:inputType="text"
+            android:paddingEnd="16dp"
+            android:textColor="@color/colorAppTheme"
+            android:textColorHint="@color/colorGray_AAAAAA"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/child_TV"
+            app:layout_constraintTop_toBottomOf="@+id/child_TV" />
+    </android.support.constraint.ConstraintLayout>
+</layout>
