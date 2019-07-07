@@ -179,22 +179,26 @@
             android:id="@+id/textView11"
             style="@style/profile_lower_four_buttons"
             android:drawableLeft="@drawable/btn_rounded_corner"
-            android:text="Report and issue" />
+            android:text="Report and issue"
+            />
 
         <Button
             android:id="@+id/textView12"
             style="@style/profile_lower_four_buttons"
-            android:text="Share this app" />
+            android:text="Share this app"
+            android:drawableLeft="@drawable/ic_share_brown_24dp"/>
 
         <Button
             android:id="@+id/textView13"
             style="@style/profile_lower_four_buttons"
-            android:text="Feedback" />
+            android:text="Feedback"
+            android:drawableLeft="@drawable/ic_feedback_brown_24dp"/>
 
         <Button
             android:id="@+id/textView14"
             style="@style/profile_lower_four_buttons"
-            android:text="About" />
+            android:text="About"
+            android:drawableLeft="@drawable/icon_profile_but_focused"/>
     </LinearLayout>
 
     <TextView
@@ -249,5 +253,37 @@
         app:layout_constraintStart_toEndOf="@+id/textView16"
         app:layout_constraintTop_toTopOf="@+id/textView16" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        android:background="@drawable/btn_rounded_corner"
+        app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.839"
+        app:layout_constraintStart_toEndOf="@+id/ratingBar"
+        app:layout_constraintTop_toTopOf="@+id/ratingBar"
+        app:layout_constraintVertical_bias="1.0">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_file_upload_brown_24dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="31"
+            android:textSize="12sp"
+            android:fontFamily="@font/segoe_ui"
+            android:textColor="@color/colorGray_AAAAAA"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:rotation="90"
+            android:background="@android:color/darker_gray"/>
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
