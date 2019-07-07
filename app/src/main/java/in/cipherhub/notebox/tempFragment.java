@@ -9,12 +9,12 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import in.cipherhub.notebox.Adapters.adapterHomeSubjects;
+import in.cipherhub.notebox.Adapters.AdapterHomeSubjects;
 import in.cipherhub.notebox.Models.DataHomeSubjectsItem;
 
 public class tempFragment extends Fragment {
 
-    adapterHomeSubjects homeSubjectAdapter;
+    AdapterHomeSubjects homeSubjectAdapter;
     List<DataHomeSubjectsItem> homeSubjects;
 
     private String TAG = "homeOX";

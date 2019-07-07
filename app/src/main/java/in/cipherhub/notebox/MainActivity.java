@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .replace(R.id.signinTemplateContainer_FL, new Signin())
                 .commit();
 
-        tintSystemBars(getWindow().getStatusBarColor(), getResources().getColor(R.color.colorGray_E0E0E0));
+        tintSystemBars(getWindow().getStatusBarColor(), getResources().getColor(R.color.colorGray_AAAAAA));
 
         bgBlurForBtmTemplate_V.setVisibility(View.VISIBLE);
         bgBlurForBtmTemplate_V.animate().alpha(0.12f).setDuration(500);
