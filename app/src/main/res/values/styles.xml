@@ -10,7 +10,7 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <!-- Self added attributes-->
-        <item name="android:statusBarColor">@color/colorWhite_E5E5E5</item>
+        <item name="android:statusBarColor">@color/colorWhite_FFFFFF</item>
     </style>
 
     <style name="bottom_navigation_buttons">

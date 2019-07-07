@@ -5,4 +5,15 @@
 
     <!-- text sizes -->
     <dimen name="btm_nav_but_text_size">14sp</dimen>
+
+    <!-- width -->
+    <dimen name="edit_text_br">1dp</dimen>
+
+    <!-- radius -->
+    <dimen name="small_radius_1">1dp</dimen>
+    <dimen name="small_radius_2">2dp</dimen>
+    <dimen name="small_radius_3">3dp</dimen>
+    <dimen name="small_radius_4">4dp</dimen>
+    <dimen name="small_radius_5">5dp</dimen>
+    <dimen name="small_radius_10">10dp</dimen>
 </resources>

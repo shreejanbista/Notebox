@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <integer name="no_of_maths_fomus">20</integer>
+    <integer name="no_of_phys_fomus">25</integer>
+    <integer name="no_of_chem_fomus">25</integer>
+    <integer name="no_of_engi_fomus">12</integer>
+    <integer name="one">1</integer>
+    <integer name="three">3</integer>
+    <integer name="five">5</integer>
+    <integer name="template_transition_time">500</integer>
+    <integer name="design_snackbar_text_max_lines" tools:ignore="PrivateResource">100</integer>
+</resources>

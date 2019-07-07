@@ -1,61 +1,119 @@
 package in.cipherhub.notebox;
 
 import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import in.cipherhub.notebox.Adapters.adapterHomeSubjects;
-import in.cipherhub.notebox.Adapters.adapterRecentViews;
+import in.cipherhub.notebox.Adapters.AdapterHomeSubjects;
+import in.cipherhub.notebox.Adapters.AdapterRecentViews;
 import in.cipherhub.notebox.Models.DataHomeSubjectsItem;
+import in.cipherhub.notebox.Utils.Internet;
 
-public class HomePage extends Fragment {
+public class Home extends Fragment implements View.OnClickListener {
 
-    adapterHomeSubjects homeSubjectAdapter;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+
+    AdapterHomeSubjects homeSubjectAdapter;
     List<DataHomeSubjectsItem> homeSubjects;
 
-    private String TAG = "homeOX";
+    private String TAG = "homeOXET";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+
+        // TODO: remove below line after testing
+//         mAuth.signOut();
 
         final ConstraintLayout subjectsLayout_CL = rootView.findViewById(R.id.subjectsLayout_CL);
         final ConstraintLayout recentViewsLayout_CL = rootView.findViewById(R.id.recentViewsLayout_CL);
         final EditText subjectsSearch_ET = rootView.findViewById(R.id.subjectsSearch_ET);
         final ImageButton searchIconInSearchBar_IB = rootView.findViewById(R.id.searchIconInSearchBar_IB);
+        Button signin_B = rootView.findViewById(R.id.signin_B);
+        LinearLayout notSignedInTemplate_LL = rootView.findViewById(R.id.notSignedInTemplate_LL);
         RecyclerView recentViews_RV = rootView.findViewById(R.id.recentViews_RV);
         RecyclerView homeSubjects_RV = rootView.findViewById(R.id.homeSubjects_RV);
         ImageButton bookmark_IB = rootView.findViewById(R.id.bookmark_IB);
 
+        if (user == null) {
+            // No user registered
+//            homeSubjects_RV.setVisibility(View.GONE);
+            subjectsSearch_ET.setFocusable(false);
+            notSignedInTemplate_LL.setVisibility(View.VISIBLE);
+        } else {
+            Boolean isUserDetailsAvailable = false;
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("users").document(user.getUid()).get(Source.CACHE)
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful() && task.getResult() != null)
+                                if (task.getResult().getData() != null)
+                                    if (String.valueOf(task.getResult().getData().get("institute")).length() > 0) {
+                                        Log.d(TAG, "details are available");
+                                    } else {
+                                        Log.d(TAG, "details are not available");
+                                    }
+                        }
+                    });
+//            homeSubjects_RV.setVisibility(View.VISIBLE);
+            Log.i(TAG, "ran");
+            subjectsSearch_ET.setFocusable(true);
+            notSignedInTemplate_LL.setVisibility(View.GONE);
+        }
+
+        signin_B.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) getActivity()).openBottomTemplate();
+            }
+        });
+
         bookmark_IB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), BookmarkActivity.class));
+//                startActivity(new Intent(getActivity(), BookmarkActivity.class));
             }
         });
 
         subjectsSearch_ET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if(subjectsSearch_ET.isFocused()) {
+                if (subjectsSearch_ET.isFocused()) {
                     subjectsLayout_CL.animate().translationY(-recentViewsLayout_CL.getHeight()).setDuration(500);
                     searchIconInSearchBar_IB.setImageDrawable(getResources().getDrawable(R.drawable.icon_down_arrow));
                 } else {    // when click on background root Constraint Layout
@@ -69,39 +127,15 @@ public class HomePage extends Fragment {
             }
         });
 
-        List<adapterRecentViews.recentViewsItemData> recentViews = new ArrayList<>();
-        recentViews.add(new adapterRecentViews.recentViewsItemData(
-                "CN2", "CSE", "10:10PM", "Computer Networks - 2"
-        ));
-        recentViews.add(new adapterRecentViews.recentViewsItemData(
-                "OS", "CSE", "09:11AM", "Operating System"
-        ));
-        recentViews.add(new adapterRecentViews.recentViewsItemData(
-                "MDS", "ECE", "03:02PM", "Most Difficult Subject"
-        ));
-        recentViews.add(new adapterRecentViews.recentViewsItemData(
-                "DS", "ECE", "07:54AM", "Data Structures using C++"
-        ));
+        List<AdapterRecentViews.recentViewsItemData> recentViews = new ArrayList<>();
 
-        adapterRecentViews recentViewsAdapter = new adapterRecentViews(recentViews);
+        AdapterRecentViews recentViewsAdapter = new AdapterRecentViews(recentViews);
         recentViews_RV.setAdapter(recentViewsAdapter);
         recentViews_RV.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
         homeSubjects = new ArrayList<>();
-        homeSubjects.add(new DataHomeSubjectsItem(
-                "CN2", "Computer Networks - 2", "last update: 12 June, 2019", false
-        ));
-        homeSubjects.add(new DataHomeSubjectsItem(
-                "DS", "Data Structures with Cpp", "last update: 12 January, 2014", true
-        ));
-        homeSubjects.add(new DataHomeSubjectsItem(
-                "MDS", "Most Difficult Subjects", "last update: 21 December, 2012", false
-        ));
-        homeSubjects.add(new DataHomeSubjectsItem(
-                "GT", "Graph Theory", "last update: 13 March, 2015", false
-        ));
 
-        homeSubjectAdapter = new adapterHomeSubjects(homeSubjects);
+        homeSubjectAdapter = new AdapterHomeSubjects(homeSubjects);
         homeSubjects_RV.setAdapter(homeSubjectAdapter);
         homeSubjects_RV.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -126,19 +160,29 @@ public class HomePage extends Fragment {
     }
 
     private void filter(String text) {
-        //new array list that will hold the filtered data
         List<DataHomeSubjectsItem> filteredList = new ArrayList<>();
 
-        //looping through existing elements
         for (DataHomeSubjectsItem s : homeSubjects) {
+            //new array list that will hold the filtered data
             //if the existing elements contains the search input
             if (s.subName.toLowerCase().contains(text.toLowerCase())) {
-                //adding the element to filtered list
                 filteredList.add(s);
             }
         }
-
-        //calling a method of the adapter class and passing the filtered list
         homeSubjectAdapter.filterList(filteredList);
     }
+
+    @Override
+    public void onClick(View view) {
+
+    }
+
+    private void checkDataForUI() {
+        if (user == null) {
+
+        }
+
+    }
 }
+
+// TODO: recycler view heights stays short after keyboard is hidden... solve it :)
