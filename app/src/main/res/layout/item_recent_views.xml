@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
-        android:layout_width="130dp"
-        android:layout_height="match_parent"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="12dp"
@@ -20,7 +20,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/subAbb_TV"
@@ -42,11 +42,11 @@
                 android:id="@+id/branchAbb_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/segoe_ui_bold"
                 android:text="CSE"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/subAbb_TV"
                 app:layout_constraintTop_toTopOf="@+id/subAbb_TV" />
 
@@ -54,28 +54,28 @@
                 android:id="@+id/time_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
                 android:fontFamily="@font/segoe_ui"
                 android:text="10:10PM"
                 android:textColor="@color/colorGray_AAAAAA"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@+id/subAbb_TV"
                 app:layout_constraintStart_toStartOf="@+id/branchAbb_TV"
                 app:layout_constraintTop_toBottomOf="@+id/branchAbb_TV" />
 
             <TextView
                 android:id="@+id/subName_TV"
-                android:layout_width="110dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/josefin_sans_regular"
                 android:maxLines="1"
                 android:text="Computer Networks - 2"
                 android:textColor="@color/colorAppTheme"
                 android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="@+id/time_TV"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/subAbb_TV"
                 app:layout_constraintTop_toBottomOf="@+id/subAbb_TV" />
         </android.support.constraint.ConstraintLayout>

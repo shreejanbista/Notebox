@@ -4,21 +4,286 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhite_FFFFFF"
     tools:context=".Profile">
 
 
-    <Button
-        android:id="@+id/download_pdf"
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/comfortaa_bold"
+        android:text="Notebox"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:fontFamily="@font/comfortaa_bold"
+        android:text="Emma Watson"
+        android:textColor="@color/colorAppTheme"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/segoe_ui"
+        android:text="4.0"
+        android:textColor="@color/colorGray_AAAAAA"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/icon_profile_but_focused"
+        app:layout_constraintBottom_toBottomOf="@+id/textView8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/segoe_ui"
+        android:text="Nitte Meenakshi Institute of Technology"
+        android:textColor="@color/colorGray_AAAAAA"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageButton"
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/segoe_ui"
+        android:text="Bachelors in Engineering"
+        android:textColor="@color/colorGray_AAAAAA"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/branchName_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/segoe_ui"
+        android:text="Computer &amp; Science Engineering"
+        android:textColor="@color/colorGray_AAAAAA"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/branchName_TV">
+
+
+        <Button
+            android:id="@+id/button"
+            style="@style/profile_four_buttons"
+            android:layout_marginEnd="16dp"
+            android:drawableLeft="@drawable/icon_bookmark_red_border"
+            android:paddingLeft="10dp"
+            android:text="Bookmarks" />
+
+        <Button
+            android:id="@+id/button2"
+            style="@style/profile_four_buttons"
+            android:drawableLeft="@drawable/ic_history_black_24dp"
+            android:paddingLeft="10dp"
+            android:text="History" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <Button
+            android:id="@+id/button3"
+            style="@style/profile_four_buttons"
+            android:layout_marginEnd="16dp"
+            android:drawableLeft="@drawable/ic_file_upload_blue_24dp"
+            android:paddingLeft="10dp"
+            android:text="Uploads" />
+
+        <Button
+            android:id="@+id/button4"
+            style="@style/profile_four_buttons"
+            android:drawableLeft="@drawable/ic_file_download_green_24dp"
+
+            android:paddingLeft="10dp"
+            android:text="Downloads" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/textView15"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/textView11"
+            style="@style/profile_lower_four_buttons"
+            android:drawableLeft="@drawable/btn_rounded_corner"
+            android:text="Report and issue"
+            />
+
+        <Button
+            android:id="@+id/textView12"
+            style="@style/profile_lower_four_buttons"
+            android:text="Share this app"
+            android:drawableLeft="@drawable/ic_share_brown_24dp"/>
+
+        <Button
+            android:id="@+id/textView13"
+            style="@style/profile_lower_four_buttons"
+            android:text="Feedback"
+            android:drawableLeft="@drawable/ic_feedback_brown_24dp"/>
+
+        <Button
+            android:id="@+id/textView14"
+            style="@style/profile_lower_four_buttons"
+            android:text="About"
+            android:drawableLeft="@drawable/icon_profile_but_focused"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/comfortaa_bold"
+        android:text="Developed by"
+        android:textColor="@color/colorGray_AAAAAA"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView17"
+        app:layout_constraintEnd_toStartOf="@+id/textView17"
+        app:layout_constraintTop_toTopOf="@+id/textView17" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/comfortaa_bold"
+        android:text="Cipher Hub"
+        android:textColor="@color/colorAppTheme"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_br_radius_gray_medium"
+        android:padding="5dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_edit_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/branchName_TV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView9" />
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView16"
+        app:layout_constraintStart_toEndOf="@+id/textView16"
+        app:layout_constraintTop_toTopOf="@+id/textView16" />
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Download PDF"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="horizontal"
+        android:background="@drawable/btn_rounded_corner"
+        app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.839"
+        app:layout_constraintStart_toEndOf="@+id/ratingBar"
+        app:layout_constraintTop_toTopOf="@+id/ratingBar"
+        app:layout_constraintVertical_bias="1.0">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_file_upload_brown_24dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="31"
+            android:textSize="12sp"
+            android:fontFamily="@font/segoe_ui"
+            android:textColor="@color/colorGray_AAAAAA"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:rotation="90"
+            android:background="@android:color/darker_gray"/>
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
