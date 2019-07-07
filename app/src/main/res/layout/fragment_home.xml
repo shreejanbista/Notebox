@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite_FFFFFF"
@@ -47,11 +48,12 @@
 
         <ImageButton
             android:id="@+id/bookmark_IB"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_marginEnd="24dp"
             android:backgroundTint="@color/colorWhite_FFFFFF"
             android:contentDescription="@string/button_with_icon"
+            android:scaleType="centerCrop"
             android:src="@drawable/icon_bookmark_red_border"
             app:layout_constraintBottom_toBottomOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"

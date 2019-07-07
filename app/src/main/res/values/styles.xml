@@ -24,5 +24,28 @@
         <item name="android:textColor">@color/colorGray_AAAAAA</item>
         <item name="android:textSize">@dimen/btm_nav_but_text_size</item>
     </style>
-
+    <style name="profile_four_buttons">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/btn_rounded_corner</item>
+        <item name="android:fontFamily">@font/segoe_ui</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorGray_AAAAAA</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+    <style name="profile_lower_four_buttons">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:fontFamily">@font/segoe_ui</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textColor">@color/colorGray_AAAAAA</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
 </resources>

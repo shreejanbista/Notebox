@@ -1,13 +1,16 @@
 package in.cipherhub.notebox;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +20,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +35,7 @@ import java.util.List;
 import in.cipherhub.notebox.Adapters.AdapterHomeSubjects;
 import in.cipherhub.notebox.Adapters.AdapterRecentViews;
 import in.cipherhub.notebox.Models.DataHomeSubjectsItem;
+import in.cipherhub.notebox.Utils.Internet;
 
 public class Home extends Fragment implements View.OnClickListener {
 
@@ -35,7 +45,7 @@ public class Home extends Fragment implements View.OnClickListener {
     AdapterHomeSubjects homeSubjectAdapter;
     List<DataHomeSubjectsItem> homeSubjects;
 
-    private String TAG = "homeOX";
+    private String TAG = "homeOXET";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,7 +56,8 @@ public class Home extends Fragment implements View.OnClickListener {
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
 
-//        mAuth.signOut();
+        // TODO: remove below line after testing
+//         mAuth.signOut();
 
         final ConstraintLayout subjectsLayout_CL = rootView.findViewById(R.id.subjectsLayout_CL);
         final ConstraintLayout recentViewsLayout_CL = rootView.findViewById(R.id.recentViewsLayout_CL);
@@ -59,11 +70,28 @@ public class Home extends Fragment implements View.OnClickListener {
         ImageButton bookmark_IB = rootView.findViewById(R.id.bookmark_IB);
 
         if (user == null) {
-            homeSubjects_RV.setVisibility(View.GONE);
+            // No user registered
+//            homeSubjects_RV.setVisibility(View.GONE);
             subjectsSearch_ET.setFocusable(false);
             notSignedInTemplate_LL.setVisibility(View.VISIBLE);
         } else {
-            homeSubjects_RV.setVisibility(View.VISIBLE);
+            Boolean isUserDetailsAvailable = false;
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("users").document(user.getUid()).get(Source.CACHE)
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful() && task.getResult() != null)
+                                if (task.getResult().getData() != null)
+                                    if (String.valueOf(task.getResult().getData().get("institute")).length() > 0) {
+                                        Log.d(TAG, "details are available");
+                                    } else {
+                                        Log.d(TAG, "details are not available");
+                                    }
+                        }
+                    });
+//            homeSubjects_RV.setVisibility(View.VISIBLE);
+            Log.i(TAG, "ran");
             subjectsSearch_ET.setFocusable(true);
             notSignedInTemplate_LL.setVisibility(View.GONE);
         }
@@ -85,7 +113,7 @@ public class Home extends Fragment implements View.OnClickListener {
         subjectsSearch_ET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if(subjectsSearch_ET.isFocused()) {
+                if (subjectsSearch_ET.isFocused()) {
                     subjectsLayout_CL.animate().translationY(-recentViewsLayout_CL.getHeight()).setDuration(500);
                     searchIconInSearchBar_IB.setImageDrawable(getResources().getDrawable(R.drawable.icon_down_arrow));
                 } else {    // when click on background root Constraint Layout
@@ -135,7 +163,7 @@ public class Home extends Fragment implements View.OnClickListener {
         List<DataHomeSubjectsItem> filteredList = new ArrayList<>();
 
         for (DataHomeSubjectsItem s : homeSubjects) {
-        //new array list that will hold the filtered data
+            //new array list that will hold the filtered data
             //if the existing elements contains the search input
             if (s.subName.toLowerCase().contains(text.toLowerCase())) {
                 filteredList.add(s);
@@ -148,7 +176,13 @@ public class Home extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
 
     }
+
+    private void checkDataForUI() {
+        if (user == null) {
+
+        }
+
+    }
 }
 
 // TODO: recycler view heights stays short after keyboard is hidden... solve it :)
-// TODO: when letter length exceeds, use dots to end the sentence...
