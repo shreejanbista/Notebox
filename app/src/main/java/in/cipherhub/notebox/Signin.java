@@ -2,6 +2,7 @@ package in.cipherhub.notebox;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -30,6 +31,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.api.Distribution;
 import com.google.firebase.auth.AuthCredential;
@@ -37,15 +40,20 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import in.cipherhub.notebox.Utils.Internet;
+import io.grpc.okhttp.internal.Util;
 
 public class Signin extends Fragment implements View.OnClickListener {
 
     private String TAG = "SigninOXET";
     private int RC_SIGN_IN = 1000;
-    int currentPage = 0;
-    String[] template = new String[]{"email", "password", "fullName"};
 
     Button signin_B, googleSignin_B, changePage_B;
     ConstraintLayout templateParent_CL;
@@ -53,7 +61,10 @@ public class Signin extends Fragment implements View.OnClickListener {
     ImageButton closeBottomTemplate_IB;
     EditText email_ET, password_ET, fullName_ET;
     TextView email_TV, password_TV, fullName_TV;
+
     private FirebaseAuth mAuth;
+    FirebaseFirestore db;
+    FirebaseUser user = null;
     GoogleSignInClient mGoogleSignInClient;
 
     @Override
@@ -95,12 +106,19 @@ public class Signin extends Fragment implements View.OnClickListener {
         email_ET.setHint("e-mail");
         password_ET.setHint("password");
 
+        // TODO: remove below lines after testing
+        fullName_ET.setText("Arshdeep Singh");
+        email_ET.setText("gogl.arshdeep@gmail.com");
+        password_ET.setText("agjmptw1#");
+
         // set input type for EditText of email and password
         email_ET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
         password_ET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        // Access a Cloud Firestore instance from your Activity
+        db = FirebaseFirestore.getInstance();
 
         // For Google Signin
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -126,7 +144,7 @@ public class Signin extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.changePage_B:
-                if(changePage_B.getText().toString().toLowerCase().contains("login")){
+                if (changePage_B.getText().toString().toLowerCase().contains("login")) {
                     // change to login page // make fullName_L visibility GONE
 
                     fullName_L.setVisibility(View.GONE);
@@ -148,61 +166,76 @@ public class Signin extends Fragment implements View.OnClickListener {
                 email_ET.setText("");
                 password_ET.setText("");
 
-                if (haveNetworkConnection())
+                if (new Internet(getActivity()).isAvailable())
                     startActivityForResult(mGoogleSignInClient.getSignInIntent(), RC_SIGN_IN);
                 break;
 
             case R.id.signin_B:
                 // Go to next page
+                final String filledFullName = fullName_ET.getText().toString();
                 final String filledEmail = email_ET.getText().toString();
                 final String filledPassword = password_ET.getText().toString();
-                if (haveNetworkConnection())
+
+                if (new Internet(getActivity()).isAvailable())
+                    // have internet to use signup service
                     if (!TextUtils.isEmpty(filledEmail)
                             && android.util.Patterns.EMAIL_ADDRESS.matcher(filledEmail).matches()
                             && filledPassword.length() >= 8)
-                        mAuth.createUserWithEmailAndPassword(filledEmail, filledPassword)
-                                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if (task.isSuccessful()) {
-                                            // Sign in success, update UI with the signed-in user's information
-                                            Toast.makeText(getActivity(), "Signup Success!", Toast.LENGTH_SHORT).show();
-                                            ((MainActivity) getActivity()).removeBottomTemplate();
-                                        } else {
-                                            if (task.getException() != null)
-                                                try {
-                                                    if (task.getException().getMessage().contains("email address is already in use"))
-                                                        mAuth.signInWithEmailAndPassword(filledEmail, filledPassword)
-                                                                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                                                                    @Override
-                                                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                                                        if (task.isSuccessful()) {
-                                                                            // Sign in success, update UI with the signed-in user's information
-                                                                            Toast.makeText(getActivity(), "Login Success!", Toast.LENGTH_SHORT).show();
-                                                                            ((MainActivity) getActivity()).removeBottomTemplate();
-                                                                        } else {
-                                                                            // If sign in fails, display a message to the user.
-                                                                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                                                            Toast.makeText(getActivity(), "Authentication failed.",
-                                                                                    Toast.LENGTH_SHORT).show();
-                                                                        }
-                                                                    }
-                                                                });
-                                                } catch (Exception e) {
-                                                    Log.e(TAG, String.valueOf(e));
-                                                }
-                                            // If sign in fails, display a message to the user.
-                                            Toast.makeText(getActivity(), "Authentication failed.",
-                                                    Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-                    else if (filledPassword.length() < 8)
-                        Toast.makeText(getActivity(), "Password should be greater than '8' characters", Toast.LENGTH_SHORT).show();
-                    else
-                        Toast.makeText(getActivity(), "Invalid E-mail or Password!!", Toast.LENGTH_SHORT).show();
+                        // email and password are valid
+                        if (signin_B.getText().toString().startsWith("S"))
+                            // write code for Signup
+                            if (filledFullName.matches("[a-zA-z]+([ '-][a-zA-Z]+)*"))
+                                // Valid full name
+                                mAuth.createUserWithEmailAndPassword(filledEmail, filledPassword)
+                                        .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                if (task.isSuccessful()) {
+                                                    // Sign in success, update UI with the signed-in user's information
+                                                    Toast.makeText(getActivity(), "Signup Success!", Toast.LENGTH_SHORT).show();
 
-                break;
+                                                    updateAfterSignup(filledFullName);
+                                                } else {
+                                                    if (task.getException() != null)
+                                                        try {
+                                                            if (task.getException().getMessage().contains("email address is already in use"))
+                                                                Toast.makeText(getActivity(), "Signup Failed!\nUser E-mail already exists!", Toast.LENGTH_SHORT).show();
+                                                        } catch (Exception e) {
+                                                            Log.e(TAG, String.valueOf(e));
+                                                        }
+                                                    else
+                                                        // If sign in fails, display a message to the user.
+                                                        Toast.makeText(getActivity(), "Authentication failed.",
+                                                                Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                            else if (!filledFullName.matches("[a-zA-z]+([ '-][a-zA-Z]+)*"))
+                                Toast.makeText(getActivity(), "Invalid Full Name!", Toast.LENGTH_SHORT).show();
+                            else if (filledPassword.length() < 8)
+                                Toast.makeText(getActivity(), "Password should be greater than '8' characters", Toast.LENGTH_SHORT).show();
+                            else
+                                Toast.makeText(getActivity(), "Invalid E-mail or Password!!", Toast.LENGTH_SHORT).show();
+                        else
+                            // write code for Login
+                            mAuth.signInWithEmailAndPassword(filledEmail, filledPassword)
+                                    .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if (task.isSuccessful()) {
+                                                // Sign in success, update UI with the signed-in user's information
+                                                Toast.makeText(getActivity(), "Signin Success!", Toast.LENGTH_SHORT).show();
+                                                updateUI();
+                                            } else {
+                                                // If sign in fails, display a message to the user.
+                                                Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                                Toast.makeText(getActivity(), "Authentication failed.",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+
+                            break;
         }
     }
 
@@ -224,7 +257,7 @@ public class Signin extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+    private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
@@ -235,11 +268,10 @@ public class Signin extends Fragment implements View.OnClickListener {
                         if (task.isSuccessful()) {
                             // Sign in success!
                             Toast.makeText(getActivity(), "Google Signin Success!", Toast.LENGTH_SHORT).show();
+
+                            updateAfterSignup(acct.getDisplayName());
+
                             ((MainActivity) getActivity()).removeBottomTemplate();
-
-
-                            /* Uid is the ID mentioned next to every user in Firebase console
-                             * and we'll be using this ID as key to store user details in Database*/
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d(TAG, "signInWithCredential:failure", task.getException());
@@ -249,23 +281,34 @@ public class Signin extends Fragment implements View.OnClickListener {
                 });
     }
 
-    private boolean haveNetworkConnection() {
-        boolean haveConnectedWifi = false;
-        boolean haveConnectedMobile = false;
+    private void updateAfterSignup(final String fullName) {
+        user = mAuth.getCurrentUser();
+        Map<String, String> userDetails = new HashMap<>();
+        userDetails.put("full_name", fullName);
+        userDetails.put("branch", "");
+        userDetails.put("course", "");
+        userDetails.put("institute", "");
 
-        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-        for (NetworkInfo ni : netInfo) {
-            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-                if (ni.isConnected())
-                    haveConnectedWifi = true;
-            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (ni.isConnected())
-                    haveConnectedMobile = true;
-        }
-        if(!haveConnectedWifi && !haveConnectedMobile)
-            Snackbar.make(templateParent_CL, "No Internet Connection!", Snackbar.LENGTH_SHORT).show();
+        /* Uid is the ID mentioned next to every user in Firebase console Authentication section
+         * and this ID is used as key to store user details in Database section */
+        db.collection("users").document(user.getUid()).set(userDetails)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
 
-        return haveConnectedWifi || haveConnectedMobile;
+        updateUI();
+    }
+
+    private void updateUI(){
+        ((MainActivity) getActivity()).removeBottomTemplate();
     }
 }

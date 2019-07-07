@@ -148,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }, 500);
 
+        // to refresh the selected page // to remove current signin button
         customButtonRadioGroup(buttonClicked);
     }
 
