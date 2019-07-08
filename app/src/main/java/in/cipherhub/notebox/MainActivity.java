@@ -64,6 +64,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         customButtonRadioGroup(buttonClicked);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        getWindow().setStatusBarColor(getResources().getColor(R.color.colorWhite_FFFFFF));
+        bgBlurForBtmTemplate_V.setVisibility(View.GONE);
+        bgBlurForBtmTemplate_V.setClickable(false);
+//
+//        final View view = this.getCurrentFocus();
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                signinTemplateContainer_FL.animate().translationY(0).setDuration(0);
+//                signinTemplateContainer_FL.setVisibility(View.GONE);
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        getSupportFragmentManager().popBackStack();
+//                    }
+//                }, 100);
+//
+//                if (view != null) {
+//                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+//                }
+//            }
+//        }, 500);
+//
+//        // to refresh the selected page // to remove current signin button
+//        customButtonRadioGroup(buttonClicked);
+
+    }
+
     // Make all choices in Bottom Navigation Bar as unfocused
     public void applyInitButState(Button[] buttons) {
         for (Button button : buttons) {
@@ -109,11 +142,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bgBlurForBtmTemplate_V.setClickable(true);
 
         getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.slide_btm_entry, R.anim.slide_top_exit)
+                .setCustomAnimations(R.anim.slide_btm_entry, R.anim.slide_top_exit, R.anim.slide_btm_entry, R.anim.slide_top_exit)
                 .replace(R.id.signinTemplateContainer_FL, new Signin())
+                .addToBackStack(null)
                 .commit();
 
-        tintSystemBars(getWindow().getStatusBarColor(), getResources().getColor(R.color.colorGray_AAAAAA));
+        tintSystemBars(getWindow().getStatusBarColor(), getResources().getColor(R.color.colorGray_E0E0E0));
 
         bgBlurForBtmTemplate_V.setVisibility(View.VISIBLE);
         bgBlurForBtmTemplate_V.animate().alpha(0.12f).setDuration(500);
@@ -132,8 +166,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void run() {
                 bgBlurForBtmTemplate_V.setVisibility(View.GONE);
                 bgBlurForBtmTemplate_V.setClickable(false);
-                signinTemplateContainer_FL.setVisibility(View.GONE);
                 signinTemplateContainer_FL.animate().translationY(0).setDuration(0);
+                signinTemplateContainer_FL.setVisibility(View.GONE);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {

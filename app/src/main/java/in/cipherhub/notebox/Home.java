@@ -59,6 +59,9 @@ public class Home extends Fragment implements View.OnClickListener {
         // TODO: remove below line after testing
 //         mAuth.signOut();
 
+//        user.reload();
+//        Log.d(TAG, user.getEmail() + " " + user.isEmailVerified());
+
         final ConstraintLayout subjectsLayout_CL = rootView.findViewById(R.id.subjectsLayout_CL);
         final ConstraintLayout recentViewsLayout_CL = rootView.findViewById(R.id.recentViewsLayout_CL);
         final EditText subjectsSearch_ET = rootView.findViewById(R.id.subjectsSearch_ET);
