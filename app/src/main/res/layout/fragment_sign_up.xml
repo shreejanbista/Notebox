@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/colorWhite_FFFFFF"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".SignIn.SignUp">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6">
+
+        <TextView
+            android:id="@+id/email_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/segoe_ui"
+            android:text="E-mail"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/email_CV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="8dp"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/email_TV"
+            app:layout_constraintTop_toBottomOf="@+id/email_TV">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/email_V"
+                    android:layout_width="5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorGray_AAAAAA" />
+
+                <EditText
+                    android:id="@+id/email_ET"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:foregroundTint="#00DBBDBD"
+                    android:hint="@string/e_mail"
+                    android:inputType="textEmailAddress"
+                    android:paddingStart="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textColor="@color/colorAppTheme"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/password_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/segoe_ui"
+            android:text="Password"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/email_TV"
+            app:layout_constraintTop_toBottomOf="@+id/email_CV" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/password_CV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="8dp"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/password_TV"
+            app:layout_constraintTop_toBottomOf="@+id/password_TV">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/password_V"
+                    android:layout_width="5dp"
+                    android:layout_height="40dp"
+                    android:background="@color/colorGray_AAAAAA" />
+
+                <EditText
+                    android:id="@+id/password_ET"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:foregroundTint="#00DBBDBD"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:paddingStart="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorAppTheme"
+                    android:textSize="14sp"/>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/repeatPassword_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/segoe_ui"
+            android:text="@string/repeat_password"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/password_TV"
+            app:layout_constraintTop_toBottomOf="@id/password_CV" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/repeatPassword_CV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="8dp"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/repeatPassword_TV"
+            app:layout_constraintTop_toBottomOf="@+id/repeatPassword_TV">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/repeatPassword_V"
+                    android:layout_width="5dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorGray_AAAAAA" />
+
+                <EditText
+                    android:id="@+id/repeatPassword_ET"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@null"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:foregroundTint="#00DBBDBD"
+                    android:hint="repeat password"
+                    android:inputType="textPassword"
+                    android:paddingStart="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textColor="@color/colorAppTheme"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <Button
+            android:id="@+id/signUp_B"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bg_apptheme_pill_20"
+            android:fontFamily="@font/consolas_regular"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:text="Sign Up"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite_FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/repeatPassword_CV" />
+
+        <TextView
+            android:id="@+id/doNotHaveAnAccount_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/segoe_ui"
+            android:text="Already have an account?"
+            android:textColor="@color/colorGray_AAAAAA"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/signUp_B"
+            app:layout_constraintHorizontal_bias="0.87"
+            app:layout_constraintStart_toStartOf="@+id/signUp_B"
+            app:layout_constraintTop_toBottomOf="@+id/signUp_B"
+            app:layout_constraintVertical_bias="0.111" />
+
+        <TextView
+            android:id="@+id/logIn_TV"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/segoe_ui"
+            android:gravity="start|center_vertical"
+            android:text="LogIn"
+            android:textColor="@color/colorAppTheme"
+            app:layout_constraintBottom_toBottomOf="@+id/doNotHaveAnAccount_TV"
+            app:layout_constraintStart_toEndOf="@+id/doNotHaveAnAccount_TV"
+            app:layout_constraintTop_toTopOf="@+id/doNotHaveAnAccount_TV" />
+    </android.support.constraint.ConstraintLayout>
+</FrameLayout>

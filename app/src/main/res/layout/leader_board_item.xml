@@ -6,23 +6,14 @@
     android:layout_height="wrap_content">
 
 
-    <TextView
+    <ImageView
         android:id="@+id/subAbb_TV"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/bg_bigger_radius_gray"
-        android:fontFamily="@font/segoe_ui_bold"
-        android:gravity="center"
-        android:paddingBottom="3dp"
-        android:text="CN2"
-        android:textColor="@color/colorGray_878787"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@drawable/icon_profile_but_focused"/>
 
     <TextView
         android:id="@+id/subName_TV"
@@ -31,7 +22,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/segoe_ui"
-        android:text="Computer Networks - 2"
+        android:text="Emma Watson"
         android:textColor="@color/colorAppTheme"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/subAbb_TV"
@@ -43,25 +34,20 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:fontFamily="@font/josefin_sans_regular"
-        android:text="last update: 12 June, 2019"
+        android:text="NMIT.BE.CSE"
         android:textColor="@color/colorGray_AAAAAA"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="@+id/subAbb_TV"
         app:layout_constraintStart_toStartOf="@+id/subName_TV" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/subBookmark_IB"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:background="@android:color/transparent"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="@+id/lastUpdate_TV"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/subName_TV"
-        app:srcCompat="@drawable/icon_bookmark_gray_border" />
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/ic_file_upload_brown_24dp"
+        app:layout_constraintEnd_toStartOf="@+id/textView21"
+        tools:layout_editor_absoluteY="8dp" />
 
     <View
         android:layout_width="0dp"
@@ -73,4 +59,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/subAbb_TV"
         app:layout_constraintTop_toBottomOf="@+id/subAbb_TV" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:text="31"
+        app:layout_constraintBottom_toBottomOf="@+id/subBookmark_IB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/subBookmark_IB"
+        app:layout_constraintVertical_bias="1.0" />
 </android.support.constraint.ConstraintLayout>

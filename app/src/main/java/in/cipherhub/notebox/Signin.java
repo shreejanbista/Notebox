@@ -148,7 +148,7 @@ public class Signin extends Fragment implements View.OnClickListener {
                     // change to login page // make fullName_L visibility GONE
 
                     fullName_L.setVisibility(View.GONE);
-                    signin_B.setText("Login");
+                    signin_B.setText("LogIn");
 
                     changePage_B.setText("< Signup");
                 } else {
@@ -157,7 +157,7 @@ public class Signin extends Fragment implements View.OnClickListener {
                     fullName_L.setVisibility(View.VISIBLE);
                     signin_B.setText("Signup");
 
-                    changePage_B.setText("< Login");
+                    changePage_B.setText("< LogIn");
                 }
                 break;
 
@@ -194,6 +194,15 @@ public class Signin extends Fragment implements View.OnClickListener {
                                                     // Sign in success, update UI with the signed-in user's information
                                                     Toast.makeText(getActivity(), "Signup Success!", Toast.LENGTH_SHORT).show();
 
+                                                    mAuth.getCurrentUser().sendEmailVerification()
+                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if(task.isSuccessful()){
+                                                                Log.d(TAG, "sent email");
+                                                            }
+                                                        }
+                                                    });
                                                     updateAfterSignup(filledFullName);
                                                 } else {
                                                     if (task.getException() != null)
@@ -217,7 +226,7 @@ public class Signin extends Fragment implements View.OnClickListener {
                             else
                                 Toast.makeText(getActivity(), "Invalid E-mail or Password!!", Toast.LENGTH_SHORT).show();
                         else
-                            // write code for Login
+                            // write code for LogIn
                             mAuth.signInWithEmailAndPassword(filledEmail, filledPassword)
                                     .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                                         @Override
@@ -239,6 +248,7 @@ public class Signin extends Fragment implements View.OnClickListener {
         }
     }
 
+    // for google signin
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -257,6 +267,7 @@ public class Signin extends Fragment implements View.OnClickListener {
         }
     }
 
+    // for google signin
     private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
