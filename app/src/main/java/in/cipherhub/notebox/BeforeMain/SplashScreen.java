@@ -1,18 +1,15 @@
-package in.cipherhub.notebox;
+package in.cipherhub.notebox.BeforeMain;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -33,12 +30,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import org.w3c.dom.Text;
-
-import in.cipherhub.notebox.SignIn.EmailVerification;
-import in.cipherhub.notebox.SignIn.LogIn;
-import in.cipherhub.notebox.SignIn.SignUp;
-import in.cipherhub.notebox.Utils.EmailVerificationListener;
+import in.cipherhub.notebox.MainActivity;
+import in.cipherhub.notebox.R;
 import in.cipherhub.notebox.Utils.Internet;
 
 public class SplashScreen extends AppCompatActivity {
@@ -47,6 +40,7 @@ public class SplashScreen extends AppCompatActivity {
     private int RC_SIGN_IN = 1234;
 
     FirebaseUser user = null;
+    FirebaseAuth firebaseAuth;
     GoogleSignInClient mGoogleSignInClient;
 
     Button googleSignin_B;
@@ -60,10 +54,12 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+        // Hide the actionbar and set FULLSCREEN flag - for design
         getSupportActionBar().hide();
-
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        // instantiate views other then the one which are inside fragments
+        // those cannot be instantiated here
         googleSignin_B = findViewById(R.id.googleSignin_B);
         signInContainer_FL = findViewById(R.id.signInContainer_FL);
         finalLogo_IV = findViewById(R.id.finalLogo_IV);
@@ -72,16 +68,39 @@ public class SplashScreen extends AppCompatActivity {
         blueBg_v = findViewById(R.id.blueBg_V);
         whiteBg_V = findViewById(R.id.whiteBg_V);
 
-        user = FirebaseAuth.getInstance().getCurrentUser();
-//        FirebaseAuth.getInstance().signOut();
+        // Get the last user which signed in
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
 
-        // For Google Signin
+        // GoogleSignInOptions will mention what and all we need
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                // Specifies that an ID token for authenticated users is requested.
                 .requestIdToken(getString(R.string.default_web_client_id))
+                // Specifies that email info is requested by your application.
                 .requestEmail()
                 .build();
+
+        // GoogleSignInClient to return the user details requested
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
+        // if the user does not exist then fade out the white screen which is hiding login template
+        if (user == null) {
+            splashScreenCloseAnim(false);
+        }
+        // is user has registered but the email verification is pending
+        else if (user.isEmailVerified()) {
+            splashScreenCloseAnim(false);
+        }
+        // if user exists then don't fade out the white screen which is hiding the login template
+        // and by pass straight to Home Page
+        else {
+            splashScreenCloseAnim(true);
+        }
+
+        // set default fragment as Login fragment which will open if the user has not registered yet
+        changeFragment(new LogIn(), false);
+
+        // Google button which is lying outside every fragment
         googleSignin_B.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,67 +108,26 @@ public class SplashScreen extends AppCompatActivity {
                     startActivityForResult(mGoogleSignInClient.getSignInIntent(), RC_SIGN_IN);
             }
         });
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                blueBg_v.setTranslationX(getWindow().getDecorView().getWidth() >> 1);
-            }
-        }, 100);
-
-        if (user == null) {
-            // if user exists then let the visibility of login screen be 'GONE'
-
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    splashScreenCloseAnim(false);
-                }
-            }, 2000);
-        }
-
-
-        swapFragment(new LogIn(), false);
-    }
-    //    private void splashScreenOpenAnim() {
-//
-//        // Below animation takes total of 2100ms to complete
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                blueBg_v.animate().translationX(getWindow().getDecorView().getWidth() >> 1).setDuration(1000);
-//                cipherHub_TV.animate().alpha(1).setDuration(1000);
-//                by_TV.animate().alpha(1).setDuration(1000);
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        finalLogo_IV.animate().scaleX(1).setDuration(1000);
-//                        finalLogo_IV.animate().scaleY(1).setDuration(1000);
-//
-//                    }
-//                }, 1000);
-//            }
-//        }, 100);
-//    }
-
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
     }
 
 
-    // for google signin
+    // for google signin, when the the user chooses which email he/she wants to login from
+    // this function will have the desired result
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        // we can use onActivityResult for multiple purposes simultaneously so we mention REQUEST_CODE
+        // with every launch of an intent to flag the launch of an intent and get result of every
+        // intent here then write if condition with request code and use the result
+
+        // Result returned from launching the Intent for Google Signin
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-                // Google Sign In was successful, authenticate with Firebase
+                // Google Sign In was successful
                 GoogleSignInAccount account = task.getResult(ApiException.class);
+                // authenticate with Firebase
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
@@ -158,19 +136,23 @@ public class SplashScreen extends AppCompatActivity {
         }
     }
 
-    // for google signin
-    private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
+    // use Google credentials to signin with firebase authentication service
+    private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
+
+        // Every user has IdToken in Google signin and we can put that token into GoogleAuthProvider
+        // to get credentials necessary for firebase authentication
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        FirebaseAuth.getInstance().signInWithCredential(credential)
+
+        // not much info on how credential system works
+        firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success!
                             Toast.makeText(SplashScreen.this, "Google Signin Success!", Toast.LENGTH_SHORT).show();
-                            closeSignIn();
+                            doneWithSignIn();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d(TAG, "signInWithCredential:failure", task.getException());
@@ -180,8 +162,8 @@ public class SplashScreen extends AppCompatActivity {
                 });
     }
 
+
     private void splashScreenCloseAnim(final Boolean completeClose) {
-        // Below animation takes total of 2000ms to complete
 
         finalLogo_IV.animate().scaleX(0).setDuration(1000);
         finalLogo_IV.animate().scaleY(0).setDuration(1000);
@@ -190,36 +172,52 @@ public class SplashScreen extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                blueBg_v.animate().translationX(getWindow().getDecorView().getWidth()).setDuration(700);
+
+                // slide blue background to complete screen width
+                blueBg_v.animate().translationX(getWindow().getDecorView().getWidth() >> 1).setDuration(700);
+
+                // wait for above animation to end and little extra time for smooth feel
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        // if the complete close boolean is true then get directly to Home Page
                         if (completeClose) {
-                            closeSignIn();
+                            doneWithSignIn();
                         } else {
+                            // else show the status bar & fade out white bg which is used to cover the login page
+                            // while Login page is appearing
                             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                            whiteBg_V.animate().alpha(0).setDuration(500);
                         }
                     }
                 }, 1000);
             }
-        }, 1000);
+        }, 1200);
     }
 
-    public void closeSignIn(){
+
+    // when the signin is complete and we have the required information of the user
+    public void doneWithSignIn() {
+
         startActivity(new Intent(SplashScreen.this, MainActivity.class));
         overridePendingTransition(R.anim.fade_in, 0);
     }
 
-    public void swapFragment(Fragment fragment, Boolean addBackStack) {
-        if (!addBackStack)
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.signInContainer_FL, fragment)
-                    .commit();
-        else
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.signInContainer_FL, fragment)
-                    .addToBackStack(null)
-                    .commit();
+
+    // change fragment at every step of signin process
+    public void changeFragment(Fragment fragment, Boolean addBackStack) {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.signInContainer_FL, new FillDetails());
+
+        // other than login fragment all other template should have back button compatibility
+        if (addBackStack)
+            fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
+
 }
+
+

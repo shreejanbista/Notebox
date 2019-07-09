@@ -41,6 +41,12 @@
     <string name="forgot_password">Forgot Password?</string>
     <string name="full_name">full name</string>
     <string name="repeat_password">Repeat Password</string>
+    <string name="institute">Institute</string>
+    <string name="course">Course</string>
+    <string name="fill_details_message">As of now we have notes from NMIT Bachelors in Engineering course. Your details are fixed for those two fields. You can still change this info when your institute/details are updated.</string>
+    <string name="branch">Branch</string>
+    <string name="search_branch">search branch</string>
+    <string name="submit">Submit</string>
 
 
 </resources>

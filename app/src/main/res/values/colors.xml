@@ -14,9 +14,10 @@
     <color name="colorGray_878787">#878787</color>
     <color name="colorLightAppTheme">#2196F3</color>
     <color name="colorAppTheme">#1565C0</color>
+    <color name="colorFlorescent">#00B9BF</color>
     <color name="Applegreen">#4DE7B8</color>
 
-<!-- all the colors -->
+    <!-- all the colors -->
     <color name="ripple_color">#92B1BFCA</color>
     <color name="rating_color">#1565C0</color>
 

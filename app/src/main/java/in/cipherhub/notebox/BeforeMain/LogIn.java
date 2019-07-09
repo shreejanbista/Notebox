@@ -1,7 +1,5 @@
-package in.cipherhub.notebox.SignIn;
+package in.cipherhub.notebox.BeforeMain;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -23,7 +21,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import in.cipherhub.notebox.R;
-import in.cipherhub.notebox.SplashScreen;
 import in.cipherhub.notebox.Utils.Internet;
 
 public class LogIn extends Fragment implements View.OnClickListener {
@@ -101,11 +98,11 @@ public class LogIn extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.forgotPassword_TV:
-                ((SplashScreen) getActivity()).swapFragment(new ForgotPassword(), true);
+                ((SplashScreen) getActivity()).changeFragment(new ForgotPassword(), true);
                 break;
 
             case R.id.signUp_TV:
-                ((SplashScreen) getActivity()).swapFragment(new SignUp(), true);
+                ((SplashScreen) getActivity()).changeFragment(new SignUp(), true);
                 break;
 
             case R.id.logIn_B:
@@ -129,7 +126,7 @@ public class LogIn extends Fragment implements View.OnClickListener {
                                         if (task.isSuccessful()) {
                                             // Sign in success, update UI with the signed-in user's information
                                             Toast.makeText(getActivity(), "LogIn Success!", Toast.LENGTH_SHORT).show();
-                                            ((SplashScreen) getActivity()).closeSignIn();
+                                            ((SplashScreen) getActivity()).doneWithSignIn();
                                         } else {
                                             // If sign in fails, display a message to the user.
                                             if (task.getException() != null)

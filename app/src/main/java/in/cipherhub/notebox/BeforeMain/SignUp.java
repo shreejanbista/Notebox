@@ -1,7 +1,5 @@
-package in.cipherhub.notebox.SignIn;
+package in.cipherhub.notebox.BeforeMain;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -23,7 +21,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import in.cipherhub.notebox.R;
-import in.cipherhub.notebox.SplashScreen;
 import in.cipherhub.notebox.Utils.Internet;
 
 public class SignUp extends Fragment {
@@ -77,8 +74,7 @@ public class SignUp extends Fragment {
                                         if (task.isSuccessful()) {
                                             // Sign in success, update UI with the signed-in user's information
                                             Toast.makeText(getActivity(), "Signup Success!", Toast.LENGTH_SHORT).show();
-                                            ((SplashScreen)getActivity()).startRepeatingTask();
-                                            ((SplashScreen)getActivity()).swapFragment(new EmailVerification(), false);
+                                            ((SplashScreen)getActivity()).changeFragment(new EmailVerification(), false);
                                             FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification()
                                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                         @Override

@@ -1,7 +1,5 @@
-package in.cipherhub.notebox.SignIn;
+package in.cipherhub.notebox.BeforeMain;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -20,7 +18,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 import in.cipherhub.notebox.R;
-import in.cipherhub.notebox.SplashScreen;
 import in.cipherhub.notebox.Utils.Internet;
 
 public class ForgotPassword extends Fragment {
