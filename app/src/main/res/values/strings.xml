@@ -47,6 +47,7 @@
     <string name="branch">Branch</string>
     <string name="search_branch">search branch</string>
     <string name="submit">Submit</string>
+    <string name="acknowledgeEmailVerification">Your Email has been verified!</string>
 
 
 </resources>

@@ -44,8 +44,8 @@ public class EmailVerification extends Fragment {
             try {
                 user.reload();
                 if (user.isEmailVerified()) {
-                    Toast.makeText(getActivity(), "You email has been verified!", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getActivity(), MainActivity.class));
+                    Toast.makeText(getActivity(), "Your email has been verified!", Toast.LENGTH_SHORT).show();
+                    ((SplashScreen) getActivity()).changeFragment(new FillDetails(), false, false);
                 }
             } finally {
                 // 100% guarantee that this always happens, even if

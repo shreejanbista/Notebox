@@ -1,5 +1,6 @@
 package in.cipherhub.notebox.BeforeMain;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -19,9 +20,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import in.cipherhub.notebox.R;
 import in.cipherhub.notebox.Utils.Internet;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class LogIn extends Fragment implements View.OnClickListener {
 
@@ -31,6 +38,8 @@ public class LogIn extends Fragment implements View.OnClickListener {
     EditText email_ET, password_ET;
     TextView forgotPassword_TV, signUp_TV;
     View email_V, password_V;
+
+    FirebaseAuth firebaseAuth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +56,8 @@ public class LogIn extends Fragment implements View.OnClickListener {
         email_V = rootView.findViewById(R.id.email_V);
         password_V = rootView.findViewById(R.id.password_V);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
         logIn_B.setOnClickListener(this);
         forgotPassword_TV.setOnClickListener(this);
         signUp_TV.setOnClickListener(this);
@@ -59,7 +70,7 @@ public class LogIn extends Fragment implements View.OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!email_ET.getText().toString().equals(""))
+                if (!email_ET.getText().toString().equals(""))
                     email_V.setBackgroundColor(getResources().getColor(R.color.colorAppTheme));
                 else
                     email_V.setBackgroundColor(getResources().getColor(R.color.colorGray_AAAAAA));
@@ -79,7 +90,7 @@ public class LogIn extends Fragment implements View.OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!password_ET.getText().toString().equals(""))
+                if (!password_ET.getText().toString().equals(""))
                     password_V.setBackgroundColor(getResources().getColor(R.color.colorAppTheme));
                 else
                     password_V.setBackgroundColor(getResources().getColor(R.color.colorGray_AAAAAA));
@@ -98,11 +109,11 @@ public class LogIn extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.forgotPassword_TV:
-                ((SplashScreen) getActivity()).changeFragment(new ForgotPassword(), true);
+                ((SplashScreen) getActivity()).changeFragment(new ForgotPassword(), true, true);
                 break;
 
             case R.id.signUp_TV:
-                ((SplashScreen) getActivity()).changeFragment(new SignUp(), true);
+                ((SplashScreen) getActivity()).changeFragment(new SignUp(), true, true);
                 break;
 
             case R.id.logIn_B:
@@ -119,14 +130,17 @@ public class LogIn extends Fragment implements View.OnClickListener {
                             && filledPassword.length() >= 8)
                         // email address is valid and password is greater than 8-digits
 
-                        FirebaseAuth.getInstance().signInWithEmailAndPassword(filledEmail, filledPassword)
+                        firebaseAuth.signInWithEmailAndPassword(filledEmail, filledPassword)
                                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
                                             // Sign in success, update UI with the signed-in user's information
                                             Toast.makeText(getActivity(), "LogIn Success!", Toast.LENGTH_SHORT).show();
-                                            ((SplashScreen) getActivity()).doneWithSignIn();
+                                            ((SplashScreen) getActivity()).openHomePage();
+
+                                            // will store the user details to shared preferences
+                                            pullUserDetails();
                                         } else {
                                             // If sign in fails, display a message to the user.
                                             if (task.getException() != null)
@@ -151,5 +165,36 @@ public class LogIn extends Fragment implements View.OnClickListener {
                         Toast.makeText(getActivity(), "Invalid E-mail or Password!!", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    // will store the user details to shared preferences
+    public void pullUserDetails() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user", MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        DocumentReference documentReference = db.collection("users").document(user.getUid());
+
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        editor.putString("full_name", String.valueOf(document.getData().get("full_name")));
+                        editor.putString("institute", String.valueOf(document.getData().get("institute")));
+                        editor.putString("course", String.valueOf(document.getData().get("course")));
+                        editor.putString("branch", String.valueOf(document.getData().get("branch")));
+                        editor.apply();
+                    } else {
+                        Log.d(TAG, "User was logged but does not has user details entry!");
+                    }
+                } else {
+                    Log.d(TAG, "Failed to fetch user details with error: ", task.getException());
+                }
+            }
+        });
     }
 }

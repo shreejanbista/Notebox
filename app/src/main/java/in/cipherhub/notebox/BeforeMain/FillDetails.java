@@ -136,6 +136,9 @@ public class FillDetails extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // keeping the recycler view visible
+                instituteAndCourseHolder_LL.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
 
                 submit_B.setVisibility(View.GONE);
                 if (branch_ET.getText().toString().equals("")) {
