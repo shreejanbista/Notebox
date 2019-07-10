@@ -11,12 +11,12 @@ import android.widget.TextView;
 import java.util.List;
 
 import in.cipherhub.notebox.R;
-import in.cipherhub.notebox.Models.DataHomeSubjectsItem;
+import in.cipherhub.notebox.Models.ItemDataHomeSubjects;
 
 public class AdapterHomeSubjects extends RecyclerView.Adapter<AdapterHomeSubjects.homeSubjectsItemViewHolder> {
-    private List<DataHomeSubjectsItem> list;
+    private List<ItemDataHomeSubjects> list;
 
-    public AdapterHomeSubjects(List<DataHomeSubjectsItem> list) {
+    public AdapterHomeSubjects(List<ItemDataHomeSubjects> list) {
         this.list = list;
     }
 
@@ -37,7 +37,7 @@ public class AdapterHomeSubjects extends RecyclerView.Adapter<AdapterHomeSubject
         homeSubjectsItemViewHolder.lastUpdate_TV.setText(list.get(i).lastUpdate);
     }
 
-    public void filterList(List<DataHomeSubjectsItem> filteredList) {
+    public void filterList(List<ItemDataHomeSubjects> filteredList) {
         this.list = filteredList;
         notifyDataSetChanged();
     }

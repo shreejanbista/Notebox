@@ -1,11 +1,11 @@
 package in.cipherhub.notebox.Models;
 
-public class DataHomeSubjectsItem {
+public class ItemDataHomeSubjects {
 
     public String subAbb, subName, lastUpdate;
     public Boolean subBookmark;
 
-    public DataHomeSubjectsItem(String subAbb, String subName, String lastUpdate, Boolean subBookmark) {
+    public ItemDataHomeSubjects(String subAbb, String subName, String lastUpdate, Boolean subBookmark) {
         this.subAbb = subAbb;
         this.subName = subName;
         this.lastUpdate = lastUpdate;

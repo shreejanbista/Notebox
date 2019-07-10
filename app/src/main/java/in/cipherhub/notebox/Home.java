@@ -1,7 +1,6 @@
 package in.cipherhub.notebox;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -24,7 +23,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Source;
@@ -34,8 +32,7 @@ import java.util.List;
 
 import in.cipherhub.notebox.Adapters.AdapterHomeSubjects;
 import in.cipherhub.notebox.Adapters.AdapterRecentViews;
-import in.cipherhub.notebox.Models.DataHomeSubjectsItem;
-import in.cipherhub.notebox.Utils.Internet;
+import in.cipherhub.notebox.Models.ItemDataHomeSubjects;
 
 public class Home extends Fragment implements View.OnClickListener {
 
@@ -43,7 +40,7 @@ public class Home extends Fragment implements View.OnClickListener {
     private FirebaseUser user;
 
     AdapterHomeSubjects homeSubjectAdapter;
-    List<DataHomeSubjectsItem> homeSubjects;
+    List<ItemDataHomeSubjects> homeSubjects;
 
     private String TAG = "homeOXET";
 
@@ -58,6 +55,9 @@ public class Home extends Fragment implements View.OnClickListener {
 
         // TODO: remove below line after testing
 //         mAuth.signOut();
+
+//        user.reload();
+//        Log.d(TAG, user.getEmail() + " " + user.isEmailVerified());
 
         final ConstraintLayout subjectsLayout_CL = rootView.findViewById(R.id.subjectsLayout_CL);
         final ConstraintLayout recentViewsLayout_CL = rootView.findViewById(R.id.recentViewsLayout_CL);
@@ -160,9 +160,9 @@ public class Home extends Fragment implements View.OnClickListener {
     }
 
     private void filter(String text) {
-        List<DataHomeSubjectsItem> filteredList = new ArrayList<>();
+        List<ItemDataHomeSubjects> filteredList = new ArrayList<>();
 
-        for (DataHomeSubjectsItem s : homeSubjects) {
+        for (ItemDataHomeSubjects s : homeSubjects) {
             //new array list that will hold the filtered data
             //if the existing elements contains the search input
             if (s.subName.toLowerCase().contains(text.toLowerCase())) {
