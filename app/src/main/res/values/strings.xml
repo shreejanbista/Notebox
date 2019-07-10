@@ -5,7 +5,6 @@
     <string name="upload">Upload</string>
     <string name="profile">Profile</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home_for_you">Home for you</string>
     <string name="home_page">Home page</string>
@@ -13,4 +12,41 @@
     <string name="subjects">Subjects</string>
     <string name="search_subjects">Search subjects</string>
     <string name="recent_views">Recent views</string>
+
+
+    <string name="pdf_index">PdfRendererBasic (%1$d/%2$d)</string>
+    <string name="google">Google</string>
+    <string name="e_mail">e-mail</string>
+    <string name="password">password</string>
+    <string name="login">Login</string>
+    <string name="task_icon">task icon</string>
+    <string name="size_colon">Size:</string>
+    <string name="name_colon">Name:</string>
+    <string name="sample_file_name">sample_file_name</string>
+    <string name="size">size</string>
+    <string name="subject_name">subject name</string>
+    <string name="unit_colon">Unit:*</string>
+    <string name="teacher_slash_author_colon">Teacher / Author:</string>
+    <string name="subject_colon_asterisk">Subject:*</string>
+    <string name="details">Details</string>
+    <string name="teacher_or_author_s_name">teacher or author\'s name</string>
+    <string name="report_an_issue">Report an issue</string>
+    <string name="share_this_app">Share this app</string>
+    <string name="feedback">Feedback</string>
+    <string name="about">About</string>
+    <string name="developed_by">Developed by</string>
+    <string name="cipher_hub">Cipher Hub</string>
+    <string name="signin">Signin</string>
+    <string name="by">by</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="full_name">full name</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="institute">Institute</string>
+    <string name="course">Course</string>
+    <string name="fill_details_message">As of now we have notes from NMIT Bachelors in Engineering course. Your details are fixed for those two fields. You can still change this info when your institute/details are updated.</string>
+    <string name="branch">Branch</string>
+    <string name="search_branch">search branch</string>
+    <string name="submit">Submit</string>
+
+
 </resources>
