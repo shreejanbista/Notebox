@@ -1,11 +1,13 @@
 package in.cipherhub.notebox;
 
+import android.Manifest;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,9 +17,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import java.util.Objects;
+
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static String TAG = "MainActivityOXET";
+
+    private static final int STORAGE_PERM = 123;
 
     Button home_B, explore_B, upload_B, profile_B, buttonClicked;
     FrameLayout signinTemplateContainer_FL;
@@ -28,7 +37,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportActionBar().hide();
+        askPermission();
+
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         home_B = findViewById(R.id.home_B);
         explore_B = findViewById(R.id.explore_B);
@@ -55,6 +66,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonClicked = home_B;
         customButtonRadioGroup(buttonClicked);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @AfterPermissionGranted(STORAGE_PERM)
+    private void askPermission() {
+        String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (EasyPermissions.hasPermissions(this, perms)) {
+
+            Log.i(TAG, "Permission Granted");
+
+        } else {
+            // Do not have permissions, request them
+            EasyPermissions.requestPermissions(this, "This app requires storage permission to function properly.",
+                    STORAGE_PERM, perms);
+        }
+    }
+
 
     @Override
     public void onClick(View view) {
