@@ -45,6 +45,8 @@ import in.cipherhub.notebox.Models.ItemDataBranchSelector;
 import in.cipherhub.notebox.Models.ItemDataHomeSubjects;
 import in.cipherhub.notebox.R;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class FillDetails extends Fragment {
 
     private String TAG = "FillDetailsOXET";
@@ -119,7 +121,7 @@ public class FillDetails extends Fragment {
                 submit_B.setVisibility(View.VISIBLE);
                 View view = getActivity().getCurrentFocus();
                 if (view != null) {
-                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
             }
@@ -191,27 +193,44 @@ public class FillDetails extends Fragment {
                 String filledBranchName = branch_ET.getText().toString();
 
                 if (filledFullName.matches("[a-zA-z]+([ '-][a-zA-Z]+)*")) {
-                    Map<String, Object> city = new HashMap<>();
-                    city.put("name", filledFullName);
-                    city.put("institute", "Nitte Meenakshi Institute of Technology");
-                    city.put("course", "Bachelors in Engineering");
-                    city.put("branch", filledBranchName);
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user", MODE_PRIVATE);
+                    final SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                    db.collection("users").document(user.getUid())
-                            .set(city)
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                    final Map<String, Object> userDetails = new HashMap<>();
+
+                    final String[] userDetailsKeys = new String[]{"full_name", "institute", "course", "branch"};
+                    final String[] userDetailsValues = new String[]{
+                            filledFullName
+                            , "Nitte Meenakshi Institute of Technology"
+                            , "Bachelors in Engineering"
+                            , filledBranchName
+                    };
+
+                    for (int i = 0; i < userDetailsKeys.length; i++) {
+                        userDetails.put(userDetailsKeys[i], userDetailsValues[i]);
+                    }
+
+                    DocumentReference documentReference = db.collection("users").document(user.getUid());
+
+                    documentReference.update(userDetails)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    Toast.makeText(getActivity()
+                                            , "Your Details has been registered for you better experience with Notebox!"
+                                            , Toast.LENGTH_SHORT).show();
 
-                                    SharedPreferences preferences = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = preferences.edit();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error writing document", e);
+
+                                    for (int i = 0; i < userDetailsKeys.length; i++) {
+                                        editor.putString(userDetailsKeys[i], userDetailsValues[i]);
+                                    }
+                                    editor.apply();
+
+                                    ((SplashScreen) getActivity()).openHomePage();
                                 }
                             });
                 } else {
