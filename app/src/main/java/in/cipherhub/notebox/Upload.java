@@ -9,12 +9,16 @@ import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,9 +32,15 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+
+import in.cipherhub.notebox.Adapters.AdapterSubjectLists;
+import in.cipherhub.notebox.Models.ItemDataBranchSelector;
+import in.cipherhub.notebox.Models.ItemSubjectsModel;
 
 public class Upload extends Fragment implements View.OnClickListener {
 
@@ -40,7 +50,7 @@ public class Upload extends Fragment implements View.OnClickListener {
     Button selectPDF_B, upload_button, unitOne_B, unitTwo_B, unitThree_B, unitFour_B, unitFive_B;
     Button[] allButtons;
 
-    EditText subjectName_ET;
+    AutoCompleteTextView subjectName_ET;
     ConstraintLayout signin_CL;
     TextView pdfName_TV, pdfSize_TV;
 
@@ -54,6 +64,10 @@ public class Upload extends Fragment implements View.OnClickListener {
     String userInstitute = "Nitte Meenakshi Institute of Technology";
     String userCourse = "Bachelors in Engineering";
     String userBranch = "Computer Science and Engineering";
+
+    String[] subjectLists, subjectListsShort;
+
+    RecyclerView recyclerView;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -81,7 +95,15 @@ public class Upload extends Fragment implements View.OnClickListener {
         signin_CL = rootView.findViewById(R.id.signin_CL);
         pdfName_TV = rootView.findViewById(R.id.pdfName_TV);
         pdfSize_TV = rootView.findViewById(R.id.pdfSize_TV);
-        subjectName_ET = rootView.findViewById(R.id.subjectName_ET);
+        subjectName_ET = rootView.findViewById(R.id.subjectName);
+
+//        recyclerView = rootView.findViewById(R.id.subjectSelectorList_RV);
+
+        subjectLists = getResources().getStringArray(R.array.full_cse_subject);
+        subjectListsShort = getResources().getStringArray(R.array.cse_subject);
+
+
+        subjectName_ET.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_expandable_list_item_1, subjectLists));
 
         selectPDF_B.setOnClickListener(this);
         upload_button.setOnClickListener(this);
@@ -243,17 +265,40 @@ public class Upload extends Fragment implements View.OnClickListener {
         }
     }
 
-    public String generateAbbreviation(String fullForm) {
-        StringBuilder abbreviation = new StringBuilder();
 
-        for (int i = 0; i < fullForm.length(); i++) {
-            char temp = fullForm.charAt(i);
-            abbreviation.append(Character.isUpperCase(temp) ? temp : "");
-        }
-        return abbreviation.toString();
-    }
 
     public void setFileName() {
+
+//        subjectName_ET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean b) {
+//                if (subjectName_ET.isFocused()) {
+//                    recyclerView.setVisibility(View.VISIBLE);
+//                } else {
+//                    recyclerView.setVisibility(View.GONE);
+//                }
+//            }
+//        });
+//
+//        final List<ItemSubjectsModel> list = new ArrayList<>();
+//
+//        for (int i = 0; i <subjectLists.length; i++) {
+//            list.add(new ItemSubjectsModel(subjectLists[i], subjectListsShort[i]));
+//        }
+//
+//        final AdapterSubjectLists adapterSubjectLists = new AdapterSubjectLists(list);
+//
+//        adapterSubjectLists.setOnItemClickListener(new AdapterSubjectLists.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(int position) {
+//                subjectName_ET.setText(list.get(position).getSubjectName());
+//                recyclerView.setVisibility(View.GONE);
+//
+//            }
+//        });
+//
+//        recyclerView.setAdapter(adapterSubjectLists);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         subjectName_ET.addTextChangedListener(new TextWatcher() {
             @Override
@@ -263,20 +308,32 @@ public class Upload extends Fragment implements View.OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.i(TAG,"Before text change");
+//                recyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable editable) {
                 Log.i(TAG,"After text change");
-                pdfName_TV.setText(String.format("%s_%s.pdf", subjectName_ET.getText(), generateAbbreviation(userInstitute)));
+
+//                List<ItemSubjectsModel> filteredList = new ArrayList<>();
+//
+//                for (ItemSubjectsModel s : list) {
+//                    //new array list that will hold the filtered data
+//                    //if the existing elements contains the search input
+//                    if (s.getSubjectName().toLowerCase().contains(subjectName_ET.getText().toString().toLowerCase())) {
+//                        filteredList.add(s);
+//                    }
+//                }
+//                adapterSubjectLists.filterList(filteredList);
+
+                pdfName_TV.setText(String.format("%s_%s.pdf", generateAbbreviation(subjectName_ET.getText().toString()), generateAbbreviation(userInstitute)));
             }
         });
     }
 
     public void setFileName(final Button btn) {
         pdfName_TV.setText(String.format("U%s_%s_%s.pdf", btn.getText().toString(),
-                subjectName_ET.getText(), generateAbbreviation(userInstitute)));
+                generateAbbreviation(subjectName_ET.getText().toString()), generateAbbreviation(userInstitute)));
     }
 
 
@@ -301,5 +358,15 @@ public class Upload extends Fragment implements View.OnClickListener {
             }
         }
         return result;
+    }
+
+    public String generateAbbreviation(String fullForm) {
+        StringBuilder abbreviation = new StringBuilder();
+
+        for (int i = 0; i < fullForm.length(); i++) {
+            char temp = fullForm.charAt(i);
+            abbreviation.append(Character.isUpperCase(temp) ? temp : "");
+        }
+        return abbreviation.toString();
     }
 }
