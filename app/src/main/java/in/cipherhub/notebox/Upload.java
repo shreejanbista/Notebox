@@ -187,7 +187,6 @@ public class Upload extends Fragment implements View.OnClickListener {
                 // percentage in progress dialog
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                 progressDialog.setMessage("File: " + pdfName_TV.getText().toString() + "\n" + "Uploaded " + ((int) progress) + "%");
-
             }
         });
 

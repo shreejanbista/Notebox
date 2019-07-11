@@ -98,7 +98,6 @@ public class SplashScreen extends AppCompatActivity {
 
         // user has not logged in
         if (user == null) {
-            splashScreenCloseAnim(false);
             changeFragment(new LogIn(), false, true);
         }
         // user has already logged in
@@ -107,16 +106,12 @@ public class SplashScreen extends AppCompatActivity {
             if (!user.isEmailVerified())
                 changeFragment(new EmailVerification(), false, true);
             // if e-mail is verified
+            else if(!isUserDetailsFilled())
+                changeFragment(new FillDetails(), false, false);
             else
-                if(isUserDetailsFilled())
-                    changeFragment(new FillDetails(), false, false);
-
-            splashScreenCloseAnim(false);
-            changeFragment(new LogIn(), false, true);
+                openHomePage();
         }
-
-        // set default fragment as Login fragment which will open if the user has not registered yet
-        changeFragment(new LogIn(), false, true);
+        splashScreenCloseAnim(false);
 
         // Google button which is lying outside every fragment
         googleSignin_B.setOnClickListener(new View.OnClickListener() {
