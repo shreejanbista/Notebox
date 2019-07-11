@@ -10,10 +10,11 @@
         android:id="@+id/subAbb_TV"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/icon_profile_but_focused"/>
+        android:background="@drawable/icon_profile_but_unfocused"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/subName_TV"
@@ -44,10 +45,11 @@
         android:id="@+id/subBookmark_IB"
         android:layout_width="20dp"
         android:layout_height="20dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/ic_file_upload_brown_24dp"
         app:layout_constraintEnd_toStartOf="@+id/textView21"
-        tools:layout_editor_absoluteY="8dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:layout_width="0dp"

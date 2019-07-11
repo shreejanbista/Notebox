@@ -46,31 +46,45 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/search_CL"
         android:layout_width="match_parent"
-        android:layout_height="149dp"
+        android:layout_height="50dp"
         android:layout_marginTop="8dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginLeft="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/explore_CL">
 
-        <EditText
-            android:id="@+id/subjectsSearch_ET"
-            android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="22dp"
-            android:layout_marginEnd="22dp"
-            android:background="@drawable/bg_radius_gray"
-            android:ems="10"
-            android:hint="Search Institutes"
-            android:inputType="textPersonName"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
-            android:textColor="@color/colorGray_999999"
-            android:textColorHint="@color/colorGray_AAAAAA"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/search_V"
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:background="@color/colorGray_AAAAAA" />
+
+            <EditText
+                android:id="@+id/search_ET"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@null"
+                android:ellipsize="end"
+                android:fontFamily="@font/comfortaa_bold"
+                android:foregroundTint="#00DBBDBD"
+                android:gravity="start|center_vertical"
+                android:hint="Search Institue"
+                android:maxLines="1"
+                android:paddingStart="20dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="5dp"
+                android:textColor="@color/colorAppTheme"
+                android:textSize="14sp" />
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/searchIconInSearchBar_IB"
@@ -84,60 +98,8 @@
             android:focusableInTouchMode="true"
             android:src="@drawable/icon_search"
             app:layout_constraintBottom_toBottomOf="@+id/subjectsSearch_ET"
-            app:layout_constraintEnd_toEndOf="@+id/subjectsSearch_ET"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout4"
             app:layout_constraintTop_toTopOf="@+id/subjectsSearch_ET" />
-
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/subjectsSearch_ET">
-
-
-            <Button
-                android:id="@+id/button_institutes"
-                style="@style/explore_four_buttons"
-                android:layout_marginEnd="16dp"
-                android:text="Institutes" />
-
-            <Button
-                android:id="@+id/button_courses"
-                style="@style/explore_four_buttons"
-                android:text="Courses" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
-
-            <Button
-                android:id="@+id/button_branches"
-                style="@style/explore_four_buttons"
-                android:layout_marginEnd="16dp"
-                android:text="Branches" />
-
-            <Button
-                android:id="@+id/button_subjects"
-                style="@style/explore_four_buttons"
-                android:text="Subjects" />
-        </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
 
