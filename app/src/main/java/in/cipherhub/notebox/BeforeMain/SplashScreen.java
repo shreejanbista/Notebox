@@ -1,8 +1,10 @@
 package in.cipherhub.notebox.BeforeMain;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -23,12 +25,20 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import in.cipherhub.notebox.MainActivity;
 import in.cipherhub.notebox.R;
@@ -44,6 +54,7 @@ public class SplashScreen extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
 
     Button googleSignin_B;
+    ConstraintLayout googleSignIn_CL;
     FrameLayout signInContainer_FL;
     ImageView finalLogo_IV;
     TextView cipherHub_TV, by_TV;
@@ -61,6 +72,7 @@ public class SplashScreen extends AppCompatActivity {
         // instantiate views other then the one which are inside fragments
         // those cannot be instantiated here
         googleSignin_B = findViewById(R.id.googleSignin_B);
+        googleSignIn_CL = findViewById(R.id.googleSignIn_CL);
         signInContainer_FL = findViewById(R.id.signInContainer_FL);
         finalLogo_IV = findViewById(R.id.finalLogo_IV);
         cipherHub_TV = findViewById(R.id.cipherHub_TV);
@@ -72,6 +84,7 @@ public class SplashScreen extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
 
+//        firebaseAuth.signOut();
         // GoogleSignInOptions will mention what and all we need
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 // Specifies that an ID token for authenticated users is requested.
@@ -83,22 +96,22 @@ public class SplashScreen extends AppCompatActivity {
         // GoogleSignInClient to return the user details requested
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        // if the user does not exist then fade out the white screen which is hiding login template
+        // user has not logged in
         if (user == null) {
-            splashScreenCloseAnim(false);
+            changeFragment(new LogIn(), false, true);
         }
-        // is user has registered but the email verification is pending
-        else if (user.isEmailVerified()) {
-            splashScreenCloseAnim(false);
-        }
-        // if user exists then don't fade out the white screen which is hiding the login template
-        // and by pass straight to Home Page
+        // user has already logged in
         else {
-            splashScreenCloseAnim(true);
+            // if user has sent an email to receive an e-mail Id
+            if (!user.isEmailVerified())
+                changeFragment(new EmailVerification(), false, true);
+            // if e-mail is verified
+            else if(!isUserDetailsFilled())
+                changeFragment(new FillDetails(), false, false);
+            else
+                openHomePage();
         }
-
-        // set default fragment as Login fragment which will open if the user has not registered yet
-        changeFragment(new LogIn(), false);
+        splashScreenCloseAnim(false);
 
         // Google button which is lying outside every fragment
         googleSignin_B.setOnClickListener(new View.OnClickListener() {
@@ -152,7 +165,63 @@ public class SplashScreen extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success!
                             Toast.makeText(SplashScreen.this, "Google Signin Success!", Toast.LENGTH_SHORT).show();
-                            doneWithSignIn();
+
+                            FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
+                            firebaseFirestore.collection("users").document(user.getUid())
+                                    .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                @Override
+                                public void onSuccess(DocumentSnapshot document) {
+                                    if(document.exists()){
+                                        // fetch the details available in the user db
+                                        SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
+                                        final SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                        String[] userDetailKeys = new String[]{"full_name", "institute", "course", "branch"};
+
+                                        for (String userDetailKey : userDetailKeys){
+                                            editor.putString(userDetailKey, String.valueOf(document.getData().get(userDetailKey)));
+                                        }
+
+                                        editor.apply();
+                                    } else {
+                                        // init User db
+                                        SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
+                                        final SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                                        Map<String, Object> userDetails = new HashMap<>();
+
+                                        String[] keyNames = new String[]{"full_name", "institute", "course", "branch"};
+
+                                        for(String key : keyNames) {
+                                            userDetails.put(key, "_");
+                                            editor.putString(key, "_");
+                                        }
+
+                                        DocumentReference documentReference = db.collection("users").document(user.getUid());
+
+                                        documentReference.set(userDetails)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        editor.apply();
+                                                        Log.d(TAG, "Successfully initiated user details");
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.w(TAG, "Failed to initiate user details: ", e);
+                                                    }
+                                                });
+
+                                        changeFragment(new FillDetails(), false, false);
+                                    }
+                                }
+                            });
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d(TAG, "signInWithCredential:failure", task.getException());
@@ -182,7 +251,7 @@ public class SplashScreen extends AppCompatActivity {
                     public void run() {
                         // if the complete close boolean is true then get directly to Home Page
                         if (completeClose) {
-                            doneWithSignIn();
+                            openHomePage();
                         } else {
                             // else show the status bar & fade out white bg which is used to cover the login page
                             // while Login page is appearing
@@ -197,7 +266,7 @@ public class SplashScreen extends AppCompatActivity {
 
 
     // when the signin is complete and we have the required information of the user
-    public void doneWithSignIn() {
+    public void openHomePage() {
 
         startActivity(new Intent(SplashScreen.this, MainActivity.class));
         overridePendingTransition(R.anim.fade_in, 0);
@@ -205,19 +274,35 @@ public class SplashScreen extends AppCompatActivity {
 
 
     // change fragment at every step of signin process
-    public void changeFragment(Fragment fragment, Boolean addBackStack) {
+    public void changeFragment(Fragment fragment, Boolean addBackStack, Boolean keepGoogleSignInButton) {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.signInContainer_FL, new FillDetails());
+        fragmentTransaction.replace(R.id.signInContainer_FL, fragment);
 
         // other than login fragment all other template should have back button compatibility
-        if (addBackStack)
+        if (addBackStack) {
             fragmentTransaction.addToBackStack(null);
+        } else {
+            fragmentManager.popBackStack();
+        }
         fragmentTransaction.commit();
+
+        if (keepGoogleSignInButton) {
+            googleSignIn_CL.setVisibility(View.VISIBLE);
+        } else {
+            googleSignIn_CL.setVisibility(View.GONE);
+        }
     }
 
 
+    public boolean isUserDetailsFilled(){
+        SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
+
+        String pulledUserInstitute = sharedPreferences.getString("institute", "_");
+
+        return !pulledUserInstitute.equals("_");
+    }
 }
 
 
