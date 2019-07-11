@@ -184,6 +184,8 @@ public class SplashScreen extends AppCompatActivity {
                                         }
 
                                         editor.apply();
+
+                                        openHomePage();
                                     } else {
                                         // init User db
                                         SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
