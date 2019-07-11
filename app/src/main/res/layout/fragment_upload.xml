@@ -54,7 +54,7 @@
             android:fontFamily="@font/consolas_regular"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:text="Select PDF"
+            android:text="@string/select_pdf"
             android:textAllCaps="false"
             android:textColor="@color/colorAppTheme"
             android:textSize="13sp"
@@ -256,7 +256,8 @@
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textView_subject"
-                app:layout_constraintTop_toBottomOf="@+id/textView_subject" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_subject"
+                tools:ignore="Autofill" />
 
             <TextView
                 android:id="@+id/textView_unit"
@@ -281,6 +282,29 @@
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/textView_unit"
                 app:layout_constraintTop_toBottomOf="@+id/unitFour_B" />
+
+            <Button
+                android:id="@+id/upload_button"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_apptheme_pill_20"
+                android:backgroundTint="@color/colorWhite_FFFFFF"
+                android:fontFamily="@font/consolas_regular"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:text="@string/upload_pdf"
+                android:textAllCaps="false"
+                android:textColor="@color/colorAppTheme"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/teacherName_ET" />
+
+
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

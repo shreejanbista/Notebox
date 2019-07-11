@@ -1,5 +1,6 @@
 package in.cipherhub.notebox.BeforeMain;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -16,12 +17,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import in.cipherhub.notebox.R;
 import in.cipherhub.notebox.Utils.Internet;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class SignUp extends Fragment {
 
@@ -32,11 +44,12 @@ public class SignUp extends Fragment {
     TextView logIn_TV;
     View email_V, password_V, repeatPassword_V;
 
+    FirebaseAuth firebaseAuth;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        //
         View rootView = inflater.inflate(R.layout.fragment_sign_up, container, false);
 
         signUp_B = rootView.findViewById(R.id.signUp_B);
@@ -48,9 +61,7 @@ public class SignUp extends Fragment {
         password_V = rootView.findViewById(R.id.password_V);
         repeatPassword_V = rootView.findViewById(R.id.repeatPassword_V);
 
-        email_ET.setText("gogl.arshdeep@gmail.com");
-        password_ET.setText("agjmptw1#");
-        repeatPassword_ET.setText("agjmptw1#");
+        firebaseAuth = FirebaseAuth.getInstance();
 
         signUp_B.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +85,8 @@ public class SignUp extends Fragment {
                                         if (task.isSuccessful()) {
                                             // Sign in success, update UI with the signed-in user's information
                                             Toast.makeText(getActivity(), "Signup Success!", Toast.LENGTH_SHORT).show();
-                                            ((SplashScreen)getActivity()).changeFragment(new EmailVerification(), false);
+                                            ((SplashScreen) getActivity()).changeFragment(new EmailVerification(), false, false);
+                                            initUserDetails();
                                             FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification()
                                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                         @Override
@@ -123,7 +135,7 @@ public class SignUp extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!email_ET.getText().toString().equals(""))
+                if (!email_ET.getText().toString().equals(""))
                     email_V.setBackgroundColor(getResources().getColor(R.color.colorAppTheme));
                 else
                     email_V.setBackgroundColor(getResources().getColor(R.color.colorGray_AAAAAA));
@@ -143,14 +155,15 @@ public class SignUp extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!password_ET.getText().toString().equals(""))
-                    password_V.setBackgroundColor(getResources().getColor(R.color.colorAppTheme));
-                else
+                if (password_ET.getText().toString().equals("")) {
                     password_V.setBackgroundColor(getResources().getColor(R.color.colorGray_AAAAAA));
-                if(password_ET.getText().toString().equals(repeatPassword_ET.getText().toString()))
-                    repeatPassword_V.setBackgroundColor(getResources().getColor(R.color.google_green));
-                else
-                    repeatPassword_V.setBackgroundColor(getResources().getColor(R.color.colorGray_AAAAAA));
+                } else {
+                    if (password_ET.getText().toString().equals(repeatPassword_ET.getText().toString())) {
+                        repeatPassword_V.setBackgroundColor(getResources().getColor(R.color.google_green));
+                    } else {
+                        password_V.setBackgroundColor(getResources().getColor(R.color.colorAppTheme));
+                    }
+                }
             }
 
             @Override
@@ -167,14 +180,14 @@ public class SignUp extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!repeatPassword_ET.getText().toString().equals(""))
-                    repeatPassword_V.setBackgroundColor(getResources().getColor(R.color.colorAppTheme));
-                else
+                if (repeatPassword_ET.getText().toString().equals("")) {
                     repeatPassword_V.setBackgroundColor(getResources().getColor(R.color.colorGray_AAAAAA));
-                if(password_ET.getText().toString().equals(repeatPassword_ET.getText().toString()))
-                    repeatPassword_V.setBackgroundColor(getResources().getColor(R.color.google_green));
-                else
-                    repeatPassword_V.setBackgroundColor(getResources().getColor(R.color.colorGray_AAAAAA));
+                } else {
+                    if (repeatPassword_ET.getText().toString().equals(password_ET.getText().toString()))
+                        repeatPassword_V.setBackgroundColor(getResources().getColor(R.color.google_green));
+                    else
+                        repeatPassword_V.setBackgroundColor(getResources().getColor(R.color.colorAppTheme));
+                }
 
             }
 
@@ -185,5 +198,39 @@ public class SignUp extends Fragment {
         });
 
         return rootView;
+    }
+
+    public void initUserDetails() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("user", MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        Map<String, Object> userDetails = new HashMap<>();
+
+        String[] keyNames = new String[]{"full_name", "institute", "course", "branch"};
+
+        for(String key : keyNames) {
+            userDetails.put(key, "_");
+            editor.putString(key, "_");
+        }
+
+        DocumentReference documentReference = db.collection("users").document(user.getUid());
+
+        documentReference.set(userDetails)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        editor.apply();
+                        Log.d(TAG, "Successfully initiated user details");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Failed to initiate user details: ", e);
+                    }
+                });
     }
 }
