@@ -2,12 +2,12 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/itemSubjectSelector_CL">
 
     <TextView
-        android:id="@+id/cn2_text_view"
+        android:id="@+id/lrg_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -17,17 +17,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/cn2_short_text_view"
+        android:id="@+id/short_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
         android:fontFamily="@font/consolas_regular"
         android:text="CN2"
-        android:textSize="10sp"
+        android:textSize="12sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/cn2_text_view"
+        app:layout_constraintEnd_toEndOf="@+id/lrg_text_view"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/cn2_text_view"
-        app:layout_constraintTop_toBottomOf="@+id/cn2_text_view" />
+        app:layout_constraintStart_toStartOf="@+id/lrg_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/lrg_text_view" />
 
     <View
         android:id="@+id/line_view"
@@ -38,5 +39,5 @@
         android:background="@color/colorGray_AAAAAA"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cn2_short_text_view" />
+        app:layout_constraintTop_toBottomOf="@+id/short_text_view" />
 </android.support.constraint.ConstraintLayout>

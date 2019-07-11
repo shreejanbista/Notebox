@@ -152,6 +152,7 @@ public class FillDetails extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
+
                 List<ItemDataBranchSelector> filteredList = new ArrayList<>();
 
                 for (ItemDataBranchSelector s : list) {
