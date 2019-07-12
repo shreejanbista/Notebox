@@ -281,6 +281,13 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
+            android:id="@+id/signOut_btn"
+            style="@style/profile_lower_four_buttons"
+            android:drawableStart="@drawable/ic_gray_report_an_issue"
+            android:drawablePadding="10dp"
+            android:text="@string/log_out" />
+
+        <Button
             android:id="@+id/textView11"
             style="@style/profile_lower_four_buttons"
             android:drawableStart="@drawable/ic_gray_report_an_issue"

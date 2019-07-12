@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -31,6 +32,10 @@ public class Profile extends Fragment implements View.OnClickListener {
 
     String TAG = "ProfileOX";
 
+    FirebaseAuth auth;
+
+    MainActivity mainActivity;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,7 +45,19 @@ public class Profile extends Fragment implements View.OnClickListener {
         mAuth = FirebaseAuth.getInstance();
         signout_b = rootView.findViewById(R.id.signin_B);
 
-        signout_b.setOnClickListener(this);
+        auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+
+        Button signOut_btn = rootView.findViewById(R.id.signOut_btn);
+
+        signOut_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                auth.signOut();
+                getActivity().finish();
+            }
+        });
+
         /* all the commented is for downloading from the firebase */
 
 //        storage = FirebaseStorage.getInstance();
@@ -57,13 +74,6 @@ public class Profile extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
 
         switch (v.getId()) {
-
-
-            case R.id.signout_b:
-                FirebaseAuth.getInstance().signOut();
-                //finish();
-                startActivity(new Intent());
-
 //            case R.id.download_pdf:
 //
 //                // Create our main directory for storing files
