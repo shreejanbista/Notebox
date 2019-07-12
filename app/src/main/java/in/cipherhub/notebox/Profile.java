@@ -2,6 +2,7 @@ package in.cipherhub.notebox;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,16 +13,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.util.Objects;
 
+import in.cipherhub.notebox.BeforeMain.LogIn;
+
 public class Profile extends Fragment implements View.OnClickListener {
 
     FirebaseStorage storage;
     StorageReference httpsReference;
+    Button signout_b;
+    private FirebaseAuth mAuth;
 
     String TAG = "ProfileOX";
 
@@ -29,8 +35,12 @@ public class Profile extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        mAuth = FirebaseAuth.getInstance();
+        signout_b = rootView.findViewById(R.id.signin_B);
+
+        signout_b.setOnClickListener(this);
         /* all the commented is for downloading from the firebase */
 
 //        storage = FirebaseStorage.getInstance();
@@ -40,13 +50,19 @@ public class Profile extends Fragment implements View.OnClickListener {
 //        Button download_pdf = view.findViewById(R.id.download_pdf);
 //        download_pdf.setOnClickListener(this);
 
-        return view;
+        return rootView;
     }
 
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
+
+
+            case R.id.signout_b:
+                FirebaseAuth.getInstance().signOut();
+                //finish();
+                startActivity(new Intent());
 
 //            case R.id.download_pdf:
 //
