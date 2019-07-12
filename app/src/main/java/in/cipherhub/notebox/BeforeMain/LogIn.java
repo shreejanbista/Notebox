@@ -1,5 +1,6 @@
 package in.cipherhub.notebox.BeforeMain;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,7 +33,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class LogIn extends Fragment implements View.OnClickListener {
 
-    private String TAG = "LogInOXET";
+    private String TAG = "LogIn";
 
     Button logIn_B;
     EditText email_ET, password_ET;
@@ -40,6 +41,8 @@ public class LogIn extends Fragment implements View.OnClickListener {
     View email_V, password_V;
 
     FirebaseAuth firebaseAuth;
+
+    ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +60,11 @@ public class LogIn extends Fragment implements View.OnClickListener {
         password_V = rootView.findViewById(R.id.password_V);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+        //Initialize Progress Dialog
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setTitle("Logging In...");
+        progressDialog.setCancelable(false);
 
         logIn_B.setOnClickListener(this);
         forgotPassword_TV.setOnClickListener(this);
@@ -119,6 +127,8 @@ public class LogIn extends Fragment implements View.OnClickListener {
             case R.id.logIn_B:
                 // write to login using email and password
 
+                progressDialog.show();
+
                 String filledEmail = email_ET.getText().toString();
                 String filledPassword = password_ET.getText().toString();
 
@@ -135,6 +145,9 @@ public class LogIn extends Fragment implements View.OnClickListener {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
+
+                                            progressDialog.dismiss();
+
                                             // Sign in success, update UI with the signed-in user's information
                                             Toast.makeText(getActivity(), "LogIn Success!", Toast.LENGTH_SHORT).show();
                                             ((SplashScreen) getActivity()).openHomePage();
@@ -145,12 +158,15 @@ public class LogIn extends Fragment implements View.OnClickListener {
                                             // If sign in fails, display a message to the user.
                                             if (task.getException() != null)
                                                 try {
-                                                    if (task.getException().getMessage().contains("no user record"))
+                                                    if (task.getException().getMessage().contains("no user record")) {
+                                                        progressDialog.dismiss();
                                                         Toast.makeText(getActivity(), "Login Failed!\nUser E-mail does not exists!", Toast.LENGTH_SHORT).show();
+                                                    }
                                                 } catch (Exception e) {
                                                     Log.e(TAG, String.valueOf(e));
                                                 }
                                             else
+                                                progressDialog.dismiss();
                                                 // If sign in fails, display a message to the user.
                                                 Toast.makeText(getActivity(), "Authentication failed.",
                                                         Toast.LENGTH_SHORT).show();
@@ -158,11 +174,15 @@ public class LogIn extends Fragment implements View.OnClickListener {
                                     }
                                 });
 
-                    else if (filledPassword.length() < 8)
+                    else if (filledPassword.length() < 8) {
+                        progressDialog.dismiss();
                         Toast.makeText(getActivity(), "Password should be greater than '8' characters", Toast.LENGTH_SHORT).show();
+                    }
 
-                    else
+                    else{
+                        progressDialog.dismiss();
                         Toast.makeText(getActivity(), "Invalid E-mail or Password!!", Toast.LENGTH_SHORT).show();
+                    }
                 break;
         }
     }
