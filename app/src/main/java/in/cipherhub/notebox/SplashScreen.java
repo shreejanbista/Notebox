@@ -1,4 +1,4 @@
-package in.cipherhub.notebox.BeforeMain;
+package in.cipherhub.notebox;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,8 +40,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-import in.cipherhub.notebox.MainActivity;
-import in.cipherhub.notebox.R;
+import in.cipherhub.notebox.SignIn.EmailVerification;
+import in.cipherhub.notebox.SignIn.FillDetails;
+import in.cipherhub.notebox.SignIn.LogIn;
 import in.cipherhub.notebox.Utils.Internet;
 
 public class SplashScreen extends AppCompatActivity {
@@ -84,7 +85,6 @@ public class SplashScreen extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
 
-//        firebaseAuth.signOut();
         // GoogleSignInOptions will mention what and all we need
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 // Specifies that an ID token for authenticated users is requested.
@@ -167,6 +167,7 @@ public class SplashScreen extends AppCompatActivity {
                             Toast.makeText(SplashScreen.this, "Google Signin Success!", Toast.LENGTH_SHORT).show();
 
                             FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+                            user = firebaseAuth.getCurrentUser();
 
                             firebaseFirestore.collection("users").document(user.getUid())
                                     .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -184,6 +185,8 @@ public class SplashScreen extends AppCompatActivity {
                                         }
 
                                         editor.apply();
+
+                                        openHomePage();
                                     } else {
                                         // init User db
                                         SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);

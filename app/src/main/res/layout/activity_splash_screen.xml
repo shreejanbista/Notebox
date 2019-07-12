@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite_FFFFFF"
-    tools:context=".BeforeMain.SplashScreen">
+    tools:context=".SplashScreen">
 
     <android.support.v7.widget.CardView
         android:id="@+id/imageView6"
@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout4"
+        app:layout_constraintBottom_toTopOf="@+id/googleSignIn_CL"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView6"
@@ -107,7 +107,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/segoe_ui"
-            android:text="or connect with"
+            android:text="@string/or_connect_with"
             android:textAllCaps="true"
             android:textColor="@color/colorGray_AAAAAA"
             android:textSize="12sp"

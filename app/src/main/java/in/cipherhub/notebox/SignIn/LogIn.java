@@ -1,4 +1,4 @@
-package in.cipherhub.notebox.BeforeMain;
+package in.cipherhub.notebox.SignIn;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -26,6 +26,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import in.cipherhub.notebox.R;
+import in.cipherhub.notebox.SplashScreen;
 import in.cipherhub.notebox.Utils.Internet;
 
 import static android.content.Context.MODE_PRIVATE;
