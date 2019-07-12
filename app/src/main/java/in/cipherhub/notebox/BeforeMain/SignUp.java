@@ -1,5 +1,6 @@
 package in.cipherhub.notebox.BeforeMain;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -46,6 +47,8 @@ public class SignUp extends Fragment {
 
     FirebaseAuth firebaseAuth;
 
+    ProgressDialog progressDialog;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -63,9 +66,17 @@ public class SignUp extends Fragment {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
+        //Initialize Progress Dialog
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setTitle("Signing Up...");
+        progressDialog.setCancelable(false);
+
         signUp_B.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                progressDialog.show();
+
                 String filledEmail = email_ET.getText().toString();
                 String filledPassword = password_ET.getText().toString();
                 String filledRepeatPassword = repeatPassword_ET.getText().toString();
@@ -83,9 +94,17 @@ public class SignUp extends Fragment {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
+
+                                            progressDialog.dismiss();
+
                                             // Sign in success, update UI with the signed-in user's information
                                             Toast.makeText(getActivity(), "Signup Success!", Toast.LENGTH_SHORT).show();
-                                            ((SplashScreen) getActivity()).changeFragment(new EmailVerification(), false, false);
+
+                                            ((SplashScreen) getActivity()).changeFragment(new EmailVerification(),
+                                                    false, false);
+
+
+
                                             initUserDetails();
                                             FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification()
                                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -97,6 +116,9 @@ public class SignUp extends Fragment {
                                                         }
                                                     });
                                         } else {
+
+                                            progressDialog.dismiss();
+
                                             if (task.getException() != null)
                                                 try {
                                                     if (task.getException().getMessage().contains("email address is already in use"))
@@ -111,12 +133,17 @@ public class SignUp extends Fragment {
                                         }
                                     }
                                 });
-                    else if (filledPassword.length() < 8)
+                    else if (filledPassword.length() < 8) {
+                        progressDialog.dismiss();
                         Toast.makeText(getActivity(), "Password should be greater than '8' characters", Toast.LENGTH_SHORT).show();
-                    else if (!filledRepeatPassword.equals(filledPassword))
+                    } else if (!filledRepeatPassword.equals(filledPassword)) {
+                        progressDialog.dismiss();
                         Toast.makeText(getActivity(), "Password field and Repeat password field is different", Toast.LENGTH_SHORT).show();
-                    else
+                    }
+                    else{
+                        progressDialog.dismiss();
                         Toast.makeText(getActivity(), "Invalid E-mail or Password!!", Toast.LENGTH_SHORT).show();
+                    }
             }
         });
 

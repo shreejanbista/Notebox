@@ -2,27 +2,27 @@ package in.cipherhub.notebox.Models;
 
 public class ItemSubjectsModel {
 
-    private String subjectName;
-    private String subjectAbbColor;
+    private String fullSubjectName;
+    private String shortSubjectName;
 
-    public ItemSubjectsModel(String subjectName, String subjectAbbColor) {
-        this.subjectName = subjectName;
-        this.subjectAbbColor = subjectAbbColor;
+    public ItemSubjectsModel(String fullSubjectName, String shortSubjectName) {
+        this.fullSubjectName = fullSubjectName;
+        this.shortSubjectName = shortSubjectName;
     }
 
-    public String getSubjectName() {
-        return subjectName;
+    public String getFullSubjectName() {
+        return fullSubjectName;
     }
 
-    public void setSubjectName(String subjectName) {
-        this.subjectName = subjectName;
+    public void setFullSubjectName(String fullSubjectName) {
+        this.fullSubjectName = fullSubjectName;
     }
 
-    public String getSubjectAbbColor() {
-        return subjectAbbColor;
+    public String getShortSubjectName() {
+        return shortSubjectName;
     }
 
-    public void setSubjectAbbColor(String subjectAbbColor) {
-        this.subjectAbbColor = subjectAbbColor;
+    public void setShortSubjectName(String shortSubjectName) {
+        this.shortSubjectName = shortSubjectName;
     }
 }
