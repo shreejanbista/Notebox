@@ -283,8 +283,9 @@
         <Button
             android:id="@+id/signOut_btn"
             style="@style/profile_lower_four_buttons"
-            android:drawableStart="@drawable/ic_gray_report_an_issue"
+            android:drawableStart="@drawable/ic_logout"
             android:drawablePadding="10dp"
+            android:layout_marginStart="4dp"
             android:text="@string/log_out" />
 
         <Button
@@ -356,5 +357,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/branchName_TV"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView9" />
+
+
 
 </android.support.constraint.ConstraintLayout>

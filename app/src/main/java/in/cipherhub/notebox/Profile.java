@@ -2,6 +2,7 @@ package in.cipherhub.notebox;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -20,10 +21,14 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.util.Objects;
 
+import in.cipherhub.notebox.BeforeMain.LogIn;
+
 public class Profile extends Fragment implements View.OnClickListener {
 
     FirebaseStorage storage;
     StorageReference httpsReference;
+    Button signout_b;
+    private FirebaseAuth mAuth;
 
     String TAG = "ProfileOX";
 
@@ -35,12 +40,15 @@ public class Profile extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        mAuth = FirebaseAuth.getInstance();
+        signout_b = rootView.findViewById(R.id.signin_B);
 
         auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
 
-        Button signOut_btn = view.findViewById(R.id.signOut_btn);
+        Button signOut_btn = rootView.findViewById(R.id.signOut_btn);
 
         signOut_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,15 +67,13 @@ public class Profile extends Fragment implements View.OnClickListener {
 //        Button download_pdf = view.findViewById(R.id.download_pdf);
 //        download_pdf.setOnClickListener(this);
 
-        return view;
+        return rootView;
     }
 
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
-
-//      ===============================================THIS IS DOWNLOAD CODE!!!======================================
 //            case R.id.download_pdf:
 //
 //                // Create our main directory for storing files
