@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FrameLayout signinTemplateContainer_FL;
     View bgBlurForBtmTemplate_V;
 
+    String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,17 +78,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @AfterPermissionGranted(STORAGE_PERM)
-    private void askPermission() {
-        String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        if (EasyPermissions.hasPermissions(this, perms)) {
+    public void askPermission() {
+
+        if (checkPermission()) {
 
             Log.i(TAG, "Permission Granted");
 
-        } else {
+        }else {
             // Do not have permissions, request them
             EasyPermissions.requestPermissions(this, "This app requires storage permission to function properly.",
                     STORAGE_PERM, perms);
         }
+
+
+    }
+
+
+    public boolean checkPermission() {
+
+        if (EasyPermissions.hasPermissions(this, perms)) {
+
+            Log.i(TAG, "Permission Granted");
+            return true;
+
+        }
+        return false;
     }
 
 

@@ -53,6 +53,8 @@ public class Upload extends Fragment implements View.OnClickListener {
     View rootView;
     Uri fileToUpload;
 
+
+
     String downloadUrl;
     String userInstitute = "Nitte Meenakshi Institute of Technology";
     String userCourse = "Bachelors in Engineering";
@@ -123,8 +125,16 @@ public class Upload extends Fragment implements View.OnClickListener {
             startActivityForResult(Intent.createChooser(intent, "Select PDF"), REQUEST_PDF_PATH);
         } else if (buttonClicked == upload_button) {
 
-            mStorageRef = mStorageRef.child("notes/" + "nmit_560064/" + "be/" + "cse/" + "py/" + pdfName_TV.getText().toString());
-            uploadFile();
+            MainActivity mainActivity = new MainActivity();
+
+            if (mainActivity.checkPermission()) {
+                mStorageRef = mStorageRef.child("notes/" + "nmit_560064/" + "be/" + "cse/" + "py/" + pdfName_TV.getText().toString());
+                uploadFile();
+            } else {
+                Toast.makeText(getContext(), "Permission not Granted", Toast.LENGTH_SHORT).show();
+                mainActivity.askPermission();
+            }
+
 
         } else {
 
