@@ -1,4 +1,4 @@
-package in.cipherhub.notebox.SignIn;
+package in.cipherhub.notebox.Registration;
 
 
 import android.os.Bundle;
@@ -44,7 +44,7 @@ public class EmailVerification extends Fragment {
                 user.reload();
                 if (user.isEmailVerified()) {
                     Toast.makeText(getActivity(), "Your email has been verified!", Toast.LENGTH_SHORT).show();
-                    ((SplashScreen) getActivity()).changeFragment(new FillDetails(), false, false);
+                    ((SignIn) getActivity()).changeFragment(new FillDetails(), false, false);
                 }
             } finally {
                 // 100% guarantee that this always happens, even if

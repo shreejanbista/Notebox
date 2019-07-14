@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -25,11 +27,28 @@ public class Profile extends Fragment implements View.OnClickListener {
 
     String TAG = "ProfileOX";
 
+    FirebaseAuth auth;
+
+    MainActivity mainActivity;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+
+        Button signOut_btn = view.findViewById(R.id.signOut_btn);
+
+        signOut_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                auth.signOut();
+                getActivity().finish();
+            }
+        });
 
         /* all the commented is for downloading from the firebase */
 
@@ -48,6 +67,7 @@ public class Profile extends Fragment implements View.OnClickListener {
 
         switch (v.getId()) {
 
+//      ===============================================THIS IS DOWNLOAD CODE!!!======================================
 //            case R.id.download_pdf:
 //
 //                // Create our main directory for storing files

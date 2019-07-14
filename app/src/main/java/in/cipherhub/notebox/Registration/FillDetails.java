@@ -1,4 +1,4 @@
-package in.cipherhub.notebox.SignIn;
+package in.cipherhub.notebox.Registration;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -147,6 +147,7 @@ public class FillDetails extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
+
                 List<ItemDataBranchSelector> filteredList = new ArrayList<>();
 
                 for (ItemDataBranchSelector s : list) {
@@ -225,7 +226,7 @@ public class FillDetails extends Fragment {
                                     }
                                     editor.apply();
 
-                                    ((SplashScreen) getActivity()).openHomePage();
+                                    ((SignIn) getActivity()).openHomePage();
                                 }
                             });
                 } else {
