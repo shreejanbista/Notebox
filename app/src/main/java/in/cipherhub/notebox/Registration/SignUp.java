@@ -1,4 +1,4 @@
-package in.cipherhub.notebox.BeforeMain;
+package in.cipherhub.notebox.Registration;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
@@ -25,13 +25,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import in.cipherhub.notebox.R;
+import in.cipherhub.notebox.SplashScreen;
 import in.cipherhub.notebox.Utils.Internet;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -100,7 +100,7 @@ public class SignUp extends Fragment {
                                             // Sign in success, update UI with the signed-in user's information
                                             Toast.makeText(getActivity(), "Signup Success!", Toast.LENGTH_SHORT).show();
 
-                                            ((SplashScreen) getActivity()).changeFragment(new EmailVerification(),
+                                            ((SignIn) getActivity()).changeFragment(new EmailVerification(),
                                                     false, false);
 
 

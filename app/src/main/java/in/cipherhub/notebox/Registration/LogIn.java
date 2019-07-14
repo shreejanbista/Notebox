@@ -1,4 +1,4 @@
-package in.cipherhub.notebox.BeforeMain;
+package in.cipherhub.notebox.Registration;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
@@ -27,6 +27,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import in.cipherhub.notebox.R;
+import in.cipherhub.notebox.SplashScreen;
 import in.cipherhub.notebox.Utils.Internet;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -117,11 +118,11 @@ public class LogIn extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.forgotPassword_TV:
-                ((SplashScreen) getActivity()).changeFragment(new ForgotPassword(), true, true);
+                ((SignIn) getActivity()).changeFragment(new ForgotPassword(), true, true);
                 break;
 
             case R.id.signUp_TV:
-                ((SplashScreen) getActivity()).changeFragment(new SignUp(), true, true);
+                ((SignIn) getActivity()).changeFragment(new SignUp(), true, true);
                 break;
 
             case R.id.logIn_B:
@@ -145,41 +146,38 @@ public class LogIn extends Fragment implements View.OnClickListener {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
-
-                                            progressDialog.dismiss();
-
                                             // Sign in success, update UI with the signed-in user's information
+
                                             Toast.makeText(getActivity(), "LogIn Success!", Toast.LENGTH_SHORT).show();
-                                            ((SplashScreen) getActivity()).openHomePage();
+                                            ((SignIn) getActivity()).openHomePage();
 
                                             // will store the user details to shared preferences
                                             pullUserDetails();
                                         } else {
                                             // If sign in fails, display a message to the user.
+
                                             if (task.getException() != null)
                                                 try {
                                                     if (task.getException().getMessage().contains("no user record")) {
-                                                        progressDialog.dismiss();
                                                         Toast.makeText(getActivity(), "Login Failed!\nUser E-mail does not exists!", Toast.LENGTH_SHORT).show();
                                                     }
                                                 } catch (Exception e) {
                                                     Log.e(TAG, String.valueOf(e));
+                                                } finally {
+                                                    // If sign in fails, display a message to the user.
+                                                    Toast.makeText(getActivity(), "Authentication failed.",
+                                                            Toast.LENGTH_SHORT).show();
                                                 }
-                                            else
-                                                progressDialog.dismiss();
-                                                // If sign in fails, display a message to the user.
-                                                Toast.makeText(getActivity(), "Authentication failed.",
-                                                        Toast.LENGTH_SHORT).show();
                                         }
+
+                                        progressDialog.dismiss();
                                     }
                                 });
 
                     else if (filledPassword.length() < 8) {
                         progressDialog.dismiss();
                         Toast.makeText(getActivity(), "Password should be greater than '8' characters", Toast.LENGTH_SHORT).show();
-                    }
-
-                    else{
+                    } else {
                         progressDialog.dismiss();
                         Toast.makeText(getActivity(), "Invalid E-mail or Password!!", Toast.LENGTH_SHORT).show();
                     }

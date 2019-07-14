@@ -1,11 +1,10 @@
-package in.cipherhub.notebox.BeforeMain;
+package in.cipherhub.notebox.Registration;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -21,19 +20,15 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,8 +37,8 @@ import java.util.Map;
 
 import in.cipherhub.notebox.Adapters.AdapterBranchSelector;
 import in.cipherhub.notebox.Models.ItemDataBranchSelector;
-import in.cipherhub.notebox.Models.ItemDataHomeSubjects;
 import in.cipherhub.notebox.R;
+import in.cipherhub.notebox.SplashScreen;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -231,7 +226,7 @@ public class FillDetails extends Fragment {
                                     }
                                     editor.apply();
 
-                                    ((SplashScreen) getActivity()).openHomePage();
+                                    ((SignIn) getActivity()).openHomePage();
                                 }
                             });
                 } else {

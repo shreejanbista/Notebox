@@ -1,4 +1,4 @@
-package in.cipherhub.notebox.BeforeMain;
+package in.cipherhub.notebox.Registration;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
