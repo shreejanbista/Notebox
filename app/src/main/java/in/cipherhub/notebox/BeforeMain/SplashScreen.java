@@ -83,6 +83,8 @@ public class SplashScreen extends AppCompatActivity {
         // Get the last user which signed in
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
+        openHomePage();
+
 
 //        firebaseAuth.signOut();
         // GoogleSignInOptions will mention what and all we need
