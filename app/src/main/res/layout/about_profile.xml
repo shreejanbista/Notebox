@@ -45,7 +45,7 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="143dp"
+        android:layout_width="wrap_content"
         android:layout_height="32dp"
         android:layout_marginStart="16dp"
 
@@ -66,26 +66,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginTop="32dp"
         android:text="Visit Cipher Hub"
         android:textColor="@color/colorGray_AAAAAA"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView33" />
+        app:layout_constraintStart_toStartOf="@+id/textView33"
+        app:layout_constraintTop_toBottomOf="@+id/Application_TV" />
 
     <TextView
         android:id="@+id/Application_TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
         android:fontFamily="@font/josefin_sans_regular"
         android:text="Application is under development "
         android:textColor="@color/colorGray_AAAAAA"
         android:textSize="12sp"
         android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@+id/visit_text"
+        app:layout_constraintEnd_toEndOf="@+id/textView33"
         app:layout_constraintStart_toStartOf="@+id/textView33"
         app:layout_constraintTop_toBottomOf="@+id/textView33" />
 </android.support.constraint.ConstraintLayout>

@@ -1,8 +1,8 @@
-package in.cipherhub.notebox.BeforeMain;
+package in.cipherhub.notebox.registration;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
@@ -12,11 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -42,9 +39,9 @@ import java.util.Map;
 
 import in.cipherhub.notebox.MainActivity;
 import in.cipherhub.notebox.R;
-import in.cipherhub.notebox.Utils.Internet;
+import in.cipherhub.notebox.utils.Internet;
 
-public class SplashScreen extends AppCompatActivity {
+public class SignIn extends AppCompatActivity {
 
     private String TAG = "SplashScreenOXET";
     private int RC_SIGN_IN = 1234;
@@ -56,37 +53,33 @@ public class SplashScreen extends AppCompatActivity {
     Button googleSignin_B;
     ConstraintLayout googleSignIn_CL;
     FrameLayout signInContainer_FL;
-    ImageView finalLogo_IV;
-    TextView cipherHub_TV, by_TV;
-    View blueBg_v, whiteBg_V;
+
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_screen);
+        setContentView(R.layout.activity_sign_in);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Please wait while we authenticate...");
+        progressDialog.setCancelable(false);
 
         // Hide the actionbar and set FULLSCREEN flag - for design
         getSupportActionBar().hide();
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         // instantiate views other then the one which are inside fragments
         // those cannot be instantiated here
         googleSignin_B = findViewById(R.id.googleSignin_B);
         googleSignIn_CL = findViewById(R.id.googleSignIn_CL);
         signInContainer_FL = findViewById(R.id.signInContainer_FL);
-        finalLogo_IV = findViewById(R.id.finalLogo_IV);
-        cipherHub_TV = findViewById(R.id.cipherHub_TV);
-        by_TV = findViewById(R.id.by_TV);
-        blueBg_v = findViewById(R.id.blueBg_V);
-        whiteBg_V = findViewById(R.id.whiteBg_V);
 
         // Get the last user which signed in
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
-        openHomePage();
+//        openHomePage();
 
 
-//        firebaseAuth.signOut();
         // GoogleSignInOptions will mention what and all we need
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 // Specifies that an ID token for authenticated users is requested.
@@ -98,29 +91,24 @@ public class SplashScreen extends AppCompatActivity {
         // GoogleSignInClient to return the user details requested
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        // user has not logged in
-        if (user == null) {
-            changeFragment(new LogIn(), false, true);
-        }
-        // user has already logged in
-        else {
+        changeFragment(new LogIn(), false, true);
+        if (user != null)
             // if user has sent an email to receive an e-mail Id
             if (!user.isEmailVerified())
-                changeFragment(new EmailVerification(), false, true);
-            // if e-mail is verified
-            else if(!isUserDetailsFilled())
+                changeFragment(new EmailVerification(), true, true);
+                // if e-mail is verified
+            else if (!isUserDetailsFilled())
                 changeFragment(new FillDetails(), false, false);
-            else
-                openHomePage();
-        }
-        splashScreenCloseAnim(false);
 
         // Google button which is lying outside every fragment
         googleSignin_B.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (new Internet(getBaseContext()).isAvailable())
+                if (new Internet(getBaseContext()).isAvailable()) {
+
                     startActivityForResult(mGoogleSignInClient.getSignInIntent(), RC_SIGN_IN);
+
+                }
             }
         });
     }
@@ -138,13 +126,21 @@ public class SplashScreen extends AppCompatActivity {
 
         // Result returned from launching the Intent for Google Signin
         if (requestCode == RC_SIGN_IN) {
+
+            progressDialog.show();
+
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 // Google Sign In was successful
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 // authenticate with Firebase
                 firebaseAuthWithGoogle(account);
+
+
+
             } catch (ApiException e) {
+
+                progressDialog.dismiss();
                 // Google Sign In failed, update UI appropriately
                 Log.d(TAG, "Google sign in failed", e);
             }
@@ -166,29 +162,35 @@ public class SplashScreen extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success!
-                            Toast.makeText(SplashScreen.this, "Google Signin Success!", Toast.LENGTH_SHORT).show();
+
+                            Log.d(TAG, String.valueOf(task.getResult()));
+                            Toast.makeText(SignIn.this, "Google Signin Success!", Toast.LENGTH_SHORT).show();
 
                             FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+                            user = firebaseAuth.getCurrentUser();
 
                             firebaseFirestore.collection("users").document(user.getUid())
                                     .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                 @Override
                                 public void onSuccess(DocumentSnapshot document) {
-                                    if(document.exists()){
+                                    if (document.exists()) {
                                         // fetch the details available in the user db
                                         SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
                                         final SharedPreferences.Editor editor = sharedPreferences.edit();
 
                                         String[] userDetailKeys = new String[]{"full_name", "institute", "course", "branch"};
 
-                                        for (String userDetailKey : userDetailKeys){
+                                        for (String userDetailKey : userDetailKeys) {
                                             editor.putString(userDetailKey, String.valueOf(document.getData().get(userDetailKey)));
                                         }
 
                                         editor.apply();
 
                                         openHomePage();
+                                        progressDialog.dismiss();
+
                                     } else {
+
                                         // init User db
                                         SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
                                         final SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -200,7 +202,7 @@ public class SplashScreen extends AppCompatActivity {
 
                                         String[] keyNames = new String[]{"full_name", "institute", "course", "branch"};
 
-                                        for(String key : keyNames) {
+                                        for (String key : keyNames) {
                                             userDetails.put(key, "_");
                                             editor.putString(key, "_");
                                         }
@@ -222,6 +224,8 @@ public class SplashScreen extends AppCompatActivity {
                                                     }
                                                 });
 
+                                        progressDialog.dismiss();
+
                                         changeFragment(new FillDetails(), false, false);
                                     }
                                 }
@@ -229,51 +233,17 @@ public class SplashScreen extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(SplashScreen.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignIn.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
 
 
-    private void splashScreenCloseAnim(final Boolean completeClose) {
-
-        finalLogo_IV.animate().scaleX(0).setDuration(1000);
-        finalLogo_IV.animate().scaleY(0).setDuration(1000);
-        by_TV.animate().alpha(0).setDuration(1000);
-        cipherHub_TV.animate().alpha(0).setDuration(1000);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                // slide blue background to complete screen width
-                blueBg_v.animate().translationX(getWindow().getDecorView().getWidth() >> 1).setDuration(700);
-
-                // wait for above animation to end and little extra time for smooth feel
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        // if the complete close boolean is true then get directly to Home Page
-                        if (completeClose) {
-                            openHomePage();
-                        } else {
-                            // else show the status bar & fade out white bg which is used to cover the login page
-                            // while Login page is appearing
-                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                            whiteBg_V.animate().alpha(0).setDuration(500);
-                        }
-                    }
-                }, 1000);
-            }
-        }, 1200);
-    }
-
-
-    // when the signin is complete and we have the required information of the user
     public void openHomePage() {
-
-        startActivity(new Intent(SplashScreen.this, MainActivity.class));
-        overridePendingTransition(R.anim.fade_in, 0);
+        // after loading data from firebase
+        startActivity(new Intent(SignIn.this, MainActivity.class));
+        overridePendingTransition(android.R.anim.fade_in, 0);
     }
 
 
@@ -300,7 +270,7 @@ public class SplashScreen extends AppCompatActivity {
     }
 
 
-    public boolean isUserDetailsFilled(){
+    public boolean isUserDetailsFilled() {
         SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
 
         String pulledUserInstitute = sharedPreferences.getString("institute", "_");
@@ -308,5 +278,3 @@ public class SplashScreen extends AppCompatActivity {
         return !pulledUserInstitute.equals("_");
     }
 }
-
-

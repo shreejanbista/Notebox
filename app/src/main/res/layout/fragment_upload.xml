@@ -247,7 +247,6 @@
                 android:textSize="14sp"
                 android:hint="@string/subject_name"
                 android:layout_width="0dp"
-                android:text="Computer Networks"
                 android:layout_height="40dp"
                 android:textColor="@color/colorGray_999999"
                 android:textColorHint="@color/colorGray_AAAAAA"

@@ -21,7 +21,8 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 import java.util.Objects;
 
-import in.cipherhub.notebox.BeforeMain.LogIn;
+import in.cipherhub.notebox.registration.SignIn;
+
 
 public class Profile extends Fragment implements View.OnClickListener {
 
@@ -43,7 +44,7 @@ public class Profile extends Fragment implements View.OnClickListener {
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
         mAuth = FirebaseAuth.getInstance();
-        signout_b = rootView.findViewById(R.id.signin_B);
+//        signout_b = rootView.findViewById(R.id.signin_B);
 
         auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
@@ -55,6 +56,7 @@ public class Profile extends Fragment implements View.OnClickListener {
             public void onClick(View v) {
                 auth.signOut();
                 getActivity().finish();
+                startActivity(new Intent(getContext(), SignIn.class));
             }
         });
 
