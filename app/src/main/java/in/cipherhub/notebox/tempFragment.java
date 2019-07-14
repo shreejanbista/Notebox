@@ -24,7 +24,7 @@ public class tempFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View rootView = inflater.inflate(R.layout.about_profile , container, false);
+        View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
         return rootView;
     }

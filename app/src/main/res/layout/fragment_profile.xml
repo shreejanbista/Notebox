@@ -283,8 +283,9 @@
         <Button
             android:id="@+id/signOut_btn"
             style="@style/profile_lower_four_buttons"
-            android:drawableStart="@drawable/ic_gray_report_an_issue"
+            android:drawableStart="@drawable/ic_logout"
             android:drawablePadding="10dp"
+            android:layout_marginStart="4dp"
             android:text="@string/log_out" />
 
         <Button
@@ -357,13 +358,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView9" />
 
-    <Button
-        android:id="@+id/signout_b"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Signout"
-        android:textAllCaps="false"
-        tools:layout_editor_absoluteX="229dp"
-        tools:layout_editor_absoluteY="540dp" />
+
 
 </android.support.constraint.ConstraintLayout>
