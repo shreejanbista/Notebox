@@ -1,5 +1,6 @@
-package in.cipherhub.notebox.Registration;
+package in.cipherhub.notebox.registration;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -35,10 +36,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import in.cipherhub.notebox.Adapters.AdapterBranchSelector;
-import in.cipherhub.notebox.Models.ItemDataBranchSelector;
+import in.cipherhub.notebox.adapters.AdapterBranchSelector;
+import in.cipherhub.notebox.models.ItemDataBranchSelector;
 import in.cipherhub.notebox.R;
-import in.cipherhub.notebox.SplashScreen;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -47,6 +47,8 @@ public class FillDetails extends Fragment {
     private String TAG = "FillDetailsOXET";
 
     FirebaseUser user;
+
+    ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,6 +64,10 @@ public class FillDetails extends Fragment {
         final EditText branch_ET = rootView.findViewById(R.id.branch_ET);
         final View branch_V = rootView.findViewById(R.id.branch_V);
         final RecyclerView recyclerView = rootView.findViewById(R.id.branchSelectorList_RV);
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Filling Up Details...");
+        progressDialog.setCancelable(false);
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -185,6 +191,9 @@ public class FillDetails extends Fragment {
         submit_B.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                progressDialog.show();
+
                 String filledFullName = fullName_ET.getText().toString();
                 String filledBranchName = branch_ET.getText().toString();
 
@@ -216,9 +225,12 @@ public class FillDetails extends Fragment {
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Toast.makeText(getActivity()
-                                            , "Your Details has been registered for you better experience with Notebox!"
-                                            , Toast.LENGTH_SHORT).show();
+
+                                    progressDialog.dismiss();
+
+                                    Toast.makeText(getActivity(),
+                                            "Your Details has been registered for you better experience with Notebox!",
+                                            Toast.LENGTH_LONG).show();
 
 
                                     for (int i = 0; i < userDetailsKeys.length; i++) {
@@ -230,6 +242,7 @@ public class FillDetails extends Fragment {
                                 }
                             });
                 } else {
+                    progressDialog.dismiss();
                     Toast.makeText(getActivity(), "Invalid Full Name!", Toast.LENGTH_SHORT).show();
                 }
             }

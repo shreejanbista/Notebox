@@ -1,8 +1,8 @@
-package in.cipherhub.notebox.Registration;
+package in.cipherhub.notebox.registration;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
@@ -12,11 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -42,8 +39,7 @@ import java.util.Map;
 
 import in.cipherhub.notebox.MainActivity;
 import in.cipherhub.notebox.R;
-import in.cipherhub.notebox.SplashScreen;
-import in.cipherhub.notebox.Utils.Internet;
+import in.cipherhub.notebox.utils.Internet;
 
 public class SignIn extends AppCompatActivity {
 
@@ -58,10 +54,16 @@ public class SignIn extends AppCompatActivity {
     ConstraintLayout googleSignIn_CL;
     FrameLayout signInContainer_FL;
 
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Please wait while we authenticate...");
+        progressDialog.setCancelable(false);
 
         // Hide the actionbar and set FULLSCREEN flag - for design
         getSupportActionBar().hide();
@@ -75,7 +77,7 @@ public class SignIn extends AppCompatActivity {
         // Get the last user which signed in
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
-        openHomePage();
+//        openHomePage();
 
 
         // GoogleSignInOptions will mention what and all we need
@@ -102,8 +104,11 @@ public class SignIn extends AppCompatActivity {
         googleSignin_B.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (new Internet(getBaseContext()).isAvailable())
+                if (new Internet(getBaseContext()).isAvailable()) {
+
                     startActivityForResult(mGoogleSignInClient.getSignInIntent(), RC_SIGN_IN);
+
+                }
             }
         });
     }
@@ -121,13 +126,21 @@ public class SignIn extends AppCompatActivity {
 
         // Result returned from launching the Intent for Google Signin
         if (requestCode == RC_SIGN_IN) {
+
+            progressDialog.show();
+
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 // Google Sign In was successful
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 // authenticate with Firebase
                 firebaseAuthWithGoogle(account);
+
+
+
             } catch (ApiException e) {
+
+                progressDialog.dismiss();
                 // Google Sign In failed, update UI appropriately
                 Log.d(TAG, "Google sign in failed", e);
             }
@@ -174,7 +187,10 @@ public class SignIn extends AppCompatActivity {
                                         editor.apply();
 
                                         openHomePage();
+                                        progressDialog.dismiss();
+
                                     } else {
+
                                         // init User db
                                         SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
                                         final SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -207,6 +223,8 @@ public class SignIn extends AppCompatActivity {
                                                         Log.w(TAG, "Failed to initiate user details: ", e);
                                                     }
                                                 });
+
+                                        progressDialog.dismiss();
 
                                         changeFragment(new FillDetails(), false, false);
                                     }

@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import in.cipherhub.notebox.Adapters.AdapterHomeSubjects;
-import in.cipherhub.notebox.Models.ItemDataHomeSubjects;
+import in.cipherhub.notebox.adapters.AdapterHomeSubjects;
+import in.cipherhub.notebox.models.ItemDataHomeSubjects;
 
 public class tempFragment extends Fragment {
 

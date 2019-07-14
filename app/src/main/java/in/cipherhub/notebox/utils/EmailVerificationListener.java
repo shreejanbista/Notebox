@@ -1,4 +1,4 @@
-package in.cipherhub.notebox.Utils;
+package in.cipherhub.notebox.utils;
 
 public class EmailVerificationListener {
 

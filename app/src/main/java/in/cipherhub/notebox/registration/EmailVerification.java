@@ -1,4 +1,4 @@
-package in.cipherhub.notebox.Registration;
+package in.cipherhub.notebox.registration;
 
 
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import in.cipherhub.notebox.R;
-import in.cipherhub.notebox.SplashScreen;
 
 public class EmailVerification extends Fragment {
 
