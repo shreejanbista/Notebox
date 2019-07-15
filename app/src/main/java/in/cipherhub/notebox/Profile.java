@@ -18,6 +18,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import in.cipherhub.notebox.registration.SignIn;
+
 public class Profile extends Fragment implements View.OnClickListener {
 
     FirebaseStorage storage;
@@ -49,6 +51,7 @@ public class Profile extends Fragment implements View.OnClickListener {
             public void onClick(View v) {
                 auth.signOut();
                 getActivity().finish();
+                startActivity(new Intent(getContext(), SignIn.class));
             }
         });
 

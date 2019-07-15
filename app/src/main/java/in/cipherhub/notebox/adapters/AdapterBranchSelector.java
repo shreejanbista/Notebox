@@ -1,4 +1,4 @@
-package in.cipherhub.notebox.Adapters;
+package in.cipherhub.notebox.adapters;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import in.cipherhub.notebox.Models.ItemDataBranchSelector;
+import in.cipherhub.notebox.models.ItemDataBranchSelector;
 import in.cipherhub.notebox.R;
 
 public class AdapterBranchSelector extends RecyclerView.Adapter<AdapterBranchSelector.branchSelectorItemViewHolder>{

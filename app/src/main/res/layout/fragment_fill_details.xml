@@ -8,7 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context=".Registration.FillDetails">
+    tools:context=".registration.FillDetails">
 
     <LinearLayout
         android:layout_width="match_parent"

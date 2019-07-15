@@ -3,7 +3,6 @@ package in.cipherhub.notebox;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +15,7 @@ import android.widget.ImageButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.cipherhub.notebox.Adapters.AdapterRecentViews;
+import in.cipherhub.notebox.adapters.AdapterRecentViews;
 
 public class Explore extends Fragment implements View.OnClickListener{
 
@@ -67,17 +66,17 @@ public class Explore extends Fragment implements View.OnClickListener{
 
 
         //BUTTON::
-        institutes_b = rootView.findViewById(R.id.button_institutes);
-        courses_b = rootView.findViewById(R.id.button_courses);
-        branches_b = rootView.findViewById(R.id.button_branches);
-        subjects_b = rootView.findViewById(R.id.button_subjects);
-
-
-        institutes_b.setOnClickListener(this);
-        courses_b.setOnClickListener(this);
-        branches_b.setOnClickListener(this);
-        subjects_b.setOnClickListener(this);
-
+//        institutes_b = rootView.findViewById(R.id.button_institutes);
+//        courses_b = rootView.findViewById(R.id.button_courses);
+//        branches_b = rootView.findViewById(R.id.button_branches);
+//        subjects_b = rootView.findViewById(R.id.button_subjects);
+//
+//
+//        institutes_b.setOnClickListener(this);
+//        courses_b.setOnClickListener(this);
+//        branches_b.setOnClickListener(this);
+//        subjects_b.setOnClickListener(this);
+//
 
 
         return rootView;
