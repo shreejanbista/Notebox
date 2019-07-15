@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -30,9 +29,9 @@ import com.google.firebase.firestore.Source;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.cipherhub.notebox.Adapters.AdapterHomeSubjects;
-import in.cipherhub.notebox.Adapters.AdapterRecentViews;
-import in.cipherhub.notebox.Models.ItemDataHomeSubjects;
+import in.cipherhub.notebox.adapters.AdapterHomeSubjects;
+import in.cipherhub.notebox.adapters.AdapterRecentViews;
+import in.cipherhub.notebox.models.ItemDataHomeSubjects;
 
 public class Home extends Fragment implements View.OnClickListener {
 
@@ -63,7 +62,7 @@ public class Home extends Fragment implements View.OnClickListener {
         final ConstraintLayout recentViewsLayout_CL = rootView.findViewById(R.id.recentViewsLayout_CL);
         final EditText subjectsSearch_ET = rootView.findViewById(R.id.subjectsSearch_ET);
         final ImageButton searchIconInSearchBar_IB = rootView.findViewById(R.id.searchIconInSearchBar_IB);
-        Button signin_B = rootView.findViewById(R.id.signin_B);
+//        Button signin_B = rootView.findViewById(R.id.signin_B);
         LinearLayout notSignedInTemplate_LL = rootView.findViewById(R.id.notSignedInTemplate_LL);
         RecyclerView recentViews_RV = rootView.findViewById(R.id.recentViews_RV);
         RecyclerView homeSubjects_RV = rootView.findViewById(R.id.homeSubjects_RV);
@@ -96,12 +95,12 @@ public class Home extends Fragment implements View.OnClickListener {
             notSignedInTemplate_LL.setVisibility(View.GONE);
         }
 
-        signin_B.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((MainActivity) getActivity()).openBottomTemplate();
-            }
-        });
+//        signin_B.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                ((MainActivity) getActivity()).openBottomTemplate();
+//            }
+//        });
 
         bookmark_IB.setOnClickListener(new View.OnClickListener() {
             @Override

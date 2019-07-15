@@ -1,10 +1,8 @@
-package in.cipherhub.notebox.Utils;
+package in.cipherhub.notebox.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.widget.Toast;
 
 public class Internet {
