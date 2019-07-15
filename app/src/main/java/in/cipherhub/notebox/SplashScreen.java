@@ -79,20 +79,12 @@ public class SplashScreen extends AppCompatActivity {
         user = firebaseAuth.getCurrentUser();
 
         // user has not logged in open registration page
-        if (user == null) {
+        if (user == null)
             splashScreenCloseAnim(false);
-        }
-        // user has already logged in open Home page after inflating everything necessary
-        else {
-            pullFromFirebase();
-        }
-    }
-
-
-    private void pullFromFirebase() {
-
-        // close splash screen when the pull is done
-        splashScreenCloseAnim(true);
+        else if (!user.isEmailVerified() || !isDetailsFilled())
+            splashScreenCloseAnim(false);
+        else
+            splashScreenCloseAnim(true);
     }
 
 
@@ -120,6 +112,8 @@ public class SplashScreen extends AppCompatActivity {
                         } else {
                             // open registration page
                             intent = new Intent(SplashScreen.this, SignIn.class);
+                            intent.putExtra("isEmailVerified", user.isEmailVerified());
+                            intent.putExtra("isDetailsFilled", isDetailsFilled());
                         }
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
@@ -128,5 +122,16 @@ public class SplashScreen extends AppCompatActivity {
                 }, 1000);
             }
         }, 1200);
+    }
+
+
+    public boolean isDetailsFilled() {
+        SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
+
+        String pulledUserInstitute = sharedPreferences.getString("institute", "_");
+
+        Log.d(TAG, pulledUserInstitute);
+
+        return !pulledUserInstitute.equals("_");
     }
 }

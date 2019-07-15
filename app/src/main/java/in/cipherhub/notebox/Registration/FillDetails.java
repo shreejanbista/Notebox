@@ -218,7 +218,7 @@ public class FillDetails extends Fragment {
                                 public void onSuccess(Void aVoid) {
                                     Toast.makeText(getActivity()
                                             , "Your Details has been registered for you better experience with Notebox!"
-                                            , Toast.LENGTH_SHORT).show();
+                                            , Toast.LENGTH_LONG).show();
 
 
                                     for (int i = 0; i < userDetailsKeys.length; i++) {

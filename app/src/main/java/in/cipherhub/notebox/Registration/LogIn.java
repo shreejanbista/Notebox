@@ -173,7 +173,6 @@ public class LogIn extends Fragment implements View.OnClickListener {
                                         progressDialog.dismiss();
                                     }
                                 });
-
                     else if (filledPassword.length() < 8) {
                         progressDialog.dismiss();
                         Toast.makeText(getActivity(), "Password should be greater than '8' characters", Toast.LENGTH_SHORT).show();
