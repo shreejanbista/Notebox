@@ -5,6 +5,8 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +22,9 @@ import in.cipherhub.notebox.adapters.AdapterRecentViews;
 public class Explore extends Fragment implements View.OnClickListener{
 
     Button institutes_b, courses_b, branches_b, subjects_b;
-    View rootView;
+    EditText institute_ET;
+
+    View search_v, rootView;
     public static final String FRAGMENT_PDF_RENDERER_BASIC = "PDF_RENDERER";
 
     @Override
@@ -44,6 +48,10 @@ public class Explore extends Fragment implements View.OnClickListener{
         RecyclerView recentViews_RV = rootView.findViewById(R.id.recentViews_RV);
 
 
+        institute_ET = rootView.findViewById(R.id.institute_ET);
+        search_v = rootView.findViewById(R.id.search_V);
+
+
 
         List<AdapterRecentViews.recentViewsItemData> recentViews = new ArrayList<>();
         recentViews.add(new AdapterRecentViews.recentViewsItemData(
@@ -63,6 +71,27 @@ public class Explore extends Fragment implements View.OnClickListener{
         recentViews_RV.setAdapter(recentViewsAdapter);
         recentViews_RV.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
+
+        institute_ET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (institute_ET.getText().length() > 0)
+                    search_v.setBackgroundColor(getResources().getColor(R.color.google_yellow));
+
+                else
+                    search_v.setBackgroundColor(getResources().getColor(R.color.colorGray_AAAAAA));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
         //BUTTON::

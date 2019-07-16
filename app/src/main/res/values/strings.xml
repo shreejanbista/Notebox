@@ -53,7 +53,7 @@
     <string name="desc_about">A product created by Cipher Hub to assist student with their studies and for teachers to share/enhance their knowledge on the subject. The explore feature let you browse notes from the different Institutes. Verify the PDF before you upload and try to fill more specific details.</string>
     <string name="log_out">Log Out</string>
 
-
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     //Arrays of Subjects
     <string-array name="cse_subject">
         <item>DS</item>
