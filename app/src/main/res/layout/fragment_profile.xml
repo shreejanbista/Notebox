@@ -281,28 +281,28 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/textView11"
+            android:id="@+id/report_b"
             style="@style/profile_lower_four_buttons"
             android:drawableStart="@drawable/ic_gray_report_an_issue"
             android:drawablePadding="10dp"
             android:text="@string/report_an_issue" />
 
         <Button
-            android:id="@+id/textView12"
+            android:id="@+id/share_b"
             style="@style/profile_lower_four_buttons"
             android:drawableLeft="@drawable/ic_share_brown_24dp"
             android:drawablePadding="10dp"
             android:text="@string/share_this_app" />
 
         <Button
-            android:id="@+id/textView13"
+            android:id="@+id/feedback_b"
             style="@style/profile_lower_four_buttons"
             android:drawableLeft="@drawable/ic_feedback_brown_24dp"
             android:drawablePadding="10dp"
             android:text="@string/feedback" />
 
         <Button
-            android:id="@+id/textView14"
+            android:id="@+id/about_b"
             style="@style/profile_lower_four_buttons"
             android:drawableStart="@drawable/icon_final_logo_with_border"
             android:drawablePadding="10dp"
