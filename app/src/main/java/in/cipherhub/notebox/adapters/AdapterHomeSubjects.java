@@ -1,4 +1,4 @@
-package in.cipherhub.notebox.Adapters;
+package in.cipherhub.notebox.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import in.cipherhub.notebox.R;
-import in.cipherhub.notebox.Models.ItemDataHomeSubjects;
+import in.cipherhub.notebox.models.ItemDataHomeSubjects;
 
 public class AdapterHomeSubjects extends RecyclerView.Adapter<AdapterHomeSubjects.homeSubjectsItemViewHolder> {
     private List<ItemDataHomeSubjects> list;

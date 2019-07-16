@@ -32,6 +32,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FrameLayout signinTemplateContainer_FL;
     View bgBlurForBtmTemplate_V;
 
+    String[] perms;
+
+    public boolean checkPermission = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         customButtonRadioGroup(buttonClicked);
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -75,18 +80,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
+
     @AfterPermissionGranted(STORAGE_PERM)
-    private void askPermission() {
-        String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        if (EasyPermissions.hasPermissions(this, perms)) {
+    public void askPermission() {
+
+        perms = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (EasyPermissions.hasPermissions(getApplicationContext(), perms)) {
 
             Log.i(TAG, "Permission Granted");
 
-        } else {
+            checkPermission = true;
+
+        }else {
             // Do not have permissions, request them
             EasyPermissions.requestPermissions(this, "This app requires storage permission to function properly.",
                     STORAGE_PERM, perms);
         }
+
     }
 
 
@@ -97,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          * registered with setOnClickListener(this) in onCreate method of this activity. */
         customButtonRadioGroup(buttonClicked);
     }
+
 
     @Override
     public void onBackPressed() {
@@ -131,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
     // Make all choices in Bottom Navigation Bar as unfocused
     public void applyInitButState(Button[] buttons) {
         for (Button button : buttons) {
@@ -145,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             button.setTextColor(getResources().getColor(R.color.colorGray_AAAAAA));
         }
     }
+
 
     // select one choice in Bottom Navigation Bar and commit fragment transaction
     public void customButtonRadioGroup(Button buttonClicked) {
@@ -171,21 +184,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .commit();
     }
 
+
     public void openBottomTemplate() {
         signinTemplateContainer_FL.setVisibility(View.VISIBLE);
         bgBlurForBtmTemplate_V.setClickable(true);
 
-        getSupportFragmentManager().beginTransaction()
-                .setCustomAnimations(R.anim.slide_btm_entry, R.anim.slide_top_exit, R.anim.slide_btm_entry, R.anim.slide_top_exit)
-                .replace(R.id.signinTemplateContainer_FL, new Signin())
-                .addToBackStack(null)
-                .commit();
+//        getSupportFragmentManager().beginTransaction()
+//                .setCustomAnimations(R.anim.slide_btm_entry, R.anim.slide_top_exit, R.anim.slide_btm_entry, R.anim.slide_top_exit)
+//                .replace(R.id.signinTemplateContainer_FL, new Signin())
+//                .addToBackStack(null)
+//                .commit();
 
         tintSystemBars(getWindow().getStatusBarColor(), getResources().getColor(R.color.colorGray_E0E0E0));
 
         bgBlurForBtmTemplate_V.setVisibility(View.VISIBLE);
         bgBlurForBtmTemplate_V.animate().alpha(0.12f).setDuration(500);
     }
+
 
     public void removeBottomTemplate() {
         tintSystemBars(getWindow().getStatusBarColor(), getResources().getColor(R.color.colorWhite_FFFFFF));
@@ -220,6 +235,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         customButtonRadioGroup(buttonClicked);
     }
 
+
     private void tintSystemBars(final int fromThisColor, final int toThisColor) {
 
         ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
@@ -242,6 +258,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         anim.setDuration(500).start();
     }
+
 
     private int blendColors(int from, int to, float ratio) {
         final float inverseRatio = 1f - ratio;

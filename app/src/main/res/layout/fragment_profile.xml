@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -23,7 +24,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/comfortaa_bold"
             android:text="@string/app_name"
-            android:textColor="@color/colorGray_999999"
+            android:textColor="@color/colorGray_888888"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -53,7 +54,7 @@
             android:contentDescription="@string/button_with_icon"
             android:padding="0dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/icon_profile_but_focused"
+            android:src="@drawable/icon_profile_but_unfocused"
             app:layout_constraintBottom_toBottomOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView2" />
@@ -67,7 +68,7 @@
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/comfortaa_bold"
             android:text="4.0"
-            android:textColor="@color/colorGray_AAAAAA"
+            android:textColor="@color/colorGray_888888"
             android:textSize="13sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -114,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/segoe_ui"
                     android:text="00"
-                    android:textColor="@color/colorGray_AAAAAA"
+                    android:textColor="@color/colorGray_888888"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView3"
                     app:layout_constraintStart_toEndOf="@+id/imageView3"
                     app:layout_constraintTop_toTopOf="@+id/imageView3" />
@@ -127,7 +128,7 @@
                     android:layout_marginTop="6dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="6dp"
-                    android:background="@color/colorGray_AAAAAA"
+                    android:background="@color/colorGray_888888"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -149,7 +150,7 @@
                     android:layout_marginEnd="10dp"
                     android:fontFamily="@font/segoe_ui"
                     android:text="00"
-                    android:textColor="@color/colorGray_AAAAAA"
+                    android:textColor="@color/colorGray_888888"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -169,7 +170,7 @@
         android:fontFamily="@font/segoe_ui"
         android:maxLines="1"
         android:text="Nitte Meenakshi Institute of Technology"
-        android:textColor="@color/colorGray_AAAAAA"
+        android:textColor="@color/colorGray_888888"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -185,7 +186,7 @@
         android:layout_marginEnd="24dp"
         android:fontFamily="@font/segoe_ui"
         android:text="Bachelors in Engineering"
-        android:textColor="@color/colorGray_AAAAAA"
+        android:textColor="@color/colorGray_888888"
         android:maxLines="1"
         android:ellipsize="end"
         android:textSize="12sp"
@@ -203,7 +204,7 @@
         android:layout_marginEnd="24dp"
         android:fontFamily="@font/segoe_ui"
         android:text="Computer &amp; Science Engineering"
-        android:textColor="@color/colorGray_AAAAAA"
+        android:textColor="@color/colorGray_888888"
         android:textSize="12sp"
         android:maxLines="1"
         android:ellipsize="end"
@@ -216,9 +217,9 @@
         android:id="@+id/linearLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
@@ -231,7 +232,6 @@
         <Button
             android:id="@+id/button_institutes"
             style="@style/profile_four_buttons"
-            android:layout_marginEnd="16dp"
             android:drawableLeft="@drawable/icon_bookmark_red_border"
             android:text="Bookmarks" />
 
@@ -246,9 +246,8 @@
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:orientation="horizontal"
         android:weightSum="2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -259,7 +258,6 @@
         <Button
             android:id="@+id/button_branches"
             style="@style/profile_four_buttons"
-            android:layout_marginEnd="16dp"
             android:drawableLeft="@drawable/ic_file_upload_blue_24dp"
             android:text="Uploads" />
 
@@ -279,6 +277,14 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/textView15"
         app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/signOut_btn"
+            style="@style/profile_lower_four_buttons"
+            android:drawableStart="@drawable/ic_logout"
+            android:drawablePadding="10dp"
+            android:layout_marginStart="4dp"
+            android:text="@string/log_out" />
 
         <Button
             android:id="@+id/textView11"
@@ -316,7 +322,7 @@
         android:layout_marginEnd="5dp"
         android:fontFamily="@font/comfortaa_bold"
         android:text="@string/developed_by"
-        android:textColor="@color/colorGray_AAAAAA"
+        android:textColor="@color/colorGray_888888"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView17"
         app:layout_constraintEnd_toStartOf="@+id/textView17"
@@ -349,5 +355,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/branchName_TV"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView9" />
+
+
 
 </android.support.constraint.ConstraintLayout>
