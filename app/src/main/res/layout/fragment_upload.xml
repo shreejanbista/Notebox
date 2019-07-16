@@ -63,7 +63,7 @@
             android:fontFamily="@font/consolas_regular"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:text="@string/select_pdf"
+            android:text="Select PDF"
             android:textAllCaps="false"
             android:textColor="@color/colorAppTheme"
             android:textSize="13sp"

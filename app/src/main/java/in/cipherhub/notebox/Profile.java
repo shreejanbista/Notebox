@@ -32,6 +32,7 @@ public class Profile extends Fragment implements View.OnClickListener {
     private FirebaseAuth mAuth;
 
     String TAG = "ProfileOX";
+    Button reportbutton, sharebutton, feedbackbutton, aboutbutton;
 
     FirebaseAuth auth;
 
@@ -60,7 +61,70 @@ public class Profile extends Fragment implements View.OnClickListener {
             }
         });
 
-        /* all the commented is for downloading from the firebase */
+        sharebutton = rootView.findViewById(R.id.share_b);
+        reportbutton = rootView.findViewById(R.id.report_b);
+        feedbackbutton = rootView.findViewById(R.id.feedback_b);
+        aboutbutton = rootView.findViewById(R.id.about_b);
+
+
+        sharebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Insert Subject here");
+                String app_url = "cipherhub.ml";
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, app_url);
+                startActivity(Intent.createChooser(shareIntent, "Share via"));
+
+            }
+        });
+
+        reportbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("message/rfc822");
+
+                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"onecipherhub@gmail.com"});
+                i.putExtra(Intent.EXTRA_SUBJECT, "Report your issues.");
+                i.putExtra(Intent.EXTRA_TEXT   , "We will contact you soon. Please write in details.");
+                startActivity(Intent.createChooser(i, "Choose an Email client :"));
+
+                try {
+                    startActivity(Intent.createChooser(i, "Report your issues."));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    //Toast.makeText(MyActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+
+        feedbackbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("message/rfc822");
+
+                i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"onecipherhub@gmail.com"});
+                i.putExtra(Intent.EXTRA_SUBJECT, "Share your valuable feedback.");
+                i.putExtra(Intent.EXTRA_TEXT   , "Your feedback is highly appreciated and will help us to improve.");
+                startActivity(Intent.createChooser(i, "Choose an Email client :"));
+
+                try {
+                    startActivity(Intent.createChooser(i, "Feedback"));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    //Toast.makeText(MyActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+        });
+
+
+
+            /* all the commented is for downloading from the firebase */
 
 //        storage = FirebaseStorage.getInstance();
 //
@@ -106,4 +170,3 @@ public class Profile extends Fragment implements View.OnClickListener {
         }
     }
 }
-  

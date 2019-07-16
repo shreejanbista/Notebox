@@ -77,8 +77,8 @@ public class SignIn extends AppCompatActivity {
         // Get the last user which signed in
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
-//        openHomePage();
 
+        openHomePage();
 
         // GoogleSignInOptions will mention what and all we need
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
