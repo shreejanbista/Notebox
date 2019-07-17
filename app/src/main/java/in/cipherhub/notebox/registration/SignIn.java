@@ -10,10 +10,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -42,6 +46,7 @@ import in.cipherhub.notebox.R;
 import in.cipherhub.notebox.utils.Internet;
 
 public class SignIn extends AppCompatActivity {
+
 
     private String TAG = "SplashScreenOXET";
     private int RC_SIGN_IN = 1234;
@@ -111,6 +116,29 @@ public class SignIn extends AppCompatActivity {
                 }
             }
         });
+
+//        show_Password = (TextView) findViewById(R.id.show_Password);
+//
+//        show_Password.setVisibility(View.GONE);
+//
+//        show_Password.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(show_Password.getText() == "SHOW"){
+//
+//                    show_Password.setText("HIDE");
+//
+//
+//                }
+//                else {
+//
+//                    show_Password.setText("SHOW");
+//                }
+//            }
+//        });
+
+
+
     }
 
 
