@@ -1,7 +1,9 @@
 package in.cipherhub.notebox;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -117,14 +119,35 @@ public class Upload extends Fragment implements View.OnClickListener {
         Button buttonClicked = rootView.findViewById(v.getId());
 
         if (buttonClicked == selectPDF_B) {
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            intent.setType("application/pdf");
-            startActivityForResult(Intent.createChooser(intent, "Select PDF"), REQUEST_PDF_PATH);
+
+            if (((MainActivity) Objects.requireNonNull(this.getActivity())).checkPermission) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.setType("application/pdf");
+                startActivityForResult(Intent.createChooser(intent, "Select PDF"), REQUEST_PDF_PATH);
+            } else {
+                Toast.makeText(getContext(), "Permission not Granted", Toast.LENGTH_SHORT).show();
+                ((MainActivity) Objects.requireNonNull(this.getActivity())).askPermission();
+            }
+
         } else if (buttonClicked == upload_button) {
 
-            mStorageRef = mStorageRef.child("notes/" + "nmit_560064/" + "be/" + "cse/" + "py/" + pdfName_TV.getText().toString());
-            uploadFile();
+            if (subjectName_ET.getText().toString().equals("")) {
+
+                Toast.makeText(getContext(), "Please Provide Full Details!", Toast.LENGTH_LONG).show();
+
+            } else {
+
+                String branch = getActivity().getSharedPreferences("users", Context.MODE_PRIVATE).getString("branch", "_");
+
+                String subject = generateAbbreviation(subjectName_ET.getText().toString()).toLowerCase();
+
+                mStorageRef = mStorageRef.child("notes/" + "nmit_560064/" + "be/" + branch + "/" + subject + "/" +
+                        pdfName_TV.getText().toString());
+
+                uploadFile();
+            }
+
 
         } else {
 

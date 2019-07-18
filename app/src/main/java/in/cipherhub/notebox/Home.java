@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -30,9 +29,9 @@ import com.google.firebase.firestore.Source;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.cipherhub.notebox.Adapters.AdapterHomeSubjects;
-import in.cipherhub.notebox.Adapters.AdapterRecentViews;
-import in.cipherhub.notebox.Models.ItemDataHomeSubjects;
+import in.cipherhub.notebox.adapters.AdapterHomeSubjects;
+import in.cipherhub.notebox.adapters.AdapterRecentViews;
+import in.cipherhub.notebox.models.ItemDataHomeSubjects;
 
 public class Home extends Fragment implements View.OnClickListener {
 
@@ -63,10 +62,38 @@ public class Home extends Fragment implements View.OnClickListener {
         final ConstraintLayout recentViewsLayout_CL = rootView.findViewById(R.id.recentViewsLayout_CL);
         final EditText subjectsSearch_ET = rootView.findViewById(R.id.subjectsSearch_ET);
         final ImageButton searchIconInSearchBar_IB = rootView.findViewById(R.id.searchIconInSearchBar_IB);
+
         LinearLayout notSignedInTemplate_LL = rootView.findViewById(R.id.notSignedInTemplate_LL);
         RecyclerView recentViews_RV = rootView.findViewById(R.id.recentViews_RV);
         RecyclerView homeSubjects_RV = rootView.findViewById(R.id.homeSubjects_RV);
         ImageButton bookmark_IB = rootView.findViewById(R.id.bookmark_IB);
+
+        if (user == null) {
+            // No user registered
+//            homeSubjects_RV.setVisibility(View.GONE);
+            subjectsSearch_ET.setFocusable(false);
+            notSignedInTemplate_LL.setVisibility(View.VISIBLE);
+        } else {
+            Boolean isUserDetailsAvailable = false;
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("users").document(user.getUid()).get(Source.CACHE)
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful() && task.getResult() != null)
+                                if (task.getResult().getData() != null)
+                                    if (String.valueOf(task.getResult().getData().get("institute")).length() > 0) {
+                                        Log.d(TAG, "details are available");
+                                    } else {
+                                        Log.d(TAG, "details are not available");
+                                    }
+                        }
+                    });
+//            homeSubjects_RV.setVisibility(View.VISIBLE);
+            Log.i(TAG, "ran");
+            subjectsSearch_ET.setFocusable(true);
+            notSignedInTemplate_LL.setVisibility(View.GONE);
+        }
 
         bookmark_IB.setOnClickListener(new View.OnClickListener() {
             @Override

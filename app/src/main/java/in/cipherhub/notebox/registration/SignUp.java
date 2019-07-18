@@ -1,4 +1,4 @@
-package in.cipherhub.notebox.Registration;
+package in.cipherhub.notebox.registration;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
@@ -31,8 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import in.cipherhub.notebox.R;
-import in.cipherhub.notebox.SplashScreen;
-import in.cipherhub.notebox.Utils.Internet;
+import in.cipherhub.notebox.utils.Internet;
 
 import static android.content.Context.MODE_PRIVATE;
 

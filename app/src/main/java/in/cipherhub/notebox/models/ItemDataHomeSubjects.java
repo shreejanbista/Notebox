@@ -1,4 +1,4 @@
-package in.cipherhub.notebox.Models;
+package in.cipherhub.notebox.models;
 
 public class ItemDataHomeSubjects {
 

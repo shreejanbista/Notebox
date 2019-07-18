@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@color/colorWhite_FFFFFF"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Registration.LogIn">
+    tools:context=".registration.LogIn">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout3"
@@ -62,6 +62,7 @@
                     android:hint="@string/e_mail"
                     android:inputType="textEmailAddress"
                     android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
                     android:textColor="@color/colorAppTheme"
@@ -80,6 +81,21 @@
             app:layout_constraintStart_toStartOf="@id/email_TV"
             app:layout_constraintTop_toBottomOf="@+id/email_CV" />
 
+        <TextView
+            android:id="@+id/forgotPassword_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="@string/forgot_password"
+            android:textColor="@color/colorAppTheme"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/password_CV"
+            app:layout_constraintEnd_toEndOf="@+id/password_CV"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/password_CV"
+            app:layout_constraintTop_toBottomOf="@+id/email_CV" />
+
         <android.support.v7.widget.CardView
             android:id="@+id/password_CV"
             android:layout_width="0dp"
@@ -96,6 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+
                 <View
                     android:id="@+id/password_V"
                     android:layout_width="5dp"
@@ -107,7 +124,7 @@
 
                 <EditText
                     android:id="@+id/password_ET"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@null"
                     android:ellipsize="end"
@@ -122,24 +139,30 @@
                     android:singleLine="true"
                     android:textColor="@color/colorAppTheme"
                     android:textSize="14sp"
+
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/forgotPassword_TV"
+
                     app:layout_constraintStart_toEndOf="@+id/password_V"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/forgotPassword_TV"
+                    android:id="@+id/show_Password"
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="8dp"
-                    android:gravity="center"
-                    android:text="@string/forgot_password"
-                    android:textColor="@color/colorAppTheme"
-                    android:textSize="12sp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="SHOW"
+                    android:fontFamily="@font/comfortaa_bold"
+                    android:textSize="8sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/password_ET"
                     app:layout_constraintTop_toTopOf="parent" />
+
+
             </android.support.constraint.ConstraintLayout>
+
+
 
         </android.support.v7.widget.CardView>
 
