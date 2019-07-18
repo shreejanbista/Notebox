@@ -46,7 +46,7 @@
             android:fontFamily="@font/consolas_regular"
             android:lineSpacingExtra="4sp"
             android:text="Notes you upload will help many student and teachers to clear their doubts and assist them in exams!"
-            android:textColor="@color/colorGray_AAAAAA"
+            android:textColor="@color/colorGray_777777"
             android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -99,10 +99,9 @@
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
                 android:textColor="@color/colorGray_999999"
-                android:textColorHint="@color/colorGray_AAAAAA"
+                android:textColorHint="@color/colorGray_777777"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/subjectName"
                 app:layout_constraintStart_toStartOf="@+id/textView_teacher"
                 app:layout_constraintTop_toBottomOf="@+id/textView_teacher" />
 
@@ -172,7 +171,7 @@
                 android:paddingEnd="15dp"
                 android:paddingBottom="5dp"
                 android:text="@string/sample_file_name"
-                android:textColor="@color/colorGray_AAAAAA"
+                android:textColor="@color/colorGray_777777"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView5"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -206,7 +205,7 @@
                 android:paddingEnd="15dp"
                 android:paddingBottom="5dp"
                 android:text="@string/size"
-                android:textColor="@color/colorGray_AAAAAA"
+                android:textColor="@color/colorGray_777777"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView7"
                 app:layout_constraintStart_toStartOf="@+id/pdfName_TV"
@@ -242,14 +241,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView_details" />
 
             <AutoCompleteTextView
-                android:id="@+id/subjectName"
+                android:id="@+id/subjectName_ACTV"
                 android:ems="10"
                 android:textSize="14sp"
                 android:hint="@string/subject_name"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:textColor="@color/colorGray_999999"
-                android:textColorHint="@color/colorGray_AAAAAA"
+                android:textColorHint="@color/colorGray_777777"
                 android:fontFamily="@font/segoe_ui"
                 android:inputType="textPersonName"
                 android:layout_marginStart="8dp"
@@ -288,7 +287,7 @@
                 android:textColor="#999999"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/textView_subject"
-                app:layout_constraintTop_toBottomOf="@+id/subjectName" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView_teacher"
