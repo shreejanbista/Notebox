@@ -231,7 +231,7 @@
         <Button
             android:id="@+id/bookmarks_B"
             style="@style/profile_four_buttons"
-            android:drawableLeft="@drawable/icon_bookmark_red_border"
+            android:drawableStart="@drawable/icon_bookmark_red_border"
             android:text="Bookmarks" />
 
         <Button
