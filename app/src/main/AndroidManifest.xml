@@ -19,11 +19,13 @@
 
         <activity
             android:name=".registration.SignIn"
-            android:noHistory="true" />
+            android:noHistory="true"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".SplashScreen"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:screenOrientation="portrait">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,7 +60,8 @@ Set color used with incoming notification messages. This is used when no color i
 
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
 
     </application>
 

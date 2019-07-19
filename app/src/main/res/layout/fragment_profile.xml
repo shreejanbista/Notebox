@@ -41,12 +41,12 @@
             android:text="Your Profile"
             android:textColor="@color/colorAppTheme"
             android:textSize="26sp"
-            app:layout_constraintEnd_toStartOf="@+id/bookmark_IB"
+            app:layout_constraintEnd_toStartOf="@+id/userDisplayPicture_IB"
             app:layout_constraintStart_toStartOf="@+id/textView2"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/bookmark_IB"
+            android:id="@+id/userDisplayPicture_IB"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginEnd="24dp"
@@ -89,7 +89,7 @@
             android:layout_height="30dp"
             app:cardCornerRadius="15dp"
             app:layout_constraintBottom_toBottomOf="@+id/rating_RB"
-            app:layout_constraintEnd_toEndOf="@+id/bookmark_IB"
+            app:layout_constraintEnd_toEndOf="@+id/userDisplayPicture_IB"
             app:layout_constraintTop_toTopOf="@+id/rating_RB">
 
             <android.support.constraint.ConstraintLayout
