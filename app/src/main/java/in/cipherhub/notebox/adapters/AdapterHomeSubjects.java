@@ -34,7 +34,9 @@ public class AdapterHomeSubjects extends RecyclerView.Adapter<AdapterHomeSubject
 
         homeSubjectsItemViewHolder.subAbb_TV.setText(list.get(i).subAbb);
         homeSubjectsItemViewHolder.subName_TV.setText(list.get(i).subName);
-        homeSubjectsItemViewHolder.lastUpdate_TV.setText(list.get(i).lastUpdate);
+
+        String last_update = "last update: " + list.get(i).lastUpdate;
+        homeSubjectsItemViewHolder.lastUpdate_TV.setText(last_update);
     }
 
     public void filterList(List<ItemDataHomeSubjects> filteredList) {

@@ -4,20 +4,17 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -36,7 +33,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,8 +54,9 @@ public class SignIn extends AppCompatActivity {
     private String TAG = "SplashScreenOXET";
     private int RC_SIGN_IN = 1234;
 
-    FirebaseUser user = null;
+    FirebaseFirestore db;
     FirebaseAuth firebaseAuth;
+    FirebaseUser user = null;
     GoogleSignInClient mGoogleSignInClient;
 
     Button googleSignin_B;
@@ -79,11 +83,17 @@ public class SignIn extends AppCompatActivity {
         googleSignIn_CL = findViewById(R.id.googleSignIn_CL);
         signInContainer_FL = findViewById(R.id.signInContainer_FL);
 
+        Bundle extras = getIntent().getExtras();
+        boolean isEmailVerified = true, isDetailsFilled = true;
+        if (extras != null) {
+            isEmailVerified = extras.getBoolean("isEmailVerified");
+            isDetailsFilled = extras.getBoolean("isDetailsFilled");
+        }
+
         // Get the last user which signed in
+        db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
-//        openHomePage();
-
 
         // GoogleSignInOptions will mention what and all we need
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -99,11 +109,12 @@ public class SignIn extends AppCompatActivity {
         changeFragment(new LogIn(), false, true);
         if (user != null)
             // if user has sent an email to receive an e-mail Id
-            if (!user.isEmailVerified())
-                changeFragment(new EmailVerification(), true, true);
+            if (!isEmailVerified) {
                 // if e-mail is verified
-            else if (!isUserDetailsFilled())
+                changeFragment(new EmailVerification(), true, true);
+            } else if (!isDetailsFilled) {
                 changeFragment(new FillDetails(), false, false);
+            }
 
         // Google button which is lying outside every fragment
         googleSignin_B.setOnClickListener(new View.OnClickListener() {
@@ -163,7 +174,6 @@ public class SignIn extends AppCompatActivity {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 // authenticate with Firebase
                 firebaseAuthWithGoogle(account);
-
 
 
             } catch (ApiException e) {
@@ -269,9 +279,57 @@ public class SignIn extends AppCompatActivity {
 
 
     public void openHomePage() {
-        // after loading data from firebase
-        startActivity(new Intent(SignIn.this, MainActivity.class));
-        overridePendingTransition(android.R.anim.fade_in, 0);
+        user = firebaseAuth.getCurrentUser();
+        db.collection("users").document(user.getUid())
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    SharedPreferences localDB = getSharedPreferences("localDB", MODE_PRIVATE);
+                    final SharedPreferences.Editor editor = localDB.edit();
+                    editor.putString("user", String.valueOf(new JSONObject(task.getResult().getData())))
+                            .apply();
+
+                    db.collection("institutes")
+                            .whereEqualTo("name", task.getResult().getData().get("institute"))
+                            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    editor.putString("institute"
+                                                    , String.valueOf(new JSONObject(document.getData()))
+                                            ).apply();
+
+                                    // after loading data from firebase
+                                    startActivity(new Intent(SignIn.this, MainActivity.class));
+                                    overridePendingTransition(android.R.anim.fade_in, 0);
+                                }
+                            } else {
+                                Log.w(TAG, "Error getting documents.", task.getException());
+                            }
+                        }
+                    });
+//                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+//                                @Override
+//                                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots
+//                                        , @Nullable FirebaseFirestoreException e) {
+//                                    if (queryDocumentSnapshots != null) {
+//                                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+//                                            editor.putString("institute"
+//                                                    , String.valueOf(new JSONObject(document.getData()))
+//                                            ).apply();
+//                                        }
+//                                    }
+//
+//                                    // after loading data from firebase
+//                                    startActivity(new Intent(SignIn.this, MainActivity.class));
+//                                    overridePendingTransition(android.R.anim.fade_in, 0);
+//                                }
+//                            });
+                }
+            }
+        });
     }
 
 
@@ -298,11 +356,42 @@ public class SignIn extends AppCompatActivity {
     }
 
 
-    public boolean isUserDetailsFilled() {
-        SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
+    public void pullFromFirebase() {
+        // user subject list
+    }
 
-        String pulledUserInstitute = sharedPreferences.getString("institute", "_");
+    public void pullSubjectsList() {
 
-        return !pulledUserInstitute.equals("_");
+        SharedPreferences userPref = getSharedPreferences("user", MODE_PRIVATE);
+        String institute = userPref.getString("institute", "nmit_560064");
+        String course = userPref.getString("course", "be");
+        String branch = userPref.getString("branch", "ece");
+
+        SharedPreferences userSubPref = getSharedPreferences("subjects", MODE_PRIVATE);
+        final SharedPreferences.Editor editor = userSubPref.edit();
+
+        db.collection("institutes").document(institute)
+                .collection("courses").document(course)
+                .collection("branches").document(branch)
+                .collection("subjects")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String docId = document.getId();
+                                editor.putString(docId, String.valueOf(document.getData().get("name")));
+                                editor.apply();
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
 }
+
+
+/* TODO: what if user does not verifies E-mail for long time, then it expires and again signing up will
+ *  give error of user already exists... try adding email verification check in LogIn page*/

@@ -15,15 +15,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".Downloads"></activity>
-        <activity android:name=".Uploads" />
-        <activity android:name=".BookmarkActivity" />
+        <activity android:name=".Downloads"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Uploads"
+            android:screenOrientation="portrait" />
+        <activity android:name=".BookmarkActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".registration.SignIn"
-            android:noHistory="true" />
+            android:noHistory="true"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SplashScreen"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,7 +37,7 @@
         </activity>
 
         <service
-            android:name=".Notifications.FirebaseMessagingService"
+            android:name=".notifications.FirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -55,7 +60,9 @@ Set color used with incoming notification messages. This is used when no color i
             android:value="@string/default_notification_channel_id" /> <!-- END fcm Default channel -->
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

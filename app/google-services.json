@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "728484278414",
+    "firebase_url": "https://notebox-4f384.firebaseio.com",
+    "project_id": "notebox-4f384",
+    "storage_bucket": "notebox-4f384.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:728484278414:android:9f3ba0e19f364f17",
+        "android_client_info": {
+          "package_name": "in.cipherhub.notebox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "728484278414-frop7tokkhf422tm7ru3kjtlbqljbk4t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDktsciD1QewU6SdqOmWTamZ05-4WWyhjs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "728484278414-frop7tokkhf422tm7ru3kjtlbqljbk4t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
