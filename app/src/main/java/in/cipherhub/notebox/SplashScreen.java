@@ -1,16 +1,37 @@
 package in.cipherhub.notebox;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.model.Document;
+import com.google.gson.JsonArray;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 import in.cipherhub.notebox.registration.SignIn;
 
@@ -32,7 +53,7 @@ public class SplashScreen extends AppCompatActivity {
 
         // Hide the actionbar and set FULLSCREEN flag - for design
         getSupportActionBar().hide();
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         // instantiate views other then the one which are inside fragments
         // those cannot be instantiated here
@@ -45,6 +66,7 @@ public class SplashScreen extends AppCompatActivity {
         // Get the last user which signed in
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
+
 
         // user has not logged in open registration page
         if (user == null)
@@ -77,13 +99,15 @@ public class SplashScreen extends AppCompatActivity {
                         if (byPassRegistration) {
                             // open Main Home page
                             intent = new Intent(SplashScreen.this, MainActivity.class);
+
                         } else {
                             // open registration page
                             intent = new Intent(SplashScreen.this, SignIn.class);
-                            intent.putExtra("isEmailVerified", user.isEmailVerified());
-                            intent.putExtra("isDetailsFilled", isDetailsFilled());
+                            if (user != null) {
+                                intent.putExtra("isEmailVerified", user.isEmailVerified());
+                                intent.putExtra("isDetailsFilled", isDetailsFilled());
+                            }
                         }
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         overridePendingTransition(R.anim.fade_in, 0);
                     }
@@ -94,12 +118,7 @@ public class SplashScreen extends AppCompatActivity {
 
 
     public boolean isDetailsFilled() {
-        SharedPreferences sharedPreferences = getSharedPreferences("user", MODE_PRIVATE);
 
-        String pulledUserInstitute = sharedPreferences.getString("institute", "_");
-
-        Log.d(TAG, pulledUserInstitute);
-
-        return !pulledUserInstitute.equals("_");
+        return getSharedPreferences("user", MODE_PRIVATE).getBoolean("isDetailsFilled", false);
     }
 }
