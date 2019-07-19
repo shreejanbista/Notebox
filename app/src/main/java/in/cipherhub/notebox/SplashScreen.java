@@ -26,9 +26,6 @@ public class SplashScreen extends AppCompatActivity {
     CardView appIcon_CV;
     ConstraintLayout appTitle_CL, company_CL;
 
-    TextView cipherHub_TV, by_TV;
-    View blueBg_v, whiteBg_V;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -30,7 +30,7 @@ public class Profile extends Fragment implements View.OnClickListener {
     StorageReference httpsReference;
     Button signout_b;
     private FirebaseAuth mAuth;
-
+    Button button_bookmark;
     String TAG = "ProfileOX";
 
     FirebaseAuth auth;
@@ -42,6 +42,7 @@ public class Profile extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
+
 
         mAuth = FirebaseAuth.getInstance();
 //        signout_b = rootView.findViewById(R.id.signin_B);
@@ -57,6 +58,19 @@ public class Profile extends Fragment implements View.OnClickListener {
                 auth.signOut();
                 getActivity().finish();
                 startActivity(new Intent(getContext(), SignIn.class));
+            }
+        });
+
+
+        button_bookmark = rootView.findViewById(R.id.button_bookmark);
+
+
+
+        button_bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+                startActivity(new Intent(getContext(),BookmarkActivity.class));
             }
         });
 

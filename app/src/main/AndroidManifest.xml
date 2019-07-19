@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="in.cipherhub.notebox">
 
@@ -16,21 +15,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-
+        <activity android:name=".Downloads"></activity>
+        <activity android:name=".Uploads" />
+        <activity android:name=".BookmarkActivity" />
         <activity
             android:name=".registration.SignIn"
             android:noHistory="true" />
-
         <activity
             android:name=".SplashScreen"
             android:noHistory="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <service
@@ -55,11 +53,9 @@ Set color used with incoming notification messages. This is used when no color i
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" /> <!-- END fcm Default channel -->
-
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan" />
-
     </application>
 
 </manifest>
