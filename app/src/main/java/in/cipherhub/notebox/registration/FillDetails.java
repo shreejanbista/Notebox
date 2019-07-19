@@ -101,9 +101,9 @@ public class FillDetails extends Fragment {
                                 String branchAbbColor = String.valueOf(document.getData().get("branch_abb_color"));
                                 String totalUploads = String.valueOf(document.getData().get("total_uploads"));
 
-                                list.add(new ItemDataBranchSelector(branchName
-                                        , branchAbbColor, totalUploads
-                                ));
+//                                list.add(new ItemDataBranchSelector(branchName
+//                                        , branchAbbColor, totalUploads
+//                                ));
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
