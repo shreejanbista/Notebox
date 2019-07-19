@@ -84,9 +84,9 @@
                 android:gravity="start|center_vertical"
                 android:hint="Search Institue"
                 android:maxLines="1"
-                android:paddingStart="20dp"
+                android:paddingStart="15dp"
                 android:paddingTop="5dp"
-                android:paddingEnd="20dp"
+                android:paddingEnd="40dp"
                 android:paddingBottom="5dp"
                 android:textColor="@color/colorAppTheme"
                 android:textSize="14sp" />

@@ -230,16 +230,16 @@
 
 
         <Button
-            android:id="@+id/button_institutes"
+            android:id="@+id/button_bookmark"
             style="@style/profile_four_buttons"
             android:drawableLeft="@drawable/icon_bookmark_red_border"
             android:text="Bookmarks" />
 
         <Button
-            android:id="@+id/button_courses"
+            android:id="@+id/button_mynotes"
             style="@style/profile_four_buttons"
             android:drawableLeft="@drawable/ic_history_black_24dp"
-            android:text="History" />
+            android:text="My Notes" />
     </LinearLayout>
 
     <LinearLayout
@@ -256,13 +256,13 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <Button
-            android:id="@+id/button_branches"
+            android:id="@+id/button_uploads"
             style="@style/profile_four_buttons"
             android:drawableLeft="@drawable/ic_file_upload_blue_24dp"
             android:text="Uploads" />
 
         <Button
-            android:id="@+id/button_subjects"
+            android:id="@+id/button_downloads"
             style="@style/profile_four_buttons"
             android:drawableLeft="@drawable/ic_file_download_green_24dp"
             android:text="Downloads" />

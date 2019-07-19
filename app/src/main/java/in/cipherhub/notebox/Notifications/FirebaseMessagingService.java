@@ -61,7 +61,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         }
 
 
-        createNotification(remoteMessage.getNotification().getBody());
+        createNotification(remoteMessage.getNotification().getBody(), remoteMessage.getNotification().getTitle());
     }
 
     @Override
@@ -89,7 +89,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     }
 
 
-    private void createNotification(String messageBody) {
+    private void createNotification(String messageBody, String title) {
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -103,7 +103,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
                         .setSmallIcon(R.mipmap.ic_launcher_round)
-                        .setContentTitle("From Admin")
+                        .setContentTitle(title)
                         .setContentText(messageBody)
                         //.setStyle(new NotificationCompat.InboxStyle())
                         .setAutoCancel(true)
