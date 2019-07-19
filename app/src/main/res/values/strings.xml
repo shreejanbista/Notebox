@@ -20,6 +20,99 @@
     <string name="password">password</string>
     <string name="login">Login</string>
     <string name="task_icon">task icon</string>
+    <string name="size_colon">Size:</string>
+    <string name="name_colon">Name:</string>
+    <string name="sample_file_name">sample_file_name</string>
+    <string name="size">size</string>
+    <string name="subject_name">subject name</string>
+    <string name="unit_colon">Unit:*</string>
+    <string name="teacher_slash_author_colon">Teacher / Author:</string>
+    <string name="subject_colon_asterisk">Subject:*</string>
+    <string name="details">Details</string>
+    <string name="teacher_or_author_s_name">teacher or author\'s name</string>
+    <string name="report_an_issue">Report an issue</string>
+    <string name="share_this_app">Share this app</string>
+    <string name="feedback">Feedback</string>
+    <string name="about">About</string>
+    <string name="developed_by">Developed by</string>
+    <string name="cipher_hub">Cipher Hub</string>
+    <string name="signin">Signin</string>
+    <string name="by">by</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="full_name">full name</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="institute">Institute</string>
+    <string name="course">Course</string>
+    <string name="fill_details_message">As of now we have notes from NMIT Bachelors in Engineering course. Your details are fixed for those two fields. You can still change this info when your institute/details are updated.</string>
+    <string name="branch">Branch</string>
+    <string name="search_branch">search branch</string>
+    <string name="submit">Submit</string>
+    <string name="select_pdf">Select PDF</string>
+    <string name="upload_pdf">Upload PDF</string>
+    <string name="or_connect_with">or connect with</string>
+    <string name="desc_about">A product created by Cipher Hub to assist student with their studies and for teachers to share/enhance their knowledge on the subject. The explore feature let you browse notes from the different Institutes. Verify the PDF before you upload and try to fill more specific details.</string>
+    <string name="log_out">Log Out</string>
 
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    //Arrays of Subjects
+    <string-array name="cse_subject">
+        <item>DS</item>
+        <item>DAA</item>
+        <item>DADC</item>
+        <item>DMS</item>
+        <item>ANDROID</item>
+        <item>UNIX</item>
+        <item>Maths</item>
+        <item>MP</item>
+        <item>CO</item>
+        <item>CN</item>
+        <item>OOP</item>
+        <item>GT</item>
+        <item>CN</item>
+        <item>FLAT</item>
+        <item>DBMS</item>
+        <item>OS</item>
+        <item>CNS</item>
+        <item>JAVA</item>
+        <item>SE</item>
+        <item>IOT</item>
+        <item>PYTHON</item>
+        <item>DWM</item>
+        <item>DC</item>
+    </string-array>
+
+    <string-array name="full_cse_subject">
+        <item>Data Structures</item>
+        <item>Design and Analysis of Algorithms</item>
+        <item>Design of Analog and Digital Circuits</item>
+        <item>Discrete Mathematical Structures</item>
+        <item>ANDROID</item>
+        <item>Introduction to Unix and Shell Programming</item>
+        <item>Mathematics</item>
+        <item>Microprocessors</item>
+        <item>Computer Organization and Architecture</item>
+        <item>Computer Networks</item>
+        <item>Object Oriented Programming</item>
+        <item>Graph Theory</item>
+        <item>Computer Networks</item>
+        <item>FLAT</item>
+        <item>Database Management Systems</item>
+        <item>Operating System</item>
+        <item>Cryptography and Network Security</item>
+        <item>JAVA Programming</item>
+        <item>Software Engineering</item>
+        <item>Internet Of Things</item>
+        <item>PYTHON</item>
+        <item>DWM</item>
+        <item>DC</item>
+    </string-array>
+
+    <string-array name="cv_subject">
+        <item>SA</item>
+        <item>HHM</item>
+        <item>CT</item>
+        <item>ST</item>
+        <item>BPD</item>
+    </string-array>
 
 </resources>

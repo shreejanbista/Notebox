@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:id="@+id/itemBranchSelector_CL"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/branchName1_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/segoe_ui"
+        android:maxLines="1"
+        android:text="sample branch name"
+        android:textColor="@color/colorGray_878787"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/branchAbb1_TV"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_br_radius_gray_thirteen_dp"
+        android:fontFamily="@font/segoe_ui_bold"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="SAM"
+        android:textColor="@color/colorLightAppTheme"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/view3"
+        app:layout_constraintStart_toStartOf="@+id/branchName1_TV"
+        app:layout_constraintTop_toBottomOf="@+id/branchName1_TV" />
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/segoe_ui"
+        android:text="total uploads"
+        android:textColor="@color/colorGray_777777"
+        app:layout_constraintBottom_toBottomOf="@+id/branchAbb1_TV"
+        app:layout_constraintEnd_toStartOf="@+id/totalUploads1_TV"
+        app:layout_constraintTop_toTopOf="@+id/branchAbb1_TV" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/totalUploads1_TV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/totalUploads1_TV"
+        app:srcCompat="@drawable/ic_upload_florescent" />
+
+    <TextView
+        android:id="@+id/totalUploads1_TV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/segoe_ui"
+        android:text="00"
+        android:textColor="@color/colorFlorescent"
+        app:layout_constraintBottom_toBottomOf="@+id/textView30"
+        app:layout_constraintEnd_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toTopOf="@+id/textView30" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:layout_marginStart="4dp"
+        android:background="@color/colorGray_777777"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/branchName1_TV" />
+</android.support.constraint.ConstraintLayout>
