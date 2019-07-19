@@ -47,6 +47,72 @@
     <string name="branch">Branch</string>
     <string name="search_branch">search branch</string>
     <string name="submit">Submit</string>
+    <string name="select_pdf">Select PDF</string>
+    <string name="upload_pdf">Upload PDF</string>
+    <string name="or_connect_with">or connect with</string>
+    <string name="desc_about">A product created by Cipher Hub to assist student with their studies and for teachers to share/enhance their knowledge on the subject. The explore feature let you browse notes from the different Institutes. Verify the PDF before you upload and try to fill more specific details.</string>
+    <string name="log_out">Log Out</string>
 
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    //Arrays of Subjects
+    <string-array name="cse_subject">
+        <item>DS</item>
+        <item>DAA</item>
+        <item>DADC</item>
+        <item>DMS</item>
+        <item>ANDROID</item>
+        <item>UNIX</item>
+        <item>Maths</item>
+        <item>MP</item>
+        <item>CO</item>
+        <item>CN</item>
+        <item>OOP</item>
+        <item>GT</item>
+        <item>CN</item>
+        <item>FLAT</item>
+        <item>DBMS</item>
+        <item>OS</item>
+        <item>CNS</item>
+        <item>JAVA</item>
+        <item>SE</item>
+        <item>IOT</item>
+        <item>PYTHON</item>
+        <item>DWM</item>
+        <item>DC</item>
+    </string-array>
+
+    <string-array name="full_cse_subject">
+        <item>Data Structures</item>
+        <item>Design and Analysis of Algorithms</item>
+        <item>Design of Analog and Digital Circuits</item>
+        <item>Discrete Mathematical Structures</item>
+        <item>ANDROID</item>
+        <item>Introduction to Unix and Shell Programming</item>
+        <item>Mathematics</item>
+        <item>Microprocessors</item>
+        <item>Computer Organization and Architecture</item>
+        <item>Computer Networks</item>
+        <item>Object Oriented Programming</item>
+        <item>Graph Theory</item>
+        <item>Computer Networks</item>
+        <item>FLAT</item>
+        <item>Database Management Systems</item>
+        <item>Operating System</item>
+        <item>Cryptography and Network Security</item>
+        <item>JAVA Programming</item>
+        <item>Software Engineering</item>
+        <item>Internet Of Things</item>
+        <item>PYTHON</item>
+        <item>DWM</item>
+        <item>DC</item>
+    </string-array>
+
+    <string-array name="cv_subject">
+        <item>SA</item>
+        <item>HHM</item>
+        <item>CT</item>
+        <item>ST</item>
+        <item>BPD</item>
+    </string-array>
 
 </resources>

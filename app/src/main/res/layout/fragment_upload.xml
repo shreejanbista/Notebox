@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,6 +9,14 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     tools:context=".Upload">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite_FFFFFF"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        tools:context=".Upload">
 
     <include
         android:id="@+id/include"
@@ -37,7 +46,7 @@
             android:fontFamily="@font/consolas_regular"
             android:lineSpacingExtra="4sp"
             android:text="Notes you upload will help many student and teachers to clear their doubts and assist them in exams!"
-            android:textColor="@color/colorGray_AAAAAA"
+            android:textColor="@color/colorGray_777777"
             android:textSize="13sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +63,7 @@
             android:fontFamily="@font/consolas_regular"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:text="Select PDF"
+            android:text="@string/select_pdf"
             android:textAllCaps="false"
             android:textColor="@color/colorAppTheme"
             android:textSize="13sp"
@@ -63,21 +72,16 @@
             app:layout_constraintTop_toTopOf="@+id/textView6" />
     </android.support.constraint.ConstraintLayout>
 
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:overScrollMode="never"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
-
         <android.support.constraint.ConstraintLayout
             android:id="@+id/signin_CL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:alpha="0">
+            android:alpha="0"
+            android:overScrollMode="never"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
             <!-- teacherName_ET -->
             <EditText
@@ -95,10 +99,9 @@
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
                 android:textColor="@color/colorGray_999999"
-                android:textColorHint="@color/colorGray_AAAAAA"
+                android:textColorHint="@color/colorGray_777777"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/subjectName_ET"
                 app:layout_constraintStart_toStartOf="@+id/textView_teacher"
                 app:layout_constraintTop_toBottomOf="@+id/textView_teacher" />
 
@@ -168,7 +171,7 @@
                 android:paddingEnd="15dp"
                 android:paddingBottom="5dp"
                 android:text="@string/sample_file_name"
-                android:textColor="@color/colorGray_AAAAAA"
+                android:textColor="@color/colorGray_777777"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView5"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -202,7 +205,7 @@
                 android:paddingEnd="15dp"
                 android:paddingBottom="5dp"
                 android:text="@string/size"
-                android:textColor="@color/colorGray_AAAAAA"
+                android:textColor="@color/colorGray_777777"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/textView7"
                 app:layout_constraintStart_toStartOf="@+id/pdfName_TV"
@@ -237,26 +240,42 @@
                 app:layout_constraintStart_toStartOf="@+id/textView_details"
                 app:layout_constraintTop_toBottomOf="@+id/textView_details" />
 
-            <EditText
-                android:id="@+id/subjectName_ET"
+            <AutoCompleteTextView
+                android:id="@+id/subjectName_ACTV"
+                android:ems="10"
+                android:textSize="14sp"
+                android:hint="@string/subject_name"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
+                android:textColor="@color/colorGray_999999"
+                android:textColorHint="@color/colorGray_777777"
+                android:fontFamily="@font/segoe_ui"
+                android:inputType="textPersonName"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="32dp"
-                android:background="@drawable/bg_br_radius_gray_smaller"
-                android:ems="10"
-                android:fontFamily="@font/segoe_ui"
-                android:hint="@string/subject_name"
-                android:inputType="textPersonName"
                 android:paddingStart="15dp"
                 android:paddingEnd="15dp"
-                android:textColor="@color/colorGray_999999"
-                android:textColorHint="@color/colorGray_AAAAAA"
-                android:textSize="14sp"
+                android:background="@drawable/bg_br_radius_gray_smaller"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textView_subject"
-                app:layout_constraintTop_toBottomOf="@+id/textView_subject" />
+                app:layout_constraintTop_toBottomOf="@+id/textView_subject"
+                tools:ignore="Autofill" />
+
+            <!--<android.support.v7.widget.RecyclerView-->
+                <!--android:id="@+id/subjectSelectorList_RV"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:overScrollMode="never"-->
+                <!--android:layout_marginStart="8dp"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_marginEnd="32dp"-->
+                <!--android:paddingStart="15dp"-->
+                <!--android:paddingEnd="15dp"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"-->
+                <!--app:layout_constraintStart_toStartOf="@+id/textView_subject"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/textView_subject"-->
+                <!--android:visibility="gone" />-->
 
             <TextView
                 android:id="@+id/textView_unit"
@@ -268,7 +287,7 @@
                 android:textColor="#999999"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/textView_subject"
-                app:layout_constraintTop_toBottomOf="@+id/subjectName_ET" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView_teacher"
@@ -281,6 +300,29 @@
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/textView_unit"
                 app:layout_constraintTop_toBottomOf="@+id/unitFour_B" />
+
+            <Button
+                android:id="@+id/upload_button"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_apptheme_pill_20"
+                android:backgroundTint="@color/colorWhite_FFFFFF"
+                android:fontFamily="@font/consolas_regular"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:text="@string/upload_pdf"
+                android:textAllCaps="false"
+                android:textColor="@color/colorAppTheme"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/teacherName_ET" />
+
+
         </android.support.constraint.ConstraintLayout>
-    </ScrollView>
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

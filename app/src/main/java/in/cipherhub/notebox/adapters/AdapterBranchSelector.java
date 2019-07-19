@@ -1,4 +1,4 @@
-package in.cipherhub.notebox.Adapters;
+package in.cipherhub.notebox.adapters;
 
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import in.cipherhub.notebox.Models.ItemDataBranchSelector;
+import in.cipherhub.notebox.models.ItemDataBranchSelector;
 import in.cipherhub.notebox.R;
 
 public class AdapterBranchSelector extends RecyclerView.Adapter<AdapterBranchSelector.branchSelectorItemViewHolder>{
@@ -44,7 +44,7 @@ public class AdapterBranchSelector extends RecyclerView.Adapter<AdapterBranchSel
     public void onBindViewHolder(@NonNull branchSelectorItemViewHolder branchSelectorItemViewHolder, int i) {
 
         branchSelectorItemViewHolder.branchName_TV.setText(list.get(i).getBranchName());
-        branchSelectorItemViewHolder.branchAbb_TV.setText(generateAbbreviation(list.get(i).getBranchName()));
+        branchSelectorItemViewHolder.branchAbb_TV.setText(list.get(i).getBranchAbb());
         branchSelectorItemViewHolder.branchAbb_TV.setTextColor(Color.parseColor(list.get(i).getBranchAbbColor()));
         branchSelectorItemViewHolder.totalUploads_TV.setText(list.get(i).getTotalUploads());
     }
@@ -88,17 +88,4 @@ public class AdapterBranchSelector extends RecyclerView.Adapter<AdapterBranchSel
             });
         }
     }
-
-
-    private String generateAbbreviation(String fullForm) {
-        String abbreviation = "";
-
-        for (int i = 0; i < fullForm.length(); i++) {
-            char temp = fullForm.charAt(i);
-            abbreviation += Character.isUpperCase(temp) ? temp : "";
-        }
-        return abbreviation;
-    }
-    
-    
 }

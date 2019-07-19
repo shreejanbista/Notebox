@@ -1,9 +1,11 @@
-package in.cipherhub.notebox.BeforeMain;
+package in.cipherhub.notebox.registration;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 import in.cipherhub.notebox.R;
-import in.cipherhub.notebox.Utils.Internet;
+import in.cipherhub.notebox.utils.Internet;
 
 public class ForgotPassword extends Fragment {
 
@@ -39,6 +41,26 @@ public class ForgotPassword extends Fragment {
         email_ET = rootView.findViewById(R.id.email_ET);
         email_V = rootView.findViewById(R.id.email_V);
         send_B = rootView.findViewById(R.id.send_B);
+
+        email_ET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(!email_ET.getText().toString().equals(""))
+                    email_V.setBackgroundColor(getResources().getColor(R.color.colorAppTheme));
+                else
+                    email_V.setBackgroundColor(getResources().getColor(R.color.colorGray_777777));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         back_B.setOnClickListener(new View.OnClickListener() {
             @Override
