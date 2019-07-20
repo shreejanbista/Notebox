@@ -76,7 +76,7 @@
 
 
         <EditText
-            android:id="@+id/subjectsSearch_ET"
+            android:id="@+id/pdfSearch_ET"
             android:layout_width="0dp"
             android:layout_height="35dp"
             android:layout_marginStart="24dp"
@@ -106,9 +106,9 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:src="@drawable/icon_search"
-            app:layout_constraintBottom_toBottomOf="@+id/subjectsSearch_ET"
-            app:layout_constraintEnd_toEndOf="@+id/subjectsSearch_ET"
-            app:layout_constraintTop_toTopOf="@+id/subjectsSearch_ET" />
+            app:layout_constraintBottom_toBottomOf="@+id/pdfSearch_ET"
+            app:layout_constraintEnd_toEndOf="@+id/pdfSearch_ET"
+            app:layout_constraintTop_toTopOf="@+id/pdfSearch_ET" />
 
 
     </android.support.constraint.ConstraintLayout>

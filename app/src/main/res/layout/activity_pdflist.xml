@@ -126,7 +126,7 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/subjectsSearch_ET"
+        android:id="@+id/pdfSearch_ET"
         android:layout_width="0dp"
         android:layout_height="35dp"
         android:layout_marginStart="24dp"
@@ -147,15 +147,15 @@
 
     <ImageView
         android:id="@+id/searchIconInSearchBar_IV"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="2dp"
         android:backgroundTint="@android:color/transparent"
         android:src="@drawable/icon_search"
-        app:layout_constraintBottom_toBottomOf="@+id/subjectsSearch_ET"
-        app:layout_constraintEnd_toEndOf="@+id/subjectsSearch_ET"
-        app:layout_constraintTop_toTopOf="@+id/subjectsSearch_ET" />
+        app:layout_constraintBottom_toBottomOf="@+id/pdfSearch_ET"
+        app:layout_constraintEnd_toEndOf="@+id/pdfSearch_ET"
+        app:layout_constraintTop_toTopOf="@+id/pdfSearch_ET" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/PDFList_RV"
@@ -163,7 +163,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/subjectsSearch_ET"
-        app:layout_constraintStart_toStartOf="@+id/subjectsSearch_ET"
-        app:layout_constraintTop_toBottomOf="@+id/subjectsSearch_ET" />
+        app:layout_constraintEnd_toEndOf="@+id/pdfSearch_ET"
+        app:layout_constraintStart_toStartOf="@+id/pdfSearch_ET"
+        app:layout_constraintTop_toBottomOf="@+id/pdfSearch_ET" />
 </android.support.constraint.ConstraintLayout>

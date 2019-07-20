@@ -43,7 +43,6 @@ public class AdapterBranchSelector extends RecyclerView.Adapter<AdapterBranchSel
     }
 
 
-
     @Override
     public void onBindViewHolder(@NonNull branchSelectorItemViewHolder branchSelectorItemViewHolder, int i) {
 

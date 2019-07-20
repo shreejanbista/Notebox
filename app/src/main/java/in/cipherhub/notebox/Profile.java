@@ -59,6 +59,7 @@ public class Profile extends Fragment implements View.OnClickListener {
 
         try {
             userObject = new JSONObject(localDB.getString("user", "Error Fetching..."));
+
             rating_RB.setRating((float) userObject.getDouble("rating"));
             fullName_TV.setText(userObject.getString("full_name"));
             instituteName_TV.setText(userObject.getString("institute"));

@@ -1,7 +1,6 @@
 package in.cipherhub.notebox;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -17,17 +16,11 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,7 +33,6 @@ import in.cipherhub.notebox.adapters.AdapterBranchSelector;
 import in.cipherhub.notebox.adapters.AdapterHomeSubjects;
 import in.cipherhub.notebox.adapters.AdapterRecentViews;
 import in.cipherhub.notebox.models.ItemDataHomeSubjects;
-import in.cipherhub.notebox.registration.SignIn;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -73,7 +65,7 @@ public class Home extends Fragment {
 
         final ConstraintLayout subjectsLayout_CL = rootView.findViewById(R.id.subjectsLayout_CL);
         final ConstraintLayout recentViewsLayout_CL = rootView.findViewById(R.id.recentViewsLayout_CL);
-        final EditText subjectsSearch_ET = rootView.findViewById(R.id.subjectsSearch_ET);
+        final EditText subjectsSearch_ET = rootView.findViewById(R.id.pdfSearch_ET);
         TextView noRecentViews_TV = rootView.findViewById(R.id.noRecentViews_TV);
         final ImageButton searchIconInSearchBar_IB = rootView.findViewById(R.id.searchIconInSearchBar_IB);
 
