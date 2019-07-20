@@ -15,20 +15,24 @@
       },
       "oauth_client": [
         {
-          "client_id": "728484278414-frop7tokkhf422tm7ru3kjtlbqljbk4t.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "728484278414-9ij9u1bd3gblllgg7d4ui615vb732fvi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.cipherhub.notebox",
+            "certificate_hash": "986ebf7058166f08faaf2c28486f94f8e5dfb851"
+          }
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDktsciD1QewU6SdqOmWTamZ05-4WWyhjs"
+          "current_key": "AIzaSyA-1dqfR-FWGKeOCidwogxPhdXkLJLtSaA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "728484278414-frop7tokkhf422tm7ru3kjtlbqljbk4t.apps.googleusercontent.com",
+              "client_id": "728484278414-04f3g8386ib5uiuvge4s9jvr0e2ijjrj.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

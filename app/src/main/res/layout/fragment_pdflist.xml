@@ -51,6 +51,7 @@
             android:background="@drawable/bg_bigger_radius_gray"
             android:fontFamily="@font/segoe_ui_bold"
             android:gravity="center"
+            android:singleLine="true"
             android:paddingBottom="3dp"
             android:text="Selected"
             android:textColor="@color/colorGray_878787"

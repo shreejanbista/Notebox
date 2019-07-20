@@ -1,6 +1,7 @@
 package in.cipherhub.notebox;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -35,9 +36,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import in.cipherhub.notebox.adapters.AdapterBranchSelector;
 import in.cipherhub.notebox.adapters.AdapterHomeSubjects;
 import in.cipherhub.notebox.adapters.AdapterRecentViews;
 import in.cipherhub.notebox.models.ItemDataHomeSubjects;
+import in.cipherhub.notebox.registration.SignIn;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -130,34 +133,36 @@ public class Home extends Fragment {
                 String subjectName = iterator.next();
                 JSONObject subjectObject = subjects.getJSONObject(subjectName);
                 homeSubjects.add(new ItemDataHomeSubjects(subjectObject.getString("abbreviation")
-                        , subjectName, subjectObject.getString("last_update"), false));
+                        , subjectName, subjectObject.getString("last_update")));
             }
         } catch (JSONException e) {
             Log.d(TAG, e.getMessage());
         }
 
         homeSubjectAdapter = new AdapterHomeSubjects(homeSubjects);
+
+        homeSubjectAdapter.setOnItemClickListener(new AdapterBranchSelector.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+//                startActivity(new Intent(getActivity(), PDFList.class));
+            }
+        });
+
         homeSubjects_RV.setAdapter(homeSubjectAdapter);
         homeSubjects_RV.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         subjectsSearch_ET.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
             public void afterTextChanged(Editable editable) {
                 filter(editable.toString());
             }
         });
-
-        pullUserSubjectsList();
 
         return rootView;
     }
@@ -174,48 +179,6 @@ public class Home extends Fragment {
             }
         }
         homeSubjectAdapter.filterList(filteredList);
-    }
-
-
-    private void pullUserSubjectsList() {
-
-        SharedPreferences userPref = getActivity().getSharedPreferences("user", MODE_PRIVATE);
-        String institute = userPref.getString("institute", "nmit_560064");
-        String course = userPref.getString("course", "be");
-        String branch = userPref.getString("branch", "ece");
-
-        SharedPreferences userSubPref = getActivity().getSharedPreferences("subjects", MODE_PRIVATE);
-        final SharedPreferences.Editor editor = userSubPref.edit();
-
-        CollectionReference subjCollectionRef = db.collection("institutes").document("nmit_560064")
-                .collection("courses").document("be")
-                .collection("branches").document("cse")
-                .collection("subjects");
-
-        subjCollectionRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
-                if (queryDocumentSnapshots != null) {
-
-                    homeSubjects = new ArrayList<>();
-
-                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                        String docId = document.getId();
-
-                        homeSubjects.add(new ItemDataHomeSubjects(docId.toUpperCase()
-                                , String.valueOf(document.getData().get("name"))
-                                , String.valueOf(document.getData().get("last_update"))
-                                , false));
-
-                        homeSubjectAdapter.filterList(homeSubjects);
-
-//                        Log.d(TAG, docId + " => " + document.getData());
-                    }
-                } else {
-                    Log.d(TAG, "queryDocumentSnapshots is null");
-                }
-            }
-        });
     }
 }
 
