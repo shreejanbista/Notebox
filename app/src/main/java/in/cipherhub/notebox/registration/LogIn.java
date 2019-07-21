@@ -195,6 +195,10 @@ public class LogIn extends Fragment implements View.OnClickListener {
                                             // Sign in success, update UI with the signed-in user's information
 
                                             Toast.makeText(getActivity(), "LogIn Success!", Toast.LENGTH_SHORT).show();
+
+                                            getActivity().getSharedPreferences("user", MODE_PRIVATE)
+                                                    .edit().putBoolean("isDetailsFilled", true).apply();
+
                                             ((SignIn) getActivity()).openHomePage();
 
                                             // will store the user details to shared preferences

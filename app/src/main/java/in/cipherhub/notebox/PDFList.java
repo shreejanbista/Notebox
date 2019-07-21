@@ -1,7 +1,11 @@
 package in.cipherhub.notebox;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,26 +13,43 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import in.cipherhub.notebox.adapters.AdapterPDFList;
 import in.cipherhub.notebox.models.ItemDataBranchSelector;
@@ -41,7 +62,8 @@ public class PDFList extends AppCompatActivity implements View.OnClickListener {
 
     Button selectPDF_B, upload_button, unitOne_B, unitTwo_B, unitThree_B, unitFour_B, unitFive_B;
     Button[] allButtons;
-    final List<ItemPDFList> pdfList = new ArrayList<>();
+    List<ItemPDFList> pdfList = new ArrayList<>();
+    List<ItemPDFList> filteredPDFList = new ArrayList<>();
 
     FirebaseFirestore db;
     FirebaseAuth firebaseAuth;
@@ -52,6 +74,8 @@ public class PDFList extends AppCompatActivity implements View.OnClickListener {
 
     RecyclerView PDFList_RV;
     AdapterPDFList adapterPDFList;
+    JSONObject pdf;
+    DocumentReference pdfDocRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +125,7 @@ public class PDFList extends AppCompatActivity implements View.OnClickListener {
                         filteredList.add(s);
                     }
                 }
+                filteredPDFList = filteredList;
                 adapterPDFList.filterList(filteredList);
             }
         });
@@ -117,76 +142,89 @@ public class PDFList extends AppCompatActivity implements View.OnClickListener {
         final String[] units = new String[]{"u1", "u2", "u3", "u4", "u5"};
 
         adapterPDFList = new AdapterPDFList(pdfList);
+
+        adapterPDFList.setOnItemClickListener(new AdapterPDFList.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if (!filteredPDFList.isEmpty())
+                    buildDialog(filteredPDFList.get(position).getName()
+                            , filteredPDFList.get(position).getBy()
+                            , filteredPDFList.get(position).getAuthor()
+                            , filteredPDFList.get(position).getTotalShares()
+                            , filteredPDFList.get(position).getTotalDownloads()
+                            , filteredPDFList.get(position).getRating()
+                            , filteredPDFList.get(position).getBy());
+                else if (!pdfList.isEmpty())
+                    buildDialog(pdfList.get(position).getName()
+                            , pdfList.get(position).getBy()
+                            , pdfList.get(position).getAuthor()
+                            , pdfList.get(position).getTotalShares()
+                            , pdfList.get(position).getTotalDownloads()
+                            , pdfList.get(position).getRating()
+                            , pdfList.get(position).getDate());
+            }
+        });
+
         PDFList_RV.setAdapter(adapterPDFList);
         PDFList_RV.setLayoutManager(new LinearLayoutManager(PDFList.this));
 
         try {
             userObject = new JSONObject(localDB.getString("user", "Error Fetching..."));
 
-            if (new Internet(this).isAvailable()) {
+            final String subject_doc_name = extras.getString("subjectAbbreviation").toLowerCase()
+                    + "_" + generateAbbreviation(userObject.getString("course")).toLowerCase()
+                    + "_" + generateAbbreviation(userObject.getString("branch")).toLowerCase();
 
-                final String subject_doc_name = extras.getString("subjectAbbreviation").toLowerCase()
-                        + "_" + generateAbbreviation(userObject.getString("course")).toLowerCase()
-                        + "_" + generateAbbreviation(userObject.getString("branch")).toLowerCase();
-
-                db.collection("institutes")
-                        .document(userObject.getString("institute"))
-                        .collection("subject_notes")
-                        .document(subject_doc_name)
-                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful() && task.getResult() != null) {
-                            subject = new JSONObject(task.getResult().getData());
-                            try {
-                                for (String unit : units) {
-                                    JSONArray unitsArray = subject.getJSONArray(unit);
-                                    if (unitsArray.length() > 0)
-                                        for (int i = 0; i < unitsArray.length(); i++) {
-                                            JSONObject pdf = unitsArray.getJSONObject(i);
-                                            pdfList.add(new ItemPDFList(
-                                                    pdf.getString("name")
-                                                    , pdf.getString("by")
-                                                    , pdf.getString("author")
-                                                    , pdf.getString("date")
-                                                    , pdf.getInt("total_shares")
-                                                    , pdf.getInt("total_downloads")
-                                                    , pdf.getDouble("rating")
-                                            ));
-                                        }
-                                }
-                                adapterPDFList.filterList(pdfList);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                                Log.d(TAG, "Error fetching JSON: " + e);
-                                Toast.makeText(PDFList.this, "Couldn't fetch PDF now, Try again later..."
-                                        , Toast.LENGTH_SHORT).show();
-                            }
-
-                        } else {
-                            Log.d(TAG, "Error fetching PDF list: " + task.getException());
-                            Toast.makeText(PDFList.this, "Couldn't fetch PDF now, Try again later..."
-                                    , Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
-
+            pdfDocRef = db.collection("institutes")
+                    .document(userObject.getString("institute"))
+                    .collection("subject_notes")
+                    .document(subject_doc_name);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
 
+        if (new Internet(this).isAvailable()) {
 
-    public String generateAbbreviation(String fullForm) {
-        StringBuilder abbreviation = new StringBuilder();
+            pdfDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        subject = new JSONObject(task.getResult().getData());
+                        try {
+                            for (String unit : units) {
+                                JSONArray unitsArray = subject.getJSONArray(unit);
+                                if (unitsArray.length() > 0)
+                                    for (int i = 0; i < unitsArray.length(); i++) {
+                                        pdf = unitsArray.getJSONObject(i);
+                                        pdfList.add(new ItemPDFList(
+                                                pdf.getString("name")
+                                                , pdf.getString("by")
+                                                , pdf.getString("author")
+                                                , pdf.getString("date")
+                                                , pdf.getInt("total_shares")
+                                                , pdf.getInt("total_downloads")
+                                                , pdf.getDouble("rating")
+                                        ));
+                                    }
+                            }
+                            adapterPDFList.filterList(pdfList);
 
-        for (int i = 0; i < fullForm.length(); i++) {
-            char temp = fullForm.charAt(i);
-            abbreviation.append(Character.isUpperCase(temp) ? temp : "");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.d(TAG, "Error fetching JSON: " + e);
+                            Toast.makeText(PDFList.this, "Couldn't fetch PDF now, Try again later..."
+                                    , Toast.LENGTH_SHORT).show();
+                        }
+
+                    } else {
+                        Log.d(TAG, "Error fetching PDF list: " + task.getException());
+                        Toast.makeText(PDFList.this, "Couldn't fetch PDF now, Try again later..."
+                                , Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
-        return abbreviation.toString();
+
     }
 
 
@@ -231,5 +269,64 @@ public class PDFList extends AppCompatActivity implements View.OnClickListener {
             Toast.makeText(PDFList.this, "Couldn't fetch PDF now, Try again later..."
                     , Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    private void buildDialog(final String pdfName, final String byValue, final String authorValue, final int sharesCount
+            , final int downloadsCount, final double rating, final String date) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_pdf, null);
+        Dialog dialog = new Dialog(this, R.style.DialogBottomAnimation);
+        dialog.getWindow().setGravity(Gravity.BOTTOM);
+        dialog.setContentView(dialogView);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogBottomAnimation;
+        dialog.show();
+
+        TextView pdfName_TV = dialogView.findViewById(R.id.pdfName_TV);
+        TextView byValue_TV = dialogView.findViewById(R.id.byValue_TV);
+        TextView authorValue_TV = dialogView.findViewById(R.id.authorValue_TV);
+        TextView sharesCount_TV = dialogView.findViewById(R.id.sharesCount_TV);
+        TextView downloadsCount_TV = dialogView.findViewById(R.id.downloadsCount_TV);
+        final TextView rating_TV = dialogView.findViewById(R.id.rating_TV);
+        TextView date_TV = dialogView.findViewById(R.id.date_TV);
+
+        pdfName_TV.setText(pdfName);
+        byValue_TV.setText(byValue);
+        authorValue_TV.setText(authorValue);
+        date_TV.setText(date);
+        sharesCount_TV.setText(String.valueOf(sharesCount));
+        downloadsCount_TV.setText(String.valueOf(downloadsCount));
+        rating_TV.setText(String.valueOf(rating));
+
+        Button sharePDF_B = dialogView.findViewById(R.id.sharePDF_B);
+        Button bookmark_B = dialogView.findViewById(R.id.bookmark_B);
+
+        sharePDF_B.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(PDFList.this, "Feature coming soon...", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        bookmark_B.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(PDFList.this, "Bookmarks feature is coming soon...", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    public String generateAbbreviation(String fullForm) {
+        StringBuilder abbreviation = new StringBuilder();
+
+        for (int i = 0; i < fullForm.length(); i++) {
+            char temp = fullForm.charAt(i);
+            abbreviation.append(Character.isUpperCase(temp) ? temp : "");
+        }
+        return abbreviation.toString();
     }
 }

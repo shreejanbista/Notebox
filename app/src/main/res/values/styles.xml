@@ -12,6 +12,15 @@
         <item name="android:statusBarColor">@color/colorWhite_FFFFFF</item>
     </style>
 
+
+    <style name="DialogBottomAnimation" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_bottom</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+
     <style name="bottom_navigation_buttons">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>

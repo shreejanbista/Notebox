@@ -100,7 +100,6 @@ public class SplashScreen extends AppCompatActivity {
 
 
     public boolean isDetailsFilled() {
-
         return getSharedPreferences("user", MODE_PRIVATE).getBoolean("isDetailsFilled", false);
     }
 }

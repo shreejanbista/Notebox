@@ -17,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -76,6 +77,7 @@ public class Home extends Fragment {
         bookmark_IB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getActivity(), "Bookmarks feature is coming soon...", Toast.LENGTH_SHORT).show();
 //                startActivity(new Intent(getActivity(), BookmarkActivity.class));
             }
         });
