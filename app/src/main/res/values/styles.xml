@@ -12,6 +12,15 @@
         <item name="android:statusBarColor">@color/colorWhite_FFFFFF</item>
     </style>
 
+
+    <style name="DialogBottomAnimation" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_bottom</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+
     <style name="bottom_navigation_buttons">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">match_parent</item>
@@ -77,14 +86,15 @@
 
 
     <style name="unit_select_button">
-        <item name="android:layout_width">45dp</item>
-        <item name="android:layout_height">28dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">30dp</item>
         <item name="android:background">@drawable/bg_br_radius_gray_smaller</item>
         <item name="android:fontFamily">@font/segoe_ui</item>
         <item name="android:textColor">#999999</item>
         <item name="android:clickable">true</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
         <item name="android:stateListAnimator">@null</item>
     </style>
 </resources>

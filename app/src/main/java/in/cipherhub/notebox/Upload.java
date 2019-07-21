@@ -144,6 +144,7 @@ public class Upload extends Fragment implements View.OnClickListener {
         return rootView;
     }
 
+
     public void onClick(View v) {
 
         Button buttonClicked = rootView.findViewById(v.getId());
@@ -193,6 +194,7 @@ public class Upload extends Fragment implements View.OnClickListener {
         }
 
     }
+
 
     private void uploadFile() {
 
@@ -312,7 +314,6 @@ public class Upload extends Fragment implements View.OnClickListener {
     }
 
 
-
     public void setFileName() {
 
         subjectName_ACTV.addTextChangedListener(new TextWatcher() {
@@ -335,6 +336,7 @@ public class Upload extends Fragment implements View.OnClickListener {
             }
         });
     }
+
 
     public void setFileName(final Button btn) {
         pdfName_TV.setText(String.format("U%s_%s_%s.pdf", btn.getText().toString(),
@@ -364,6 +366,7 @@ public class Upload extends Fragment implements View.OnClickListener {
         }
         return result;
     }
+
 
     public String generateAbbreviation(String fullForm) {
         StringBuilder abbreviation = new StringBuilder();
