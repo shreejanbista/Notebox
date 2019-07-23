@@ -32,13 +32,16 @@ public class AdapterBranchSelector extends RecyclerView.Adapter<AdapterBranchSel
                 .inflate(R.layout.item_branch_selector, viewGroup, false), mListener);
     }
 
+
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
+
     public void setOnItemClickListener(OnItemClickListener listener){
         this.mListener = listener;
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull branchSelectorItemViewHolder branchSelectorItemViewHolder, int i) {

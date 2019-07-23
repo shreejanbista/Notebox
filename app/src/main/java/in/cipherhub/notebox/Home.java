@@ -16,17 +16,12 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import in.cipherhub.notebox.adapters.AdapterBranchSelector;
 import in.cipherhub.notebox.adapters.AdapterHomeSubjects;
 import in.cipherhub.notebox.adapters.AdapterRecentViews;
 import in.cipherhub.notebox.models.ItemDataHomeSubjects;
@@ -70,7 +66,7 @@ public class Home extends Fragment {
 
         final ConstraintLayout subjectsLayout_CL = rootView.findViewById(R.id.subjectsLayout_CL);
         final ConstraintLayout recentViewsLayout_CL = rootView.findViewById(R.id.recentViewsLayout_CL);
-        final EditText subjectsSearch_ET = rootView.findViewById(R.id.subjectsSearch_ET);
+        final EditText subjectsSearch_ET = rootView.findViewById(R.id.pdfSearch_ET);
         TextView noRecentViews_TV = rootView.findViewById(R.id.noRecentViews_TV);
         final ImageButton searchIconInSearchBar_IB = rootView.findViewById(R.id.searchIconInSearchBar_IB);
 
@@ -81,6 +77,7 @@ public class Home extends Fragment {
         bookmark_IB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getActivity(), "Bookmarks feature is coming soon...", Toast.LENGTH_SHORT).show();
 //                startActivity(new Intent(getActivity(), BookmarkActivity.class));
             }
         });
@@ -130,34 +127,36 @@ public class Home extends Fragment {
                 String subjectName = iterator.next();
                 JSONObject subjectObject = subjects.getJSONObject(subjectName);
                 homeSubjects.add(new ItemDataHomeSubjects(subjectObject.getString("abbreviation")
-                        , subjectName, subjectObject.getString("last_update"), false));
+                        , subjectName, subjectObject.getString("last_update")));
             }
         } catch (JSONException e) {
             Log.d(TAG, e.getMessage());
         }
 
         homeSubjectAdapter = new AdapterHomeSubjects(homeSubjects);
+
+        homeSubjectAdapter.setOnItemClickListener(new AdapterBranchSelector.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+//                startActivity(new Intent(getActivity(), PDFList.class));
+            }
+        });
+
         homeSubjects_RV.setAdapter(homeSubjectAdapter);
         homeSubjects_RV.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         subjectsSearch_ET.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
             public void afterTextChanged(Editable editable) {
                 filter(editable.toString());
             }
         });
-
-        pullUserSubjectsList();
 
         return rootView;
     }
@@ -174,48 +173,6 @@ public class Home extends Fragment {
             }
         }
         homeSubjectAdapter.filterList(filteredList);
-    }
-
-
-    private void pullUserSubjectsList() {
-
-        SharedPreferences userPref = getActivity().getSharedPreferences("user", MODE_PRIVATE);
-        String institute = userPref.getString("institute", "nmit_560064");
-        String course = userPref.getString("course", "be");
-        String branch = userPref.getString("branch", "ece");
-
-        SharedPreferences userSubPref = getActivity().getSharedPreferences("subjects", MODE_PRIVATE);
-        final SharedPreferences.Editor editor = userSubPref.edit();
-
-        CollectionReference subjCollectionRef = db.collection("institutes").document("nmit_560064")
-                .collection("courses").document("be")
-                .collection("branches").document("cse")
-                .collection("subjects");
-
-        subjCollectionRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@javax.annotation.Nullable QuerySnapshot queryDocumentSnapshots, @javax.annotation.Nullable FirebaseFirestoreException e) {
-                if (queryDocumentSnapshots != null) {
-
-                    homeSubjects = new ArrayList<>();
-
-                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                        String docId = document.getId();
-
-                        homeSubjects.add(new ItemDataHomeSubjects(docId.toUpperCase()
-                                , String.valueOf(document.getData().get("name"))
-                                , String.valueOf(document.getData().get("last_update"))
-                                , false));
-
-                        homeSubjectAdapter.filterList(homeSubjects);
-
-//                        Log.d(TAG, docId + " => " + document.getData());
-                    }
-                } else {
-                    Log.d(TAG, "queryDocumentSnapshots is null");
-                }
-            }
-        });
     }
 }
 

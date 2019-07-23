@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                             }
                                         }
                                     });
-
                         } else {
                             Log.d(TAG, "data: null");
                         }
