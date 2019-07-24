@@ -146,8 +146,6 @@ public class Profile extends Fragment implements View.OnClickListener {
     //About button
     private void showAbout(View v) {
         ViewGroup viewGroup = v.findViewById(android.R.id.content);
-        int width = v.getWidth();
-        int height = v.getHeight();
 
         View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_about_profile, viewGroup, false);
 
@@ -156,7 +154,7 @@ public class Profile extends Fragment implements View.OnClickListener {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Page opened", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Under Development", Toast.LENGTH_LONG).show();
             }
         });
 
