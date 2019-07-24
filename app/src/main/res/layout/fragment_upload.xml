@@ -76,7 +76,7 @@
             android:id="@+id/signin_CL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:alpha="0"
+            android:alpha="1"
             android:overScrollMode="never"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

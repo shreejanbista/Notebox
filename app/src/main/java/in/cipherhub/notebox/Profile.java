@@ -1,5 +1,6 @@
 package in.cipherhub.notebox;
 
+import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RatingBar;
+import android.widget.Toast;
+import android.widget.CompoundButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,7 +28,7 @@ import java.util.Objects;
 import in.cipherhub.notebox.registration.SignIn;
 
 
-public class Profile extends Fragment implements View.OnClickListener {
+public class Profile extends Fragment {
 
     FirebaseStorage storage;
     StorageReference httpsReference;
@@ -42,7 +46,7 @@ public class Profile extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
         mAuth = FirebaseAuth.getInstance();
 //        signout_b = rootView.findViewById(R.id.signin_B);
@@ -65,6 +69,10 @@ public class Profile extends Fragment implements View.OnClickListener {
         reportbutton = rootView.findViewById(R.id.report_b);
         feedbackbutton = rootView.findViewById(R.id.feedback_b);
         aboutbutton = rootView.findViewById(R.id.about_b);
+
+    //Rating bar
+        RatingBar ratingBar=rootView.findViewById(R.id.ratingBar);
+        ratingBar.setRating(5.0f);
 
 
         sharebutton.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +98,7 @@ public class Profile extends Fragment implements View.OnClickListener {
                 i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"onecipherhub@gmail.com"});
                 i.putExtra(Intent.EXTRA_SUBJECT, "Report your issues.");
                 i.putExtra(Intent.EXTRA_TEXT   , "We will contact you soon. Please write in details.");
-                startActivity(Intent.createChooser(i, "Choose an Email client :"));
+                //startActivity(Intent.createChooser(i, "Choose an Email client :"));
 
                 try {
                     startActivity(Intent.createChooser(i, "Report your issues."));
@@ -110,7 +118,7 @@ public class Profile extends Fragment implements View.OnClickListener {
                 i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"onecipherhub@gmail.com"});
                 i.putExtra(Intent.EXTRA_SUBJECT, "Share your valuable feedback.");
                 i.putExtra(Intent.EXTRA_TEXT   , "Your feedback is highly appreciated and will help us to improve.");
-                startActivity(Intent.createChooser(i, "Choose an Email client :"));
+                //startActivity(Intent.createChooser(i, "Choose an Email client :"));
 
                 try {
                     startActivity(Intent.createChooser(i, "Feedback"));
@@ -118,6 +126,14 @@ public class Profile extends Fragment implements View.OnClickListener {
                     //Toast.makeText(MyActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
 
                 }
+
+            }
+        });
+
+        aboutbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAbout(rootView);
 
             }
         });
@@ -136,37 +152,34 @@ public class Profile extends Fragment implements View.OnClickListener {
         return rootView;
     }
 
-    @Override
-    public void onClick(View v) {
 
-        switch (v.getId()) {
-//            case R.id.download_pdf:
-//
-//                // Create our main directory for storing files
-//                File directPath = new File(Environment.getExternalStorageDirectory() + "/Notebox");
-//                if (!directPath.exists()) {
-//                    boolean mkdir = directPath.mkdir();
-//                    if (!mkdir) {
-//                        Log.e(TAG, "Directory creation failed.");
-//                    }
-//                }
-//
-//                Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/notebox-1559903149503.appspot.com/o/CSE%2FPYTHON%2FNumpy%20Exercises%20(Unit-1).pdf?alt=media&token=daa8d108-24c4-482b-b4c0-d5a6fb9e15df");
-//
-//                DownloadManager mgr = (DownloadManager) Objects.requireNonNull(
-//                        getActivity()).getSystemService(Context.DOWNLOAD_SERVICE);
-//
-//                DownloadManager.Request request = new DownloadManager.Request(uri);
-//                request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE)
-//                        .setAllowedOverRoaming(false)
-//                        // can be named dynamically once we have database ready
-////                        .setTitle("test1.pdf")
-////                        .setDescription("Something useful? Maybe.")
-//                        .setDestinationInExternalPublicDir("/Notebox", "test.pdf")
-//                        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-//
-//                mgr.enqueue(request);
+    //About button
+    private void showAbout(View v) {
+        ViewGroup viewGroup = v.findViewById(android.R.id.content);
+        int width = v.getWidth();
+        int height = v.getHeight();
 
-        }
+
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.about_profile, viewGroup, false);
+
+        Button button = view.findViewById(R.id.web_btn);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"Page opened",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        builder.setView(view);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
     }
+
 }
+
+

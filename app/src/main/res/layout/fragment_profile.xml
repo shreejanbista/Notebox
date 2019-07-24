@@ -81,6 +81,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="3dp"
+            android:numStars="5"
+            android:stepSize=".5"
             app:layout_constraintBottom_toBottomOf="@+id/textView16"
             app:layout_constraintStart_toEndOf="@+id/textView16"
             app:layout_constraintTop_toTopOf="@+id/textView16" />
@@ -238,8 +240,8 @@
         <Button
             android:id="@+id/button_courses"
             style="@style/profile_four_buttons"
-            android:drawableLeft="@drawable/ic_history_black_24dp"
-            android:text="History" />
+            android:drawableLeft="@drawable/ic_mynotes"
+            android:text="My Notes" />
     </LinearLayout>
 
     <LinearLayout
