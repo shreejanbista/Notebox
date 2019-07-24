@@ -309,7 +309,7 @@ public class Upload extends Fragment implements View.OnClickListener {
             pdfName_TV.setText(getFileDetails(fileUri)[0]);
             pdfSize_TV.setText(getFileDetails(fileUri)[1]);
 
-            signin_CL.animate().alpha(1).setDuration(500);
+            signin_CL.setVisibility(View.VISIBLE);
         }
     }
 

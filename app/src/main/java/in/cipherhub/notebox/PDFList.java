@@ -188,7 +188,7 @@ public class PDFList extends AppCompatActivity implements View.OnClickListener {
             pdfDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful() && task.getResult() != null) {
+                    if (task.isSuccessful() && task.getResult() != null && task.getResult().getData() != null) {
                         subject = new JSONObject(task.getResult().getData());
                         try {
                             for (String unit : units) {

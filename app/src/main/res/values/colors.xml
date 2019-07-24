@@ -14,7 +14,7 @@
     <color name="colorGray_888888">#888888</color>
     <color name="colorGray_999999">#999999</color>
     <color name="colorGray_878787">#878787</color>
-
+    <color name="bookmark_color">#FF5656</color>
     <color name="colorLightAppTheme">#2196F3</color>
     <color name="colorAppTheme">#1565C0</color>
     <color name="colorFlorescent">#00B9BF</color>
