@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import in.cipherhub.notebox.Adapters.AdapterHomeSubjects;
-import in.cipherhub.notebox.Models.ItemDataHomeSubjects;
+import in.cipherhub.notebox.adapters.AdapterHomeSubjects;
+import in.cipherhub.notebox.models.ItemDataHomeSubjects;
 
 public class tempFragment extends Fragment {
 
@@ -24,7 +24,7 @@ public class tempFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View rootView = inflater.inflate(R.layout.item_recent_views , container, false);
+        View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
         return rootView;
     }
