@@ -1,46 +1,35 @@
 package in.cipherhub.notebox;
 
 import android.app.AlertDialog;
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.Toast;
-import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
-import java.util.Objects;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import in.cipherhub.notebox.registration.SignIn;
 
-
-public class Profile extends Fragment {
-
-    FirebaseStorage storage;
-    StorageReference httpsReference;
-    Button signout_b;
-    private FirebaseAuth mAuth;
+public class Profile extends Fragment implements View.OnClickListener {
 
     String TAG = "ProfileOX";
     Button reportbutton, sharebutton, feedbackbutton, aboutbutton;
 
-    FirebaseAuth auth;
-
-    MainActivity mainActivity;
+    FirebaseAuth firebaseAuth;
+    SharedPreferences localDB;
+    JSONObject userObject;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,32 +37,13 @@ public class Profile extends Fragment {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        mAuth = FirebaseAuth.getInstance();
-//        signout_b = rootView.findViewById(R.id.signin_B);
-
-        auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
-
-        Button signOut_btn = rootView.findViewById(R.id.signOut_btn);
-
-        signOut_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                auth.signOut();
-                getActivity().finish();
-                startActivity(new Intent(getContext(), SignIn.class));
-            }
-        });
+        firebaseAuth = FirebaseAuth.getInstance();
+        localDB = getActivity().getSharedPreferences("localDB", Context.MODE_PRIVATE);
 
         sharebutton = rootView.findViewById(R.id.share_b);
         reportbutton = rootView.findViewById(R.id.report_b);
         feedbackbutton = rootView.findViewById(R.id.feedback_b);
         aboutbutton = rootView.findViewById(R.id.about_b);
-
-    //Rating bar
-        RatingBar ratingBar=rootView.findViewById(R.id.ratingBar);
-        ratingBar.setRating(5.0f);
-
 
         sharebutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,15 +109,35 @@ public class Profile extends Fragment {
         });
 
 
+        Button logOut_B = rootView.findViewById(R.id.logOut_B);
+        TextView fullName_TV = rootView.findViewById(R.id.fullName_TV);
+        TextView instituteName_TV = rootView.findViewById(R.id.instituteName_TV);
+        TextView courseName_TV = rootView.findViewById(R.id.courseName_TV);
+        TextView branchName_TV = rootView.findViewById(R.id.branchName_TV);
+        ImageButton editUserDetails_IB = rootView.findViewById(R.id.editUserDetails_IB);
+        RatingBar rating_RB = rootView.findViewById(R.id.rating_RB);
+        TextView rating_TV = rootView.findViewById(R.id.rating_TV);
+        TextView userUploadsCount_TV = rootView.findViewById(R.id.userUploadsCount_TV);
+        TextView userDownloadsCount_TV = rootView.findViewById(R.id.userDownloadsCount_TV);
 
-            /* all the commented is for downloading from the firebase */
 
-//        storage = FirebaseStorage.getInstance();
-//
-//        httpsReference = FirebaseStorage.getInstance().getReference();
+        try {
+            userObject = new JSONObject(localDB.getString("user", "Error Fetching..."));
 
-//        Button download_pdf = view.findViewById(R.id.download_pdf);
-//        download_pdf.setOnClickListener(this);
+            rating_RB.setRating((float) userObject.getDouble("rating"));
+            fullName_TV.setText(userObject.getString("full_name"));
+            instituteName_TV.setText(userObject.getString("institute"));
+            courseName_TV.setText(userObject.getString("course"));
+            rating_TV.setText(String.valueOf(userObject.getInt("rating")));
+            userDownloadsCount_TV.setText(String.valueOf(userObject.getInt("total_downloads")));
+            branchName_TV.setText(userObject.getString("branch"));
+            userUploadsCount_TV.setText(String.valueOf(userObject.getInt("total_uploads")));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        logOut_B.setOnClickListener(this);
+        editUserDetails_IB.setOnClickListener(this);
 
         return rootView;
     }
@@ -159,15 +149,14 @@ public class Profile extends Fragment {
         int width = v.getWidth();
         int height = v.getHeight();
 
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_about_profile, viewGroup, false);
 
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.about_profile, viewGroup, false);
-
-        Button button = view.findViewById(R.id.web_btn);
+        Button button = view.findViewById(R.id.webLink_B);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"Page opened",Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Page opened", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -176,8 +165,52 @@ public class Profile extends Fragment {
         builder.setView(view);
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+//            case R.id.download_pdf:
+//
+//                // Create our main directory for storing files
+//                File directPath = new File(Environment.getExternalStorageDirectory() + "/Notebox");
+//                if (!directPath.exists()) {
+//                    boolean mkdir = directPath.mkdir();
+//                    if (!mkdir) {
+//                        Log.e(TAG, "Directory creation failed.");
+//                    }
+//                }
+//
+//                Uri uri = Uri.parse("https://firebasestorage.googleapis.com/v0/b/notebox-1559903149503.appspot.com/o/CSE%2FPYTHON%2FNumpy%20Exercises%20(Unit-1).pdf?alt=media&token=daa8d108-24c4-482b-b4c0-d5a6fb9e15df");
+//
+//                DownloadManager mgr = (DownloadManager) Objects.requireNonNull(
+//                        getActivity()).getSystemService(Context.DOWNLOAD_SERVICE);
+//
+//                DownloadManager.Request request = new DownloadManager.Request(uri);
+//                request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE)
+//                        .setAllowedOverRoaming(false)
+//                        // can be named dynamically once we have database ready
+////                        .setTitle("test1.pdf")
+////                        .setDescription("Something useful? Maybe.")
+//                        .setDestinationInExternalPublicDir("/Notebox", "test.pdf")
+//                        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+//
+//                mgr.enqueue(request);
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.logOut_B:
+                firebaseAuth.signOut();
+                getActivity().finish();
+                startActivity(new Intent(getContext(), SignIn.class));
+                getActivity().overridePendingTransition(R.anim.fade_in, 0);
+                break;
 
+            case R.id.editUserDetails_IB:
+                Intent intent = new Intent(getActivity(), SignIn.class);
+                intent.putExtra("isEmailVerified", true);
+                intent.putExtra("isDetailsFilled", false);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.fade_in, 0);
+                break;
+        }
     }
 
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -25,6 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import in.cipherhub.notebox.R;
 import in.cipherhub.notebox.utils.Internet;
@@ -37,7 +39,7 @@ public class LogIn extends Fragment implements View.OnClickListener {
 
     Button logIn_B;
     EditText email_ET, password_ET;
-    TextView forgotPassword_TV, signUp_TV;
+    TextView forgotPassword_TV, signUp_TV, show_Password;
     View email_V, password_V;
 
     FirebaseAuth firebaseAuth;
@@ -54,6 +56,7 @@ public class LogIn extends Fragment implements View.OnClickListener {
         logIn_B = rootView.findViewById(R.id.logIn_B);
         email_ET = rootView.findViewById(R.id.email_ET);
         password_ET = rootView.findViewById(R.id.password_ET);
+        show_Password = rootView.findViewById(R.id.show_Password);
         forgotPassword_TV = rootView.findViewById(R.id.forgotPassword_TV);
         signUp_TV = rootView.findViewById(R.id.signUp_TV);
         email_V = rootView.findViewById(R.id.email_V);
@@ -65,7 +68,17 @@ public class LogIn extends Fragment implements View.OnClickListener {
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setTitle("Logging In...");
         progressDialog.setCancelable(false);
-
+        FirebaseFirestore.getInstance().collection("institutes").whereEqualTo("name", "Nitte Meenakshi Institute of Technology")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    Log.d(TAG, String.valueOf(task.getResult()));
+                } else {
+                    Log.d(TAG, String.valueOf(task.getException()));
+                }
+            }
+        });
         logIn_B.setOnClickListener(this);
         forgotPassword_TV.setOnClickListener(this);
         signUp_TV.setOnClickListener(this);
@@ -81,7 +94,7 @@ public class LogIn extends Fragment implements View.OnClickListener {
                 if (!email_ET.getText().toString().equals(""))
                     email_V.setBackgroundColor(getResources().getColor(R.color.colorAppTheme));
                 else
-                    email_V.setBackgroundColor(getResources().getColor(R.color.colorGray_AAAAAA));
+                    email_V.setBackgroundColor(getResources().getColor(R.color.colorGray_777777));
             }
 
             @Override
@@ -98,10 +111,17 @@ public class LogIn extends Fragment implements View.OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (!password_ET.getText().toString().equals(""))
+                if (!password_ET.getText().toString().equals("") && password_ET.getText().length() > 0) {
+
+//                    Log.i(TAG,"typing");
+
                     password_V.setBackgroundColor(getResources().getColor(R.color.colorAppTheme));
-                else
+                    show_Password.setVisibility(View.VISIBLE);
+                }
+                else {
                     password_V.setBackgroundColor(getResources().getColor(R.color.colorGray_AAAAAA));
+                    show_Password.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -109,6 +129,33 @@ public class LogIn extends Fragment implements View.OnClickListener {
 
             }
         });
+
+
+        show_Password.setVisibility(View.GONE);
+
+        show_Password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(show_Password.getText().toString().equals("SHOW")){
+//                    Log.i(TAG,"showing password");
+                    show_Password.setText("HIDE");
+                    password_ET.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    password_ET.setSelection(password_ET.length());
+
+
+                }
+                else {
+
+//                    Log.i(TAG,"hiding password");
+
+                    show_Password.setText("SHOW");
+                    password_ET.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    password_ET.setSelection(password_ET.length());
+                }
+            }
+        });
+
+
 
         return rootView;
     }
@@ -148,6 +195,10 @@ public class LogIn extends Fragment implements View.OnClickListener {
                                             // Sign in success, update UI with the signed-in user's information
 
                                             Toast.makeText(getActivity(), "LogIn Success!", Toast.LENGTH_SHORT).show();
+
+                                            getActivity().getSharedPreferences("user", MODE_PRIVATE)
+                                                    .edit().putBoolean("isDetailsFilled", true).apply();
+
                                             ((SignIn) getActivity()).openHomePage();
 
                                             // will store the user details to shared preferences
@@ -172,7 +223,6 @@ public class LogIn extends Fragment implements View.OnClickListener {
                                         progressDialog.dismiss();
                                     }
                                 });
-
                     else if (filledPassword.length() < 8) {
                         progressDialog.dismiss();
                         Toast.makeText(getActivity(), "Password should be greater than '8' characters", Toast.LENGTH_SHORT).show();

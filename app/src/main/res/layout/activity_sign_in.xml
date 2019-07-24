@@ -9,7 +9,7 @@
 
 
     <android.support.v7.widget.CardView
-        android:id="@+id/imageView6"
+        android:id="@+id/appIcon_CV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -34,8 +34,8 @@
         android:text="n o t e"
         android:textColor="@color/colorGray_878787"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView6"
-        app:layout_constraintTop_toTopOf="@+id/imageView6" />
+        app:layout_constraintStart_toEndOf="@+id/appIcon_CV"
+        app:layout_constraintTop_toTopOf="@+id/appIcon_CV" />
 
     <TextView
         android:id="@+id/textView27"
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/comfortaa_bold"
         android:text="Manage your notes on the go"
-        android:textColor="@color/colorGray_AAAAAA"
+        android:textColor="@color/colorGray_777777"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/textView26"
         app:layout_constraintTop_toBottomOf="@+id/textView26" />
@@ -69,7 +69,7 @@
         app:layout_constraintBottom_toTopOf="@+id/googleSignIn_CL"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6"
+        app:layout_constraintTop_toBottomOf="@+id/appIcon_CV"
         app:layout_constraintVertical_bias="0.35000002" />
 
     <!-- Bottom Google signin section -->
@@ -93,7 +93,7 @@
             android:elevation="3dp"
             android:fontFamily="@font/comfortaa_bold"
             android:paddingStart="15dp"
-            android:paddingEnd="7dp"
+            android:paddingEnd="15dp"
             android:text="@string/google"
             android:textAllCaps="false"
             android:textColor="@color/colorGray_999999"
@@ -111,7 +111,7 @@
             android:fontFamily="@font/segoe_ui"
             android:text="@string/or_connect_with"
             android:textAllCaps="true"
-            android:textColor="@color/colorGray_AAAAAA"
+            android:textColor="@color/colorGray_777777"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/googleSignin_B"
             app:layout_constraintEnd_toEndOf="@+id/googleSignin_B"
