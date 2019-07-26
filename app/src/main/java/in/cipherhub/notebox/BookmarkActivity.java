@@ -4,22 +4,19 @@ import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,14 +24,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-import in.cipherhub.notebox.adapters.AdapterHomeSubjects;
 import in.cipherhub.notebox.adapters.AdapterPDFList;
-import in.cipherhub.notebox.models.ItemDataHomeSubjects;
 import in.cipherhub.notebox.models.ItemPDFList;
 
 public class BookmarkActivity extends AppCompatActivity {
@@ -127,7 +120,8 @@ public class BookmarkActivity extends AppCompatActivity {
                 , pdf.getString("date")
                 , pdf.getInt("shares")
                 , pdf.getInt("downloads")
-                , pdf.getDouble("rating")
+                , pdf.getDouble("rating"),
+                pdf.getString("url")
         ));
       } catch (JSONException e) {
         Log.d(TAG, String.valueOf(e));
