@@ -98,7 +98,7 @@ public class SignIn extends AppCompatActivity {
         // GoogleSignInOptions will mention what and all we need
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 // Specifies that an ID token for authenticated users is requested.
-//                .requestIdToken("728484278414-frop7tokkhf422tm7ru3kjtlbqljbk4t.apps.googleusercontent.com")
+                .requestIdToken("728484278414-frop7tokkhf422tm7ru3kjtlbqljbk4t.apps.googleusercontent.com")
                 // Specifies that email info is requested by your application.
                 .requestEmail()
                 .build();

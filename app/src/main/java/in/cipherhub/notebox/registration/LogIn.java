@@ -68,17 +68,6 @@ public class LogIn extends Fragment implements View.OnClickListener {
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setTitle("Logging In...");
         progressDialog.setCancelable(false);
-        FirebaseFirestore.getInstance().collection("institutes").whereEqualTo("name", "Nitte Meenakshi Institute of Technology")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    Log.d(TAG, String.valueOf(task.getResult()));
-                } else {
-                    Log.d(TAG, String.valueOf(task.getException()));
-                }
-            }
-        });
         logIn_B.setOnClickListener(this);
         forgotPassword_TV.setOnClickListener(this);
         signUp_TV.setOnClickListener(this);
@@ -154,8 +143,6 @@ public class LogIn extends Fragment implements View.OnClickListener {
                 }
             }
         });
-
-
 
         return rootView;
     }

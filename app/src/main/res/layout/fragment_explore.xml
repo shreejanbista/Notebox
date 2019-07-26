@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite_FFFFFF"
-    tools:context=".Explore">
+    tools:context=".fragments.Explore">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/explore_CL"
@@ -49,6 +49,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
+        android:visibility="gone"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         app:cardCornerRadius="0dp"

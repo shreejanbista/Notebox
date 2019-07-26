@@ -8,7 +8,7 @@
     android:background="@color/colorWhite_FFFFFF"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context=".Upload">
+    tools:context=".fragments.Upload">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
         android:background="@color/colorWhite_FFFFFF"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        tools:context=".Upload">
+        tools:context=".fragments.Upload">
 
     <include
         android:id="@+id/include"
@@ -193,7 +193,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/segoe_ui"
-                android:text="@string/subject_colon_asterisk"
+                android:text="Subject:"
                 android:textColor="#999999"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/textView_details"
@@ -227,7 +227,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/segoe_ui"
-                android:text="@string/unit_colon"
+                android:text="Unit:"
                 android:textColor="#999999"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/textView_subject"
