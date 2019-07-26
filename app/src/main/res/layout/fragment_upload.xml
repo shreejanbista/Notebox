@@ -12,10 +12,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite_FFFFFF"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        tools:context=".Upload">
+        android:background="@color/colorWhite_FFFFFF">
     <include
         android:id="@+id/include"
         layout="@layout/custom_action_bar"
@@ -191,8 +188,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/segoe_ui"
+                android:textColor="#999999"
                 android:text="@string/subject_colon_asterisk"
-                android:textColor="@color/colorGray_777777"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/textView_details"
                 app:layout_constraintTop_toBottomOf="@+id/textView_details" />
@@ -225,7 +222,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/segoe_ui"
-                android:text="@string/unit_colon"
+                android:text="Unit:"
                 android:textColor="@color/colorGray_777777"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@+id/textView_subject"

@@ -18,21 +18,26 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
+import in.cipherhub.notebox.fragments.Home;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -109,20 +114,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     .apply();
 
                             db.collection("institutes")
-                                    .whereEqualTo("name", snapshot.getData().get("institute"))
-                                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots
-                                                , @Nullable FirebaseFirestoreException e) {
-                                            if (queryDocumentSnapshots != null) {
-                                                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                                                    editor.putString("institute"
-                                                            , String.valueOf(new JSONObject(document.getData()))
-                                                    ).apply();
-                                                }
-                                            }
-                                        }
-                                    });
+                                    .document(String.valueOf(snapshot.getData().get("institute")))
+                                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        editor.putString("institute"
+                                                , String.valueOf(new JSONObject(task.getResult().getData())))
+                                                .apply();
+                                    }
+                                }
+                            });
                         } else {
                             Log.d(TAG, "data: null");
                         }
@@ -230,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonClicked.setTextColor(getResources().getColor(R.color.colorAppTheme));
 
         try {
-            fragment = (Fragment) (Class.forName(getPackageName() + "." + buttonClickedTitle).newInstance());
+            fragment = (Fragment) (Class.forName(getPackageName() + ".fragments." + buttonClickedTitle).newInstance());
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
             fragment = new Home();

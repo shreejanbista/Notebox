@@ -46,7 +46,7 @@ public class AdapterPDFList extends RecyclerView.Adapter<AdapterPDFList.pdfListI
 
     @Override
     public void onBindViewHolder(@NonNull pdfListItemViewHolder pdfListItemViewHolder, int i) {
-        String pdfName = list.get(i).getName() + ".pdf";
+        String pdfName = list.get(i).getName();
         pdfListItemViewHolder.pdfName_TV.setText(pdfName);
         pdfListItemViewHolder.byValue_TV.setText(list.get(i).getBy());
         pdfListItemViewHolder.date_TV.setText(list.get(i).getDate());

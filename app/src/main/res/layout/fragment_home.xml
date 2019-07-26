@@ -10,7 +10,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:padding="0dp"
-    tools:context=".Home">
+    tools:context=".fragments.Home">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -116,33 +116,22 @@
         android:id="@+id/subjectsLayout_CL"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
         android:background="@color/colorWhite_FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recentViewsLayout_CL">
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:fontFamily="@font/segoe_ui"
-            android:text="Your Subjects"
-            android:textColor="@color/colorGray_777777"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <EditText
             android:id="@+id/pdfSearch_ET"
             android:layout_width="0dp"
             android:layout_height="35dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
             android:background="@drawable/bg_radius_gray"
             android:ems="10"
-            android:hint="search your subjects..."
+            android:hint="search your branch subjects..."
             android:inputType="textPersonName"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
@@ -150,8 +139,8 @@
             android:textColorHint="@color/colorGray_777777"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/textView4"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/searchIconInSearchBar_IB"
