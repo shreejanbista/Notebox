@@ -41,7 +41,6 @@ public class Explore extends Fragment {
     View rootView;
 
     private static final String TAG = "Explore";
-    public static final String FRAGMENT_PDF_RENDERER = "pdf_renderer";
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference httpsReference;
@@ -60,7 +59,6 @@ public class Explore extends Fragment {
                         "o/D3INJYGQIHcJhX24SnrgJBXVaSH3%2FU1_CN2_CSE_BE_NMIT?alt=media&token=f808ef30-eb6b-40e9-ba1b-bc18a2ad5d11");
 
         try {
-
             // saved to cache directory
             final File localFile = File.createTempFile("something", ".pdf", getActivity().getCacheDir());
 
@@ -72,7 +70,7 @@ public class Explore extends Fragment {
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
 
                     // Local temp file has been created
-                    Toast.makeText(getContext(), "Downloaded!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Downloaded!", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(getContext(), PDFViewer.class);
                     intent.putExtra("file_name", String.valueOf(localFile));

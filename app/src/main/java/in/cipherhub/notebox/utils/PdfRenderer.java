@@ -50,15 +50,18 @@ public class PdfRenderer extends Fragment implements View.OnClickListener {
 
     private int mPageIndex;
 
+
     public PdfRenderer() {
         // Required Empty Constructor
     }
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.pdf_viewer, container, false);
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -79,12 +82,13 @@ public class PdfRenderer extends Fragment implements View.OnClickListener {
         }
     }
 
+
     @Override
     public void onStart() {
         super.onStart();
 
         if (getArguments() != null) {
-            FILENAME = getArguments().getString("file_name");;
+            FILENAME = getArguments().getString("file_name");
             Log.i(TAG, "file_name_is: " + FILENAME);
         }
 
@@ -97,6 +101,7 @@ public class PdfRenderer extends Fragment implements View.OnClickListener {
         }
     }
 
+
     @Override
     public void onStop() {
         try {
@@ -107,6 +112,7 @@ public class PdfRenderer extends Fragment implements View.OnClickListener {
         super.onStop();
     }
 
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -114,6 +120,7 @@ public class PdfRenderer extends Fragment implements View.OnClickListener {
             outState.putInt(STATE_CURRENT_PAGE_INDEX, mCurrentPage.getIndex());
         }
     }
+
 
     private void openRenderer(Context context) throws IOException {
 
@@ -145,6 +152,7 @@ public class PdfRenderer extends Fragment implements View.OnClickListener {
         }
     }
 
+
     private void closeRenderer() throws IOException {
         if (null != mCurrentPage) {
             mCurrentPage.close();
@@ -152,6 +160,7 @@ public class PdfRenderer extends Fragment implements View.OnClickListener {
         mPdfRenderer.close();
         mFileDescriptor.close();
     }
+
 
     // Shows the specified page of PDF to the screen.
     private void showPage(int index) {
@@ -181,6 +190,7 @@ public class PdfRenderer extends Fragment implements View.OnClickListener {
         mImageView.setImageBitmap(bitmap);
         updateUi();
     }
+
 
     private void updateUi() {
         int index = mCurrentPage.getIndex();
