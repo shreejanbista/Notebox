@@ -8,8 +8,8 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
+import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -26,7 +26,7 @@ import in.cipherhub.notebox.R;
 
 public class FirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
 
-    private static final String TAG = "MyFirebaseMsgService";
+    private static final String TAG = "FirebaseMsgService";
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -72,7 +72,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Log.i(TAG, "Successfully added token: " + documentReference);
+                        Log.i(TAG, "Successfully added token: " + documentReference.getId());
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

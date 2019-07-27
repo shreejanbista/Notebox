@@ -2,7 +2,7 @@ package in.cipherhub.notebox.models;
 
 public class ItemPDFList {
 
-    private String name, by, author, date;
+    private String name, by, author, date, url;
     private int totalShares, totalDownloads;
     private int rating;
 
@@ -15,8 +15,16 @@ public class ItemPDFList {
         this.totalShares = totalShares;
         this.totalDownloads = totalDownloads;
         this.rating = rating;
+        this.url = url;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getName() {
         return name;

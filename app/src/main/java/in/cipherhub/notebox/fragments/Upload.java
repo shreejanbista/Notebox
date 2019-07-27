@@ -8,10 +8,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.transition.Transition;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.transition.Transition;
+import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -42,13 +42,11 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -58,11 +56,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import in.cipherhub.notebox.MainActivity;
-import in.cipherhub.notebox.PDFList;
 import in.cipherhub.notebox.R;
-import in.cipherhub.notebox.models.ItemDataHomeSubjects;
-import in.cipherhub.notebox.models.ItemPDFList;
-import in.cipherhub.notebox.utils.Internet;
 
 import static android.content.Context.MODE_PRIVATE;
 

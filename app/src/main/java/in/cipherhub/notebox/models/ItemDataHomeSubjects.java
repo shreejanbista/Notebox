@@ -1,9 +1,17 @@
 package in.cipherhub.notebox.models;
 
+import com.google.android.gms.ads.AdView;
+
 public class ItemDataHomeSubjects {
 
     public String subAbb, subName, lastUpdate;
+    AdView adView;
+
 //    public Boolean subBookmark;
+
+    public ItemDataHomeSubjects(AdView adView) {
+        this.adView = adView;
+    }
 
     public ItemDataHomeSubjects(String subAbb, String subName, String lastUpdate
 //            , Boolean subBookmark
