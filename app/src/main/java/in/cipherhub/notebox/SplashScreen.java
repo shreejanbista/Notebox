@@ -2,10 +2,11 @@ package in.cipherhub.notebox;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.cardview.widget.CardView;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -43,7 +44,6 @@ public class SplashScreen extends AppCompatActivity {
         // Get the last user which signed in
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
-
 
         // user has not logged in open registration page
         if (user == null)
@@ -98,7 +98,6 @@ public class SplashScreen extends AppCompatActivity {
 
 
     public boolean isDetailsFilled() {
-
         return getSharedPreferences("user", MODE_PRIVATE).getBoolean("isDetailsFilled", false);
     }
 }

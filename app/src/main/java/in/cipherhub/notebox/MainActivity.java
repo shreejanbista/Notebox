@@ -7,10 +7,10 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,21 +18,26 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Objects;
 
+import in.cipherhub.notebox.fragments.Home;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -61,6 +66,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Objects.requireNonNull(getSupportActionBar()).hide();
 
         askPermission();
+
+        AdView adsView = (AdView)findViewById(R.id.adView);
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        AdSize adSize = new AdSize(400, 50);
+//        adsView.setAdSize(adSize);
+//        adsView.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+
+        adsView.loadAd(adRequest);
+
 
         localDB = getSharedPreferences("localDB", MODE_PRIVATE);
         editor = localDB.edit();
@@ -94,6 +109,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         customButtonRadioGroup(buttonClicked);
 
         setListener();
+
+
+//        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+//            @Override
+//            public void onInitializationComplete(InitializationStatus initializationStatus) {
+//
+//                Log.i(TAG, "Ads Loaded!!!");
+//
+//            }
+//        });
+
+
+
+
     }
 
 
@@ -109,21 +138,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     .apply();
 
                             db.collection("institutes")
-                                    .whereEqualTo("name", snapshot.getData().get("institute"))
-                                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots
-                                                , @Nullable FirebaseFirestoreException e) {
-                                            if (queryDocumentSnapshots != null) {
-                                                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                                                    editor.putString("institute"
-                                                            , String.valueOf(new JSONObject(document.getData()))
-                                                    ).apply();
-                                                }
-                                            }
-                                        }
-                                    });
-
+                                    .document(String.valueOf(snapshot.getData().get("institute")))
+                                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        editor.putString("institute"
+                                                , String.valueOf(new JSONObject(task.getResult().getData())))
+                                                .apply();
+                                    }
+                                }
+                            });
                         } else {
                             Log.d(TAG, "data: null");
                         }
@@ -231,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonClicked.setTextColor(getResources().getColor(R.color.colorAppTheme));
 
         try {
-            fragment = (Fragment) (Class.forName(getPackageName() + "." + buttonClickedTitle).newInstance());
+            fragment = (Fragment) (Class.forName(getPackageName() + ".fragments." + buttonClickedTitle).newInstance());
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
             fragment = new Home();

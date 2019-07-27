@@ -3,8 +3,8 @@ package in.cipherhub.notebox.registration;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -26,7 +26,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import in.cipherhub.notebox.R;
 import in.cipherhub.notebox.utils.Internet;
@@ -68,17 +67,6 @@ public class LogIn extends Fragment implements View.OnClickListener {
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setTitle("Logging In...");
         progressDialog.setCancelable(false);
-        FirebaseFirestore.getInstance().collection("institutes").whereEqualTo("name", "Nitte Meenakshi Institute of Technology")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    Log.d(TAG, String.valueOf(task.getResult()));
-                } else {
-                    Log.d(TAG, String.valueOf(task.getException()));
-                }
-            }
-        });
         logIn_B.setOnClickListener(this);
         forgotPassword_TV.setOnClickListener(this);
         signUp_TV.setOnClickListener(this);
@@ -155,8 +143,6 @@ public class LogIn extends Fragment implements View.OnClickListener {
             }
         });
 
-
-
         return rootView;
     }
 
@@ -195,6 +181,10 @@ public class LogIn extends Fragment implements View.OnClickListener {
                                             // Sign in success, update UI with the signed-in user's information
 
                                             Toast.makeText(getActivity(), "LogIn Success!", Toast.LENGTH_SHORT).show();
+
+                                            getActivity().getSharedPreferences("user", MODE_PRIVATE)
+                                                    .edit().putBoolean("isDetailsFilled", true).apply();
+
                                             ((SignIn) getActivity()).openHomePage();
 
                                             // will store the user details to shared preferences

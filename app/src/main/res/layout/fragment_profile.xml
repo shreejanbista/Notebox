@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite_FFFFFF"
-    tools:context=".Profile">
+    android:background="@color/colorWhite_FFFFFF">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,6 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:visibility="invisible"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:fontFamily="@font/comfortaa_bold"
@@ -79,12 +79,15 @@
             style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
             android:layout_marginStart="3dp"
+            android:numStars="5"
+            android:stepSize=".5"
             app:layout_constraintBottom_toBottomOf="@+id/rating_TV"
             app:layout_constraintStart_toEndOf="@+id/rating_TV"
             app:layout_constraintTop_toTopOf="@+id/rating_TV" />
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="120dp"
             android:layout_height="30dp"
             app:cardCornerRadius="15dp"
@@ -92,7 +95,7 @@
             app:layout_constraintEnd_toEndOf="@+id/userDisplayPicture_IB"
             app:layout_constraintTop_toTopOf="@+id/rating_RB">
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
@@ -153,9 +156,9 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
-    </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     <TextView
@@ -217,6 +220,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:visibility="gone"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
@@ -247,6 +251,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:visibility="gone"
         android:orientation="horizontal"
         android:weightSum="2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -287,28 +292,28 @@
             android:text="@string/log_out" />
 
         <Button
-            android:id="@+id/textView11"
+            android:id="@+id/report_b"
             style="@style/profile_lower_four_buttons"
             android:drawableStart="@drawable/ic_gray_report_an_issue"
             android:drawablePadding="10dp"
             android:text="@string/report_an_issue" />
 
         <Button
-            android:id="@+id/textView12"
+            android:id="@+id/share_b"
             style="@style/profile_lower_four_buttons"
             android:drawableLeft="@drawable/ic_share_brown_24dp"
             android:drawablePadding="10dp"
             android:text="@string/share_this_app" />
 
         <Button
-            android:id="@+id/textView13"
+            android:id="@+id/feedback_b"
             style="@style/profile_lower_four_buttons"
             android:drawableLeft="@drawable/ic_feedback_brown_24dp"
             android:drawablePadding="10dp"
             android:text="@string/feedback" />
 
         <Button
-            android:id="@+id/textView14"
+            android:id="@+id/about_b"
             style="@style/profile_lower_four_buttons"
             android:drawableStart="@drawable/icon_final_logo_with_border"
             android:drawablePadding="10dp"
@@ -358,4 +363,4 @@
 
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

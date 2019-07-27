@@ -1,9 +1,9 @@
 package in.cipherhub.notebox.adapters;
 
 import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,13 +32,16 @@ public class AdapterBranchSelector extends RecyclerView.Adapter<AdapterBranchSel
                 .inflate(R.layout.item_branch_selector, viewGroup, false), mListener);
     }
 
+
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
+
     public void setOnItemClickListener(OnItemClickListener listener){
         this.mListener = listener;
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull branchSelectorItemViewHolder branchSelectorItemViewHolder, int i) {

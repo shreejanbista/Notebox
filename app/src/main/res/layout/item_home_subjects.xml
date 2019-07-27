@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/itemHomeSubjects_CL"
     android:layout_height="wrap_content">
 
 
@@ -16,6 +17,7 @@
         android:fontFamily="@font/segoe_ui_bold"
         android:gravity="center"
         android:paddingBottom="3dp"
+        android:singleLine="true"
         android:text="CN2"
         android:textColor="@color/colorGray_777777"
         android:textSize="14sp"
@@ -45,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/josefin_sans_regular"
-        android:text="last update: 12 June, 2019"
+        android:text="last update: NA"
         android:textColor="@color/colorGray_777777"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/subName_TV"
@@ -57,6 +59,7 @@
         android:layout_height="20dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:visibility="gone"
         android:layout_marginBottom="8dp"
         android:background="@android:color/transparent"
         android:scaleType="centerCrop"
@@ -75,4 +78,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/subAbb_TV"
         app:layout_constraintTop_toBottomOf="@+id/subAbb_TV" />
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
